@@ -433,9 +433,6 @@ install:
 - destination: ${BSP_INCLUDEDIR}/rtems/trace
   source:
   - cpukit/include/rtems/trace/rtems-trace-buffer-vars.h
-- destination: ${BSP_INCLUDEDIR}/uuid
-  source:
-  - cpukit/include/uuid/uuid.h
 install-path: ${BSP_LIBDIR}
 links:
 - role: build-dependency
@@ -490,6 +487,8 @@ links:
   uid: objsmp
 - role: build-dependency
   uid: objutf8
+- role: build-dependency
+  uid: objuuid
 - role: build-dependency
   uid: vckey
 source:
@@ -925,16 +924,6 @@ source:
 - cpukit/libmisc/untar/untar.c
 - cpukit/libmisc/untar/untar_tgz.c
 - cpukit/libmisc/untar/untar_txz.c
-- cpukit/libmisc/uuid/clear.c
-- cpukit/libmisc/uuid/compare.c
-- cpukit/libmisc/uuid/copy.c
-- cpukit/libmisc/uuid/gen_uuid.c
-- cpukit/libmisc/uuid/isnull.c
-- cpukit/libmisc/uuid/pack.c
-- cpukit/libmisc/uuid/parse.c
-- cpukit/libmisc/uuid/unpack.c
-- cpukit/libmisc/uuid/unparse.c
-- cpukit/libmisc/uuid/uuid_time.c
 - cpukit/libstdthreads/call_once.c
 - cpukit/libstdthreads/cnd.c
 - cpukit/libstdthreads/mtx.c

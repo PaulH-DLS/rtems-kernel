@@ -1,0 +1,30 @@
+SPDX-License-Identifier: CC-BY-SA-4.0 OR BSD-2-Clause
+build-type: objects
+cflags: []
+copyrights:
+- Copyright (C) 2025 Gedare Bloom
+cppflags: []
+cxxflags: []
+third-party:
+  extra-files:
+  - cpukit/libmisc/uuid/uuidP.h
+  - cpukit/libmisc/uuid/uuidd.h
+enabled-by: true
+includes: []
+install:
+- destination: ${BSP_INCLUDEDIR}/uuid
+  source:
+  - cpukit/include/uuid/uuid.h
+links: []
+source:
+- cpukit/libmisc/uuid/clear.c
+- cpukit/libmisc/uuid/compare.c
+- cpukit/libmisc/uuid/copy.c
+- cpukit/libmisc/uuid/gen_uuid.c
+- cpukit/libmisc/uuid/isnull.c
+- cpukit/libmisc/uuid/pack.c
+- cpukit/libmisc/uuid/parse.c
+- cpukit/libmisc/uuid/unpack.c
+- cpukit/libmisc/uuid/unparse.c
+- cpukit/libmisc/uuid/uuid_time.c
+type: build
