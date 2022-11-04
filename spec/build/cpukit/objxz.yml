@@ -1,0 +1,26 @@
+SPDX-License-Identifier: CC-BY-SA-4.0 OR BSD-2-Clause
+build-type: objects
+cflags: []
+copyrights:
+- Copyright (C) 2022 Gedare Bloom
+cppflags: []
+cxxflags: []
+third-party:
+  extra-files:
+  - cpukit/compression/xz/xz_config.h
+  - cpukit/compression/xz/xz_crc64.c
+  - cpukit/compression/xz/xz_lzma2.h
+  - cpukit/compression/xz/xz_private.h
+  - cpukit/compression/xz/xz_stream.h
+enabled-by: true
+includes: []
+install:
+- destination: ${BSP_INCLUDEDIR}
+  source:
+  - cpukit/include/xz.h
+links: []
+source:
+- cpukit/compression/xz/xz_crc32.c
+- cpukit/compression/xz/xz_dec_lzma2.c
+- cpukit/compression/xz/xz_dec_stream.c
+type: build

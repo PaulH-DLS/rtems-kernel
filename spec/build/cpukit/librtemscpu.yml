@@ -18,7 +18,6 @@ install:
   - cpukit/include/memory.h
   - cpukit/include/mqueue.h
   - cpukit/include/rtems.h
-  - cpukit/include/xz.h
 - destination: ${BSP_INCLUDEDIR}/dev/can
   source:
   - cpukit/include/dev/can/can-bittiming.h
@@ -490,11 +489,10 @@ links:
 - role: build-dependency
   uid: objuuid
 - role: build-dependency
+  uid: objxz
+- role: build-dependency
   uid: vckey
 source:
-- cpukit/compression/xz/xz_crc32.c
-- cpukit/compression/xz/xz_dec_lzma2.c
-- cpukit/compression/xz/xz_dec_stream.c
 - cpukit/crc/crc24q.c
 - cpukit/base64/base64-encode.c
 - cpukit/base64/base64-decode.c
