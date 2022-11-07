@@ -1,0 +1,17 @@
+SPDX-License-Identifier: CC-BY-SA-4.0 OR BSD-2-Clause
+build-type: objects
+cflags: []
+copyrights:
+- Copyright (C) 2025 Gedare Bloom
+cppflags: []
+cxxflags: []
+third-party:
+  extra-files:
+  - cpukit/libdl/fastlz.h
+enabled-by: true
+includes: []
+install: []
+links: []
+source:
+- cpukit/libdl/fastlz.c
+type: build
