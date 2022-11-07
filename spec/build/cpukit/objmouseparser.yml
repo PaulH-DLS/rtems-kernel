@@ -1,0 +1,19 @@
+SPDX-License-Identifier: CC-BY-SA-4.0 OR BSD-2-Clause
+build-type: objects
+cflags: []
+copyrights:
+- Copyright (C) 2025 Gedare Bloom
+cppflags: []
+cxxflags: []
+third-party:
+  extra-files: []
+enabled-by: true
+includes: []
+install:
+- destination: ${BSP_INCLUDEDIR}/rtems
+  source:
+  - cpukit/include/rtems/mouse_parser.h
+links: []
+source:
+- cpukit/libmisc/mouse/mouse_parser.c
+type: build
