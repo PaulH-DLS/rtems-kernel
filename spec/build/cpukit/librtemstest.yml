@@ -13,6 +13,7 @@ install:
   - cpukit/include/rtems/test.h
   - cpukit/include/rtems/test-info.h
   - cpukit/include/rtems/test-gcov.h
+  - cpukit/include/rtems/test-packet.h
   - cpukit/include/rtems/test-printer.h
   - cpukit/include/rtems/test-scheduler.h
 install-path: ${BSP_LIBDIR}
@@ -28,6 +29,7 @@ source:
 - cpukit/libtest/t-test-checks.c
 - cpukit/libtest/t-test-hash-sha256.c
 - cpukit/libtest/t-test-interrupt.c
+- cpukit/libtest/t-test-packet.c
 - cpukit/libtest/t-test-rtems-context.c
 - cpukit/libtest/t-test-rtems-fds.c
 - cpukit/libtest/t-test-rtems-heap.c
