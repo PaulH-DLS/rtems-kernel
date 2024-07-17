@@ -1,3 +1,6 @@
+/*
+ * The file was modified by RTEMS contributors.
+ */
 /******************************************************************************
  * @file     mpu_armv8.h
  * @brief    CMSIS MPU API for Armv8-M and Armv8.1-M MPU
@@ -190,7 +193,7 @@ typedef struct {
   \brief  Read MPU Type Register
   \return Number of MPU regions
 */
-__STATIC_INLINE uint32_t ARM_MPU_TYPE()
+__STATIC_INLINE uint32_t ARM_MPU_TYPE(void)
 {
   return ((MPU->TYPE) >> 8);
 }
