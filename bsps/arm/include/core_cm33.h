@@ -1,3 +1,6 @@
+/*
+ * The file was modified by RTEMS contributors.
+ */
 /**************************************************************************//**
  * @file     core_cm33.h
  * @brief    CMSIS Cortex-M33 Core Peripheral Access Layer Header File
@@ -2956,6 +2959,13 @@ __STATIC_INLINE uint32_t TZ_NVIC_GetPriority_NS(IRQn_Type IRQn)
 
 #include "mpu_armv8.h"
 
+#endif
+
+/* ##########################  Cache functions  #################################### */
+
+#if ((defined (__ICACHE_PRESENT) && (__ICACHE_PRESENT == 1U)) || \
+     (defined (__DCACHE_PRESENT) && (__DCACHE_PRESENT == 1U)))
+#include "cachel1_armv7.h"
 #endif
 
 /* ##########################  FPU functions  #################################### */
