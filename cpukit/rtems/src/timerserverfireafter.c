@@ -42,10 +42,10 @@
 #include <rtems/rtems/timerimpl.h>
 
 rtems_status_code rtems_timer_server_fire_after(
-  rtems_id                           id,
-  rtems_interval                     ticks,
-  rtems_timer_service_routine_entry  routine,
-  void                              *user_data
+  rtems_id                          id,
+  rtems_interval                    ticks,
+  rtems_timer_service_routine_entry routine,
+  void                             *user_data
 )
 {
   Timer_server_Control *timer_server;

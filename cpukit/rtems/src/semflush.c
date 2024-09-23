@@ -43,15 +43,15 @@
 
 rtems_status_code rtems_semaphore_flush( rtems_id id )
 {
-  Semaphore_Control    *the_semaphore;
-  Thread_queue_Context  queue_context;
-  uintptr_t             flags;
-  Semaphore_Variant     variant;
+  Semaphore_Control   *the_semaphore;
+  Thread_queue_Context queue_context;
+  uintptr_t            flags;
+  Semaphore_Variant    variant;
 
   the_semaphore = _Semaphore_Get( id, &queue_context );
 
   if ( the_semaphore == NULL ) {
-#if defined(RTEMS_MULTIPROCESSING)
+#if defined( RTEMS_MULTIPROCESSING )
     if ( _Semaphore_MP_Is_remote( id ) ) {
       return RTEMS_ILLEGAL_ON_REMOTE_OBJECT;
     }
@@ -68,11 +68,11 @@ rtems_status_code rtems_semaphore_flush( rtems_id id )
     &queue_context,
     _Semaphore_MP_Send_object_was_deleted
   );
-  flags = _Semaphore_Get_flags( the_semaphore );
+  flags   = _Semaphore_Get_flags( the_semaphore );
   variant = _Semaphore_Get_variant( flags );
 
   switch ( variant ) {
-#if defined(RTEMS_SMP)
+#if defined( RTEMS_SMP )
     case SEMAPHORE_VARIANT_MRSP:
       _Thread_queue_Release(
         &the_semaphore->Core_control.Wait_queue,
@@ -82,11 +82,11 @@ rtems_status_code rtems_semaphore_flush( rtems_id id )
 #endif
     default:
       _Assert(
-        variant == SEMAPHORE_VARIANT_MUTEX_INHERIT_PRIORITY
-          || variant == SEMAPHORE_VARIANT_MUTEX_PRIORITY_CEILING
-          || variant == SEMAPHORE_VARIANT_MUTEX_NO_PROTOCOL
-          || variant == SEMAPHORE_VARIANT_SIMPLE_BINARY
-          || variant == SEMAPHORE_VARIANT_COUNTING
+        variant == SEMAPHORE_VARIANT_MUTEX_INHERIT_PRIORITY ||
+        variant == SEMAPHORE_VARIANT_MUTEX_PRIORITY_CEILING ||
+        variant == SEMAPHORE_VARIANT_MUTEX_NO_PROTOCOL ||
+        variant == SEMAPHORE_VARIANT_SIMPLE_BINARY ||
+        variant == SEMAPHORE_VARIANT_COUNTING
       );
       _Thread_queue_Flush_critical(
         &the_semaphore->Core_control.Wait_queue.Queue,

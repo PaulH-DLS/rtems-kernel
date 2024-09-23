@@ -39,9 +39,9 @@
 #include "config.h"
 #endif
 
-#include <rtems/rtems/tasksdata.h>
 #include <rtems/rtems/modesimpl.h>
 #include <rtems/rtems/signalimpl.h>
+#include <rtems/rtems/tasksdata.h>
 #include <rtems/score/isrlevel.h>
 #include <rtems/score/schedulerimpl.h>
 #include <rtems/score/smpimpl.h>
@@ -53,17 +53,17 @@ rtems_status_code rtems_task_mode(
   rtems_mode *previous_mode_set
 )
 {
-  Thread_Control     *executing;
-  RTEMS_API_Control  *api;
-  ASR_Information    *asr;
-  rtems_mode          old_mode;
+  Thread_Control    *executing;
+  RTEMS_API_Control *api;
+  ASR_Information   *asr;
+  rtems_mode         old_mode;
 
   executing = _Thread_Get_executing();
 
   if ( !previous_mode_set )
     return RTEMS_INVALID_ADDRESS;
 
-#if defined(RTEMS_SMP)
+#if defined( RTEMS_SMP )
   if (
     ( mask & RTEMS_PREEMPT_MASK ) != 0 &&
     !_Modes_Is_preempt_mode_supported( mode_set, executing )
@@ -72,7 +72,7 @@ rtems_status_code rtems_task_mode(
   }
 #endif
 
-#if defined(RTEMS_SMP) || CPU_ENABLE_ROBUST_THREAD_DISPATCH == TRUE
+#if defined( RTEMS_SMP ) || CPU_ENABLE_ROBUST_THREAD_DISPATCH == TRUE
   if (
     ( mask & RTEMS_INTERRUPT_MASK ) != 0 &&
     !_Modes_Is_interrupt_level_supported( mode_set )
@@ -90,14 +90,14 @@ rtems_status_code rtems_task_mode(
   api = executing->API_Extensions[ THREAD_API_RTEMS ];
   asr = &api->Signal;
 
-  old_mode  = (executing->is_preemptible) ? RTEMS_PREEMPT : RTEMS_NO_PREEMPT;
+  old_mode = ( executing->is_preemptible ) ? RTEMS_PREEMPT : RTEMS_NO_PREEMPT;
 
   if ( executing->CPU_budget.operations == NULL )
     old_mode |= RTEMS_NO_TIMESLICE;
   else
     old_mode |= RTEMS_TIMESLICE;
 
-  old_mode |= (asr->is_enabled) ? RTEMS_ASR : RTEMS_NO_ASR;
+  old_mode |= ( asr->is_enabled ) ? RTEMS_ASR : RTEMS_NO_ASR;
   old_mode |= _ISR_Get_level();
 
   *previous_mode_set = old_mode;
@@ -122,12 +122,10 @@ rtems_status_code rtems_task_mode(
       bool previous_asr_is_enabled;
 
       previous_asr_is_enabled = asr->is_enabled;
-      asr->is_enabled = !_Modes_Is_asr_disabled( mode_set );
+      asr->is_enabled         = !_Modes_Is_asr_disabled( mode_set );
 
       if (
-        !previous_asr_is_enabled &&
-          asr->is_enabled &&
-          asr->signals_pending != 0
+        !previous_asr_is_enabled && asr->is_enabled && asr->signals_pending != 0
       ) {
         need_thread_dispatch = true;
         _Thread_Append_post_switch_action( executing, &api->Signal_action );
@@ -137,7 +135,7 @@ rtems_status_code rtems_task_mode(
     if ( ( mask & RTEMS_PREEMPT_MASK ) != 0 ) {
       bool previous_is_preemptible;
 
-      previous_is_preemptible = executing->is_preemptible;
+      previous_is_preemptible   = executing->is_preemptible;
       executing->is_preemptible = _Modes_Is_preempt( mode_set );
 
       if ( executing->is_preemptible && !previous_is_preemptible ) {

@@ -41,14 +41,24 @@
 
 #include <rtems/rtems/object.h>
 
-static rtems_name _RTEMS_Build_name( char c1, char c2, char c3, char c4 )
+static rtems_name _RTEMS_Build_name(
+  char c1,
+  char c2,
+  char c3,
+  char c4
+)
 {
   return rtems_build_name( c1, c2, c3, c4 );
 }
 
 #undef rtems_build_name
 
-rtems_name rtems_build_name( char c1, char c2, char c3, char c4 )
+rtems_name rtems_build_name(
+  char c1,
+  char c2,
+  char c3,
+  char c4
+)
 {
   return _RTEMS_Build_name( c1, c2, c3, c4 );
 }

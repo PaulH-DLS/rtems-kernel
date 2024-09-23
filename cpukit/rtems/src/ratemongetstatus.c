@@ -62,8 +62,8 @@ rtems_status_code rtems_rate_monotonic_get_status(
 
   _Rate_monotonic_Acquire_critical( the_period, &lock_context );
 
-  period_status->owner = the_period->owner->Object.id;
-  period_status->state = the_period->state;
+  period_status->owner                = the_period->owner->Object.id;
+  period_status->state                = the_period->state;
   period_status->postponed_jobs_count = the_period->postponed_jobs;
 
   if ( the_period->state == RATE_MONOTONIC_INACTIVE ) {

@@ -42,9 +42,7 @@
 #include <rtems/rtems/object.h>
 #include <rtems/score/objectimpl.h>
 
-int rtems_object_api_minimum_class(
-  int api
-)
+int rtems_object_api_minimum_class( int api )
 {
   if ( _Objects_Is_api_valid( api ) )
     return 1;

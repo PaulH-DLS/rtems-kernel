@@ -43,9 +43,9 @@
 #include <rtems/score/objectimpl.h>
 
 char *rtems_object_get_name(
-  Objects_Id     id,
-  size_t         length,
-  char          *name
+  Objects_Id id,
+  size_t     length,
+  char      *name
 )
 {
   return _Objects_Get_name_as_string( id, length, name );

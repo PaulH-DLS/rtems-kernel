@@ -41,8 +41,8 @@
 
 #include <rtems/rtems/tasksimpl.h>
 #include <rtems/score/assert.h>
-#include <rtems/score/threadimpl.h>
 #include <rtems/score/interr.h>
+#include <rtems/score/threadimpl.h>
 
 void _RTEMS_tasks_Initialize_user_task( void )
 {
@@ -50,7 +50,7 @@ void _RTEMS_tasks_Initialize_user_task( void )
   rtems_status_code                       return_value;
   const rtems_initialization_tasks_table *user_task;
 
-  user_task = &_RTEMS_tasks_User_task_table;
+  user_task    = &_RTEMS_tasks_User_task_table;
   return_value = rtems_task_create(
     user_task->name,
     user_task->initial_priority,

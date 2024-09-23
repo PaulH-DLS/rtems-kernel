@@ -40,17 +40,15 @@
 #include "config.h"
 #endif
 
-#include <rtems/score/wkspace.h>
-#include <rtems/score/protectedheap.h>
-#include <rtems/score/interr.h>
 #include <rtems/config.h>
 #include <rtems/rtems/support.h>
+#include <rtems/score/interr.h>
+#include <rtems/score/protectedheap.h>
+#include <rtems/score/wkspace.h>
 
-#include <string.h>  /* for memset */
+#include <string.h> /* for memset */
 
-bool rtems_workspace_get_information(
-  Heap_Information_block  *the_info
-)
+bool rtems_workspace_get_information( Heap_Information_block *the_info )
 {
   if ( !the_info )
     return false;
@@ -59,8 +57,8 @@ bool rtems_workspace_get_information(
 }
 
 bool rtems_workspace_allocate(
-  size_t      bytes,
-  void      **pointer
+  size_t bytes,
+  void **pointer
 )
 {
   void *ptr;
@@ -77,18 +75,15 @@ bool rtems_workspace_allocate(
   /*
    * Allocate the memory
    */
-  ptr =  _Protected_heap_Allocate( &_Workspace_Area, bytes );
-  if (!ptr)
+  ptr = _Protected_heap_Allocate( &_Workspace_Area, bytes );
+  if ( !ptr )
     return false;
 
   *pointer = ptr;
   return true;
 }
 
-bool rtems_workspace_free(
-  void *pointer
-)
+bool rtems_workspace_free( void *pointer )
 {
-   return _Protected_heap_Free( &_Workspace_Area, pointer );
+  return _Protected_heap_Free( &_Workspace_Area, pointer );
 }
-

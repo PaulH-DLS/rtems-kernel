@@ -39,20 +39,18 @@
 #include "config.h"
 #endif
 
+#include <rtems/assoc.h>
 #include <rtems/rtems/object.h>
 #include <rtems/score/objectimpl.h>
-#include <rtems/assoc.h>
 
 static const rtems_assoc_t rtems_objects_api_assoc[] = {
-  { "Internal", OBJECTS_INTERNAL_API, 0},
-  { "Classic",  OBJECTS_CLASSIC_API, 0},
-  { "POSIX",    OBJECTS_POSIX_API, 0},
+  { "Internal", OBJECTS_INTERNAL_API, 0 },
+  { "Classic", OBJECTS_CLASSIC_API, 0 },
+  { "POSIX", OBJECTS_POSIX_API, 0 },
   { 0, 0, 0 }
 };
 
-const char *rtems_object_get_api_name(
-  int api
-)
+const char *rtems_object_get_api_name( int api )
 {
   const rtems_assoc_t *api_assoc;
 
@@ -61,4 +59,3 @@ const char *rtems_object_get_api_name(
     return api_assoc->name;
   return "BAD CLASS";
 }
-

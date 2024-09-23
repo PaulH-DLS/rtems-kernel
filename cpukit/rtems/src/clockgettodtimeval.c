@@ -42,9 +42,7 @@
 #include <rtems/rtems/clock.h>
 #include <rtems/score/todimpl.h>
 
-rtems_status_code rtems_clock_get_tod_timeval(
-  struct timeval  *time_of_day
-)
+rtems_status_code rtems_clock_get_tod_timeval( struct timeval *time_of_day )
 {
   if ( !time_of_day )
     return RTEMS_INVALID_ADDRESS;

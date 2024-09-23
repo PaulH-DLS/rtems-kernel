@@ -39,15 +39,15 @@
 #include "config.h"
 #endif
 
-#include <rtems/rtems/tasksimpl.h>
 #include <rtems/rtems/object.h>
 #include <rtems/rtems/objectimpl.h>
+#include <rtems/rtems/tasksimpl.h>
 #include <rtems/score/percpu.h>
 
 rtems_status_code rtems_task_ident(
-  rtems_name  name,
-  uint32_t    node,
-  rtems_id   *id
+  rtems_name name,
+  uint32_t   node,
+  rtems_id  *id
 )
 {
   if ( id == NULL ) {
@@ -59,10 +59,5 @@ rtems_status_code rtems_task_ident(
     return RTEMS_SUCCESSFUL;
   }
 
-  return _RTEMS_Name_to_id(
-    name,
-    node,
-    id,
-    &_RTEMS_tasks_Information.Objects
-  );
+  return _RTEMS_Name_to_id( name, node, id, &_RTEMS_tasks_Information.Objects );
 }

@@ -59,8 +59,8 @@ rtems_status_code rtems_event_system_receive(
     Event_Control     *event;
 
     executing = _Thread_Wait_acquire_default_for_executing( &lock_context );
-    api = executing->API_Extensions[ THREAD_API_RTEMS ];
-    event = &api->System_event;
+    api       = executing->API_Extensions[ THREAD_API_RTEMS ];
+    event     = &api->System_event;
 
     if ( !_Event_sets_Is_empty( event_in ) ) {
       sc = _Event_Seize(

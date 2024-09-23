@@ -39,8 +39,8 @@
 #include "config.h"
 #endif
 
-#include <rtems/rtems/signalimpl.h>
 #include <rtems/rtems/modesimpl.h>
+#include <rtems/rtems/signalimpl.h>
 #include <rtems/rtems/tasksdata.h>
 #include <rtems/score/schedulerimpl.h>
 #include <rtems/score/threaddispatch.h>
@@ -87,12 +87,12 @@ static void _Signal_Action_handler(
 
   _Assert( asr->is_enabled );
   normal_is_preemptible = executing->is_preemptible;
-  normal_cpu_budget = executing->CPU_budget;
+  normal_cpu_budget     = executing->CPU_budget;
 
   /* Set mode for ASR processing */
 
   executing->is_preemptible = _Modes_Is_preempt( asr->mode_set );
-  asr->is_enabled = !_Modes_Is_asr_disabled( asr->mode_set );
+  asr->is_enabled           = !_Modes_Is_asr_disabled( asr->mode_set );
   _Modes_Apply_timeslice_to_thread( asr->mode_set, executing );
   before_call_isr_level = _Modes_Get_interrupt_level( asr->mode_set );
 
@@ -119,7 +119,7 @@ static void _Signal_Action_handler(
 
   _Thread_State_acquire( executing, lock_context );
 
-  executing->CPU_budget = normal_cpu_budget;
+  executing->CPU_budget     = normal_cpu_budget;
   after_call_is_preemptible = executing->is_preemptible;
   executing->is_preemptible = normal_is_preemptible;
 
@@ -148,7 +148,7 @@ static void _Signal_Action_handler(
    */
 
   after_call_asr_is_enabled = asr->is_enabled;
-  asr->is_enabled = true;
+  asr->is_enabled           = true;
 
   if ( !after_call_asr_is_enabled && asr->signals_pending != 0 ) {
     _Thread_Append_post_switch_action( executing, action );
@@ -156,8 +156,8 @@ static void _Signal_Action_handler(
 }
 
 rtems_status_code rtems_signal_send(
-  rtems_id          id,
-  rtems_signal_set  signal_set
+  rtems_id         id,
+  rtems_signal_set signal_set
 )
 {
   Thread_Control    *the_thread;
@@ -172,7 +172,7 @@ rtems_status_code rtems_signal_send(
   the_thread = _Thread_Get( id, &lock_context );
 
   if ( the_thread == NULL ) {
-#if defined(RTEMS_MULTIPROCESSING)
+#if defined( RTEMS_MULTIPROCESSING )
     return _Signal_MP_Send( id, signal_set );
 #else
     return RTEMS_INVALID_ID;
@@ -210,7 +210,7 @@ rtems_status_code rtems_signal_send(
   return RTEMS_SUCCESSFUL;
 }
 
-#if defined(RTEMS_MULTIPROCESSING)
+#if defined( RTEMS_MULTIPROCESSING )
 static void _Signal_MP_Initialize( void )
 {
   _MPCI_Register_packet_processor(

@@ -43,9 +43,9 @@
 #include <rtems/score/address.h>
 
 rtems_status_code rtems_port_external_to_internal(
-  rtems_id   id,
-  void      *external,
-  void     **internal
+  rtems_id id,
+  void    *external,
+  void   **internal
 )
 {
   Dual_ported_memory_Control *the_port;

@@ -44,20 +44,20 @@
 #include <string.h>
 
 rtems_status_code rtems_message_queue_create(
-  rtems_name       name,
-  uint32_t         count,
-  size_t           max_message_size,
-  rtems_attribute  attribute_set,
-  rtems_id        *id
+  rtems_name      name,
+  uint32_t        count,
+  size_t          max_message_size,
+  rtems_attribute attribute_set,
+  rtems_id       *id
 )
 {
   rtems_message_queue_config config;
 
   memset( &config, 0, sizeof( config ) );
-  config.name = name;
+  config.name                     = name;
   config.maximum_pending_messages = count;
-  config.maximum_message_size = max_message_size;
-  config.attributes = attribute_set;
+  config.maximum_message_size     = max_message_size;
+  config.attributes               = attribute_set;
 
   return _Message_queue_Create(
     &config,

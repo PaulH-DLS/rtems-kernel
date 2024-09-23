@@ -44,8 +44,8 @@
 #include <rtems/score/objectimpl.h>
 
 rtems_status_code rtems_object_get_classic_name(
-  rtems_id      id,
-  rtems_name   *name
+  rtems_id    id,
+  rtems_name *name
 )
 {
   Status_Control status;

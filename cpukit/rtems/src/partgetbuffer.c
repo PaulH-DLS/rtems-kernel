@@ -48,8 +48,8 @@ static void *_Partition_Allocate_buffer( Partition_Control *the_partition )
 }
 
 rtems_status_code rtems_partition_get_buffer(
-  rtems_id   id,
-  void     **buffer
+  rtems_id id,
+  void   **buffer
 )
 {
   Partition_Control *the_partition;
@@ -63,7 +63,7 @@ rtems_status_code rtems_partition_get_buffer(
   the_partition = _Partition_Get( id, &lock_context );
 
   if ( the_partition == NULL ) {
-#if defined(RTEMS_MULTIPROCESSING)
+#if defined( RTEMS_MULTIPROCESSING )
     return _Partition_MP_Get_buffer( id, buffer );
 #else
     return RTEMS_INVALID_ID;

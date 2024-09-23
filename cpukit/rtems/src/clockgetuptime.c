@@ -56,9 +56,7 @@
  *    RTEMS_SUCCESSFUL - if successful
  *    error code       - if unsuccessful
  */
-rtems_status_code rtems_clock_get_uptime(
-  struct timespec *uptime
-)
+rtems_status_code rtems_clock_get_uptime( struct timespec *uptime )
 {
   if ( !uptime )
     return RTEMS_INVALID_ADDRESS;

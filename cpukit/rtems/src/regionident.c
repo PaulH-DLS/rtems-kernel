@@ -39,10 +39,13 @@
 #include "config.h"
 #endif
 
-#include <rtems/rtems/regionimpl.h>
 #include <rtems/rtems/objectimpl.h>
+#include <rtems/rtems/regionimpl.h>
 
-rtems_status_code rtems_region_ident( rtems_name name, rtems_id *id )
+rtems_status_code rtems_region_ident(
+  rtems_name name,
+  rtems_id  *id
+)
 {
   return _RTEMS_Name_to_id(
     name,

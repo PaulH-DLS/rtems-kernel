@@ -55,7 +55,7 @@ rtems_status_code rtems_event_send(
   the_thread = _Thread_Get( id, &lock_context );
 
   if ( the_thread == NULL ) {
-#if defined(RTEMS_MULTIPROCESSING)
+#if defined( RTEMS_MULTIPROCESSING )
     return _Event_MP_Send( id, event_in );
 #else
     return RTEMS_INVALID_ID;

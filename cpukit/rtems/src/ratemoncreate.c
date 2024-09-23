@@ -48,8 +48,8 @@
 #include <rtems/sysinit.h>
 
 rtems_status_code rtems_rate_monotonic_create(
-  rtems_name  name,
-  rtems_id   *id
+  rtems_name name,
+  rtems_id  *id
 )
 {
   Rate_monotonic_Control *the_period;
@@ -71,8 +71,8 @@ rtems_status_code rtems_rate_monotonic_create(
   _Priority_Node_initialize( &the_period->Priority, 0 );
   _Priority_Node_set_inactive( &the_period->Priority );
 
-  the_period->owner = _Thread_Get_executing();
-  the_period->state = RATE_MONOTONIC_INACTIVE;
+  the_period->owner          = _Thread_Get_executing();
+  the_period->state          = RATE_MONOTONIC_INACTIVE;
   the_period->postponed_jobs = 0;
 
   _Watchdog_Preinitialize( &the_period->Timer, _Per_CPU_Get_by_index( 0 ) );

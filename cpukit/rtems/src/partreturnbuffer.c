@@ -50,23 +50,20 @@ static bool _Partition_Is_address_on_buffer_boundary(
 {
   intptr_t offset;
 
-  offset = _Addresses_Subtract(
-    the_buffer,
-    the_partition->base_address
-  );
+  offset = _Addresses_Subtract( the_buffer, the_partition->base_address );
 
   return ( offset % the_partition->buffer_size ) == 0;
 }
 
 static bool _Partition_Is_address_a_buffer_begin(
-   const Partition_Control *the_partition,
-   const void              *the_buffer
+  const Partition_Control *the_partition,
+  const void              *the_buffer
 )
 {
   const void *base;
   const void *limit;
 
-  base = the_partition->base_address;
+  base  = the_partition->base_address;
   limit = the_partition->limit_address;
 
   if ( !_Addresses_Is_in_range( the_buffer, base, limit ) ) {
@@ -85,8 +82,8 @@ static void _Partition_Free_buffer(
 }
 
 rtems_status_code rtems_partition_return_buffer(
-  rtems_id  id,
-  void     *buffer
+  rtems_id id,
+  void    *buffer
 )
 {
   Partition_Control *the_partition;
@@ -95,7 +92,7 @@ rtems_status_code rtems_partition_return_buffer(
   the_partition = _Partition_Get( id, &lock_context );
 
   if ( the_partition == NULL ) {
-#if defined(RTEMS_MULTIPROCESSING)
+#if defined( RTEMS_MULTIPROCESSING )
     return _Partition_MP_Return_buffer( id, buffer );
 #else
     return RTEMS_INVALID_ID;

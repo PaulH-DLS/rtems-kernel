@@ -39,13 +39,13 @@
 #include "config.h"
 #endif
 
-#include <rtems/rtems/semimpl.h>
 #include <rtems/rtems/optionsimpl.h>
+#include <rtems/rtems/semimpl.h>
 #include <rtems/rtems/statusimpl.h>
 #include <rtems/sysinit.h>
 
 RTEMS_STATIC_ASSERT(
-  sizeof(Semaphore_MP_Packet) <= MP_PACKET_MINIMUM_PACKET_SIZE,
+  sizeof( Semaphore_MP_Packet ) <= MP_PACKET_MINIMUM_PACKET_SIZE,
   Semaphore_MP_Packet
 );
 
@@ -54,35 +54,34 @@ static Semaphore_MP_Packet *_Semaphore_MP_Get_packet( void )
   return (Semaphore_MP_Packet *) _MPCI_Get_packet();
 }
 
-void _Semaphore_MP_Send_process_packet (
-  Semaphore_MP_Remote_operations  operation,
-  Objects_Id                      semaphore_id,
-  rtems_name                      name,
-  Objects_Id                      proxy_id
+void _Semaphore_MP_Send_process_packet(
+  Semaphore_MP_Remote_operations operation,
+  Objects_Id                     semaphore_id,
+  rtems_name                     name,
+  Objects_Id                     proxy_id
 )
 {
   Semaphore_MP_Packet *the_packet;
   uint32_t             node;
 
   switch ( operation ) {
-
     case SEMAPHORE_MP_ANNOUNCE_CREATE:
     case SEMAPHORE_MP_ANNOUNCE_DELETE:
     case SEMAPHORE_MP_EXTRACT_PROXY:
 
       the_packet                    = _Semaphore_MP_Get_packet();
       the_packet->Prefix.the_class  = MP_PACKET_SEMAPHORE;
-      the_packet->Prefix.length     = sizeof ( Semaphore_MP_Packet );
-      the_packet->Prefix.to_convert = sizeof ( Semaphore_MP_Packet );
+      the_packet->Prefix.length     = sizeof( Semaphore_MP_Packet );
+      the_packet->Prefix.to_convert = sizeof( Semaphore_MP_Packet );
       the_packet->operation         = operation;
       the_packet->Prefix.id         = semaphore_id;
       the_packet->name              = name;
       the_packet->proxy_id          = proxy_id;
 
       if ( operation == SEMAPHORE_MP_EXTRACT_PROXY )
-         node = _Objects_Get_node( semaphore_id );
+        node = _Objects_Get_node( semaphore_id );
       else
-         node = MPCI_ALL_NODES;
+        node = MPCI_ALL_NODES;
 
       _MPCI_Send_process_packet( node, &the_packet->Prefix );
       break;
@@ -110,20 +109,19 @@ static rtems_status_code _Semaphore_MP_Send_request_packet(
   }
 
   switch ( operation ) {
-
     case SEMAPHORE_MP_OBTAIN_REQUEST:
     case SEMAPHORE_MP_RELEASE_REQUEST:
 
       the_packet                    = _Semaphore_MP_Get_packet();
       the_packet->Prefix.the_class  = MP_PACKET_SEMAPHORE;
-      the_packet->Prefix.length     = sizeof ( Semaphore_MP_Packet );
-      the_packet->Prefix.to_convert = sizeof ( Semaphore_MP_Packet );
-      if ( ! _Options_Is_no_wait(option_set))
-          the_packet->Prefix.timeout = timeout;
+      the_packet->Prefix.length     = sizeof( Semaphore_MP_Packet );
+      the_packet->Prefix.to_convert = sizeof( Semaphore_MP_Packet );
+      if ( !_Options_Is_no_wait( option_set ) )
+        the_packet->Prefix.timeout = timeout;
 
-      the_packet->operation         = operation;
-      the_packet->Prefix.id         = semaphore_id;
-      the_packet->option_set        = option_set;
+      the_packet->operation  = operation;
+      the_packet->Prefix.id  = semaphore_id;
+      the_packet->option_set = option_set;
 
       status = _MPCI_Send_request_packet(
         _Objects_Get_node( semaphore_id ),
@@ -138,7 +136,6 @@ static rtems_status_code _Semaphore_MP_Send_request_packet(
     case SEMAPHORE_MP_OBTAIN_RESPONSE:
     case SEMAPHORE_MP_RELEASE_RESPONSE:
       break;
-
   }
   /*
    *  The following line is included to satisfy compilers which
@@ -148,9 +145,9 @@ static rtems_status_code _Semaphore_MP_Send_request_packet(
 }
 
 rtems_status_code _Semaphore_MP_Obtain(
-  rtems_id        id,
-  rtems_option    option_set,
-  rtems_interval  timeout
+  rtems_id       id,
+  rtems_option   option_set,
+  rtems_interval timeout
 )
 {
   return _Semaphore_MP_Send_request_packet(
@@ -171,25 +168,24 @@ rtems_status_code _Semaphore_MP_Release( rtems_id id )
   );
 }
 
-static void _Semaphore_MP_Send_response_packet (
-  Semaphore_MP_Remote_operations  operation,
-  Objects_Id                      semaphore_id,
-  Thread_Control                 *the_thread
+static void _Semaphore_MP_Send_response_packet(
+  Semaphore_MP_Remote_operations operation,
+  Objects_Id                     semaphore_id,
+  Thread_Control                *the_thread
 )
 {
   Semaphore_MP_Packet *the_packet;
 
   switch ( operation ) {
-
     case SEMAPHORE_MP_OBTAIN_RESPONSE:
     case SEMAPHORE_MP_RELEASE_RESPONSE:
 
-      the_packet = ( Semaphore_MP_Packet *) the_thread->receive_packet;
+      the_packet = (Semaphore_MP_Packet *) the_thread->receive_packet;
 
-/*
- *  The packet being returned already contains the class, length, and
- *  to_convert fields, therefore they are not set in this routine.
- */
+      /*
+       *  The packet being returned already contains the class, length, and
+       *  to_convert fields, therefore they are not set in this routine.
+       */
       the_packet->operation = operation;
       the_packet->Prefix.id = the_packet->Prefix.source_tid;
 
@@ -205,12 +201,11 @@ static void _Semaphore_MP_Send_response_packet (
     case SEMAPHORE_MP_OBTAIN_REQUEST:
     case SEMAPHORE_MP_RELEASE_REQUEST:
       break;
-
   }
 }
 
-static void _Semaphore_MP_Process_packet (
-  rtems_packet_prefix  *the_packet_prefix
+static void _Semaphore_MP_Process_packet(
+  rtems_packet_prefix *the_packet_prefix
 )
 {
   Semaphore_MP_Packet *the_packet;
@@ -219,7 +214,6 @@ static void _Semaphore_MP_Process_packet (
   the_packet = (Semaphore_MP_Packet *) the_packet_prefix;
 
   switch ( the_packet->operation ) {
-
     case SEMAPHORE_MP_ANNOUNCE_CREATE:
 
       _Objects_MP_Allocate_and_open(
@@ -260,9 +254,9 @@ static void _Semaphore_MP_Process_packet (
 
       if ( the_packet->Prefix.return_code != RTEMS_PROXY_BLOCKING )
         _Semaphore_MP_Send_response_packet(
-           SEMAPHORE_MP_OBTAIN_RESPONSE,
-           the_packet->Prefix.id,
-           _Thread_Executing
+          SEMAPHORE_MP_OBTAIN_RESPONSE,
+          the_packet->Prefix.id,
+          _Thread_Executing
         );
       break;
 
@@ -289,7 +283,7 @@ static void _Semaphore_MP_Process_packet (
   }
 }
 
-void _Semaphore_MP_Send_object_was_deleted (
+void _Semaphore_MP_Send_object_was_deleted(
   Thread_Control *the_proxy,
   Objects_Id      mp_id
 )
@@ -301,10 +295,9 @@ void _Semaphore_MP_Send_object_was_deleted (
     mp_id,
     the_proxy
   );
-
 }
 
-void _Semaphore_MP_Send_extract_proxy (
+void _Semaphore_MP_Send_extract_proxy(
   Thread_Control *the_thread,
   Objects_Id      id
 )
@@ -315,10 +308,9 @@ void _Semaphore_MP_Send_extract_proxy (
     (rtems_name) 0,
     the_thread->Object.id
   );
-
 }
 
-void  _Semaphore_Core_mutex_mp_support (
+void _Semaphore_Core_mutex_mp_support(
   Thread_Control *the_thread,
   Objects_Id      id
 )
@@ -326,13 +318,13 @@ void  _Semaphore_Core_mutex_mp_support (
   the_thread->receive_packet->return_code = RTEMS_SUCCESSFUL;
 
   _Semaphore_MP_Send_response_packet(
-     SEMAPHORE_MP_OBTAIN_RESPONSE,
-     id,
-     the_thread
-   );
+    SEMAPHORE_MP_OBTAIN_RESPONSE,
+    id,
+    the_thread
+  );
 }
 
-void  _Semaphore_Core_semaphore_mp_support (
+void _Semaphore_Core_semaphore_mp_support(
   Thread_Control *the_thread,
   Objects_Id      id
 )
@@ -340,10 +332,10 @@ void  _Semaphore_Core_semaphore_mp_support (
   the_thread->receive_packet->return_code = RTEMS_SUCCESSFUL;
 
   _Semaphore_MP_Send_response_packet(
-     SEMAPHORE_MP_OBTAIN_RESPONSE,
-     id,
-     the_thread
-   );
+    SEMAPHORE_MP_OBTAIN_RESPONSE,
+    id,
+    the_thread
+  );
 }
 
 static void _Semaphore_MP_Initialize( void )

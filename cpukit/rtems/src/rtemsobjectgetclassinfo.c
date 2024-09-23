@@ -70,12 +70,11 @@ rtems_status_code rtems_object_get_class_information(
   info->auto_extend = _Objects_Is_auto_extend( obj_info );
   info->maximum     = _Objects_Get_maximum_index( obj_info );
 
-  for ( unallocated=0, i=1 ; i <= info->maximum ; i++ )
-    if ( !obj_info->local_table[i] )
+  for ( unallocated = 0, i = 1; i <= info->maximum; i++ )
+    if ( !obj_info->local_table[ i ] )
       unallocated++;
 
   info->unallocated = unallocated;
 
   return RTEMS_SUCCESSFUL;
 }
-

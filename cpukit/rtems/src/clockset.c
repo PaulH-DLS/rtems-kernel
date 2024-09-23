@@ -39,14 +39,12 @@
 #include "config.h"
 #endif
 
+#include <rtems/config.h>
 #include <rtems/rtems/clockimpl.h>
 #include <rtems/rtems/statusimpl.h>
 #include <rtems/score/todimpl.h>
-#include <rtems/config.h>
 
-rtems_status_code rtems_clock_set(
-  const rtems_time_of_day *tod
-)
+rtems_status_code rtems_clock_set( const rtems_time_of_day *tod )
 {
   rtems_status_code status;
   Status_Control    score_status;
@@ -59,9 +57,9 @@ rtems_status_code rtems_clock_set(
     return status;
   }
 
-  tod_as_timespec.tv_sec = _TOD_To_seconds( tod );
-  tod_as_timespec.tv_nsec = tod->ticks
-    * rtems_configuration_get_nanoseconds_per_tick();
+  tod_as_timespec.tv_sec  = _TOD_To_seconds( tod );
+  tod_as_timespec.tv_nsec = tod->ticks *
+                            rtems_configuration_get_nanoseconds_per_tick();
 
   _TOD_Lock();
   _TOD_Acquire( &lock_context );

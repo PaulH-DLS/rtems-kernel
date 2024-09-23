@@ -39,69 +39,66 @@
 #include "config.h"
 #endif
 
+#include <rtems/config.h>
 #include <rtems/rtems/clock.h>
 #include <rtems/score/todimpl.h>
-#include <rtems/config.h>
 
-#define RTEMS_SECS_PER_MINUTE (60UL)
-#define RTEMS_MINUTE_PER_HOUR (60UL)
-#define RTEMS_SECS_PER_HOUR   (RTEMS_SECS_PER_MINUTE * RTEMS_MINUTE_PER_HOUR)
-#define RTEMS_HOURS_PER_DAY   (24UL)
-#define RTEMS_SECS_PER_DAY    (RTEMS_SECS_PER_HOUR * RTEMS_HOURS_PER_DAY)
-#define RTEMS_DAYS_PER_YEAR   (365UL)
-#define RTEMS_YEAR_BASE       (1970UL)
+#define RTEMS_SECS_PER_MINUTE ( 60UL )
+#define RTEMS_MINUTE_PER_HOUR ( 60UL )
+#define RTEMS_SECS_PER_HOUR ( RTEMS_SECS_PER_MINUTE * RTEMS_MINUTE_PER_HOUR )
+#define RTEMS_HOURS_PER_DAY ( 24UL )
+#define RTEMS_SECS_PER_DAY ( RTEMS_SECS_PER_HOUR * RTEMS_HOURS_PER_DAY )
+#define RTEMS_DAYS_PER_YEAR ( 365UL )
+#define RTEMS_YEAR_BASE ( 1970UL )
 
-static bool _Leap_year(
-  uint32_t year
-)
+static bool _Leap_year( uint32_t year )
 {
-  return (((year % 4) == 0) && ((year % 100) != 0)) || ((year % 400) == 0);
+  return ( ( ( year % 4 ) == 0 ) && ( ( year % 100 ) != 0 ) ) ||
+         ( ( year % 400 ) == 0 );
 }
 
-static uint32_t _Leap_years_before(
-  uint32_t year
-)
+static uint32_t _Leap_years_before( uint32_t year )
 {
   year -= 1;
-  return (year / 4) - (year / 100) + (year / 400);
+  return ( year / 4 ) - ( year / 100 ) + ( year / 400 );
 }
 
 static uint32_t _Leap_years_between(
-  uint32_t from, uint32_t to
+  uint32_t from,
+  uint32_t to
 )
 {
   return _Leap_years_before( to ) - _Leap_years_before( from + 1 );
 }
 
 static uint32_t _Year_day_as_month(
-  uint32_t year, uint32_t *day
+  uint32_t  year,
+  uint32_t *day
 )
 {
-  const uint16_t* days_to_date;
+  const uint16_t *days_to_date;
   uint32_t        month = 0;
 
   if ( _Leap_year( year ) )
-    days_to_date = _TOD_Days_to_date[0];
+    days_to_date = _TOD_Days_to_date[ 0 ];
   else
-    days_to_date = _TOD_Days_to_date[1];
+    days_to_date = _TOD_Days_to_date[ 1 ];
 
   days_to_date += 2;
 
-  while (month < 11) {
-    if (*day < *days_to_date)
+  while ( month < 11 ) {
+    if ( *day < *days_to_date )
       break;
     ++month;
     ++days_to_date;
   }
 
-  *day -= *(days_to_date - 1);
+  *day -= *( days_to_date - 1 );
 
   return month;
 }
 
-rtems_status_code rtems_clock_get_tod(
-  rtems_time_of_day  *time_of_day
-)
+rtems_status_code rtems_clock_get_tod( rtems_time_of_day *time_of_day )
 {
   struct timeval now;
   uint32_t       days;
@@ -125,7 +122,7 @@ rtems_status_code rtems_clock_get_tod(
    * A 32-bit integer can represent enough days for several 1000 years.  When
    * the current time is valid, the integer conversions below are well defined.
    */
-  days = (uint32_t) ( now.tv_sec / RTEMS_SECS_PER_DAY );
+  days     = (uint32_t) ( now.tv_sec / RTEMS_SECS_PER_DAY );
   day_secs = (uint32_t) ( now.tv_sec % RTEMS_SECS_PER_DAY );
 
   /* How many non-leap year years ? */
@@ -153,7 +150,7 @@ rtems_status_code rtems_clock_get_tod(
   time_of_day->second = time_of_day->minute % RTEMS_SECS_PER_MINUTE;
   time_of_day->minute = time_of_day->minute / RTEMS_SECS_PER_MINUTE;
   time_of_day->ticks  = now.tv_usec /
-    rtems_configuration_get_microseconds_per_tick( );
+                       rtems_configuration_get_microseconds_per_tick();
 
   return RTEMS_SUCCESSFUL;
 }

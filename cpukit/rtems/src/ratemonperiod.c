@@ -51,16 +51,18 @@ void _Rate_monotonic_Get_status(
   Timestamp_Control            *cpu_since_last_period
 )
 {
-  Timestamp_Control        uptime;
-  Thread_Control          *owning_thread = the_period->owner;
-  Timestamp_Control        used;
+  Timestamp_Control uptime;
+  Thread_Control   *owning_thread = the_period->owner;
+  Timestamp_Control used;
 
   /*
    *  Determine elapsed wall time since period initiated.
    */
   _TOD_Get_uptime( &uptime );
   _Timestamp_Subtract(
-    &the_period->time_period_initiated, &uptime, wall_since_last_period
+    &the_period->time_period_initiated,
+    &uptime,
+    wall_since_last_period
   );
 
   /*
@@ -68,7 +70,7 @@ void _Rate_monotonic_Get_status(
    */
   used = _Thread_Get_CPU_time_used( owning_thread );
 
-   /* used = current cpu usage - cpu usage at start of period */
+  /* used = current cpu usage - cpu usage at start of period */
   _Timestamp_Subtract(
     &the_period->cpu_usage_period_initiated,
     &used,
@@ -83,8 +85,8 @@ static void _Rate_monotonic_Release_postponed_job(
   ISR_lock_Context       *lock_context
 )
 {
-  Per_CPU_Control      *cpu_self;
-  Thread_queue_Context  queue_context;
+  Per_CPU_Control     *cpu_self;
+  Thread_queue_Context queue_context;
 
   --the_period->postponed_jobs;
   _Scheduler_Release_job(
@@ -107,9 +109,9 @@ static void _Rate_monotonic_Release_job(
   ISR_lock_Context       *lock_context
 )
 {
-  Per_CPU_Control      *cpu_self;
-  Thread_queue_Context  queue_context;
-  uint64_t              deadline;
+  Per_CPU_Control     *cpu_self;
+  Thread_queue_Context queue_context;
+  uint64_t             deadline;
 
   cpu_self = _Thread_Dispatch_disable_critical( lock_context );
 
@@ -151,7 +153,7 @@ void _Rate_monotonic_Restart(
 }
 
 static void _Rate_monotonic_Update_statistics(
-  Rate_monotonic_Control    *the_period
+  Rate_monotonic_Control *the_period
 )
 {
   Timestamp_Control          executed;
@@ -224,7 +226,7 @@ static rtems_status_code _Rate_monotonic_Activate(
 )
 {
   _Assert( the_period->postponed_jobs == 0 );
-  the_period->state = RATE_MONOTONIC_ACTIVE;
+  the_period->state       = RATE_MONOTONIC_ACTIVE;
   the_period->next_length = length;
   _Rate_monotonic_Restart( the_period, executing, lock_context );
   return RTEMS_SUCCESSFUL;
@@ -250,7 +252,7 @@ static rtems_status_code _Rate_monotonic_Block_while_active(
    *  in the process of blocking on the period and that we
    *  may be changing the length of the next period.
    */
-  the_period->next_length = length;
+  the_period->next_length         = length;
   executing->Wait.return_argument = the_period;
   _Thread_Wait_flags_set( executing, RATE_MONOTONIC_INTEND_TO_BLOCK );
 
@@ -265,9 +267,7 @@ static rtems_status_code _Rate_monotonic_Block_while_active(
     RATE_MONOTONIC_BLOCKED
   );
   if ( !success ) {
-    _Assert(
-      _Thread_Wait_flags_get( executing ) == THREAD_WAIT_STATE_READY
-    );
+    _Assert( _Thread_Wait_flags_get( executing ) == THREAD_WAIT_STATE_READY );
     _Thread_Unblock( executing );
   }
 
@@ -298,14 +298,14 @@ static rtems_status_code _Rate_monotonic_Block_while_expired(
    */
   _Rate_monotonic_Update_statistics( the_period );
 
-  the_period->state = RATE_MONOTONIC_ACTIVE;
+  the_period->state       = RATE_MONOTONIC_ACTIVE;
   the_period->next_length = length;
 
   _Rate_monotonic_Release_postponed_job(
-      the_period,
-      executing,
-      length,
-      lock_context
+    the_period,
+    executing,
+    length,
+    lock_context
   );
   return RTEMS_TIMEOUT;
 }
@@ -343,7 +343,7 @@ rtems_status_code rtems_rate_monotonic_period(
     switch ( state ) {
       case RATE_MONOTONIC_ACTIVE:
 
-        if( the_period->postponed_jobs > 0 ){
+        if ( the_period->postponed_jobs > 0 ) {
           /*
            * If the number of postponed jobs is not 0, it means the
            * previous postponed instance is finished without exceeding
@@ -358,7 +358,7 @@ rtems_status_code rtems_rate_monotonic_period(
             executing,
             &lock_context
           );
-        }else{
+        } else {
           /*
            * Normal case that no postponed jobs and no expiration, so wait for
            * the period and update the deadline of watchdog accordingly.

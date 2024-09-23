@@ -50,8 +50,8 @@
  *  of the string will be used.
  */
 rtems_status_code rtems_object_set_name(
-  rtems_id       id,
-  const char    *name
+  rtems_id    id,
+  const char *name
 )
 {
   Objects_Information *information;
@@ -62,9 +62,9 @@ rtems_status_code rtems_object_set_name(
   if ( !name )
     return RTEMS_INVALID_ADDRESS;
 
-  tmpId = (id == OBJECTS_ID_OF_SELF) ? rtems_task_self() : id;
+  tmpId = ( id == OBJECTS_ID_OF_SELF ) ? rtems_task_self() : id;
 
-  information  = _Objects_Get_information_id( tmpId );
+  information = _Objects_Get_information_id( tmpId );
   if ( !information )
     return RTEMS_INVALID_ID;
 

@@ -39,8 +39,8 @@
 #include "config.h"
 #endif
 
-#include <rtems/rtems/partimpl.h>
 #include <rtems/rtems/attrimpl.h>
+#include <rtems/rtems/partimpl.h>
 #include <rtems/rtems/support.h>
 #include <rtems/score/address.h>
 #include <rtems/score/chainimpl.h>
@@ -80,12 +80,12 @@ static void _Partition_Initialize(
 }
 
 rtems_status_code rtems_partition_create(
-  rtems_name       name,
-  void            *starting_address,
-  uintptr_t        length,
-  size_t           buffer_size,
-  rtems_attribute  attribute_set,
-  rtems_id        *id
+  rtems_name      name,
+  void           *starting_address,
+  uintptr_t       length,
+  size_t          buffer_size,
+  rtems_attribute attribute_set,
+  rtems_id       *id
 )
 {
   Partition_Control *the_partition;
@@ -133,7 +133,7 @@ rtems_status_code rtems_partition_create(
     return RTEMS_INVALID_ADDRESS;
   }
 
-#if defined(RTEMS_MULTIPROCESSING)
+#if defined( RTEMS_MULTIPROCESSING )
   if ( !_System_state_Is_multiprocessing ) {
     attribute_set = _Attributes_Clear( attribute_set, RTEMS_GLOBAL );
   }
@@ -146,10 +146,15 @@ rtems_status_code rtems_partition_create(
     return RTEMS_TOO_MANY;
   }
 
-#if defined(RTEMS_MULTIPROCESSING)
-  if ( _Attributes_Is_global( attribute_set ) &&
-       !( _Objects_MP_Allocate_and_open( &_Partition_Information, name,
-                            the_partition->Object.id, false ) ) ) {
+#if defined( RTEMS_MULTIPROCESSING )
+  if (
+    _Attributes_Is_global( attribute_set ) && !( _Objects_MP_Allocate_and_open(
+                                                &_Partition_Information,
+                                                name,
+                                                the_partition->Object.id,
+                                                false
+                                              ) )
+  ) {
     _Objects_Free( &_Partition_Information, &the_partition->Object );
     _Objects_Allocator_unlock();
     return RTEMS_TOO_MANY;
@@ -170,13 +175,13 @@ rtems_status_code rtems_partition_create(
     name
   );
 
-#if defined(RTEMS_MULTIPROCESSING)
+#if defined( RTEMS_MULTIPROCESSING )
   if ( _Attributes_Is_global( attribute_set ) )
     _Partition_MP_Send_process_packet(
       PARTITION_MP_ANNOUNCE_CREATE,
       the_partition->Object.id,
       name,
-      0                  /* Not used */
+      0 /* Not used */
     );
 #endif
 

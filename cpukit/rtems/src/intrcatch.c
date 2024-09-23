@@ -42,11 +42,11 @@
 #include <rtems/rtems/intr.h>
 #include <rtems/score/isr.h>
 
-#if (CPU_SIMPLE_VECTORED_INTERRUPTS == TRUE)
+#if ( CPU_SIMPLE_VECTORED_INTERRUPTS == TRUE )
 rtems_status_code rtems_interrupt_catch(
-  rtems_isr_entry      new_isr_handler,
-  rtems_vector_number  vector,
-  rtems_isr_entry     *old_isr_handler
+  rtems_isr_entry     new_isr_handler,
+  rtems_vector_number vector,
+  rtems_isr_entry    *old_isr_handler
 )
 {
   if ( vector > CPU_INTERRUPT_MAXIMUM_VECTOR_NUMBER )
