@@ -333,10 +333,10 @@ static void _RTEMS_tasks_Terminate_extension( Thread_Control *executing )
 static User_extensions_Control _RTEMS_tasks_User_extensions = {
   .Callouts = {
 #if defined( RTEMS_MULTIPROCESSING )
-    .thread_terminate = _RTEMS_tasks_Terminate_extension,
+               .thread_terminate = _RTEMS_tasks_Terminate_extension,
 #endif
-    .thread_start   = _RTEMS_tasks_Start_extension,
-    .thread_restart = _RTEMS_tasks_Start_extension
+               .thread_start   = _RTEMS_tasks_Start_extension,
+               .thread_restart = _RTEMS_tasks_Start_extension
   }
 };
 
