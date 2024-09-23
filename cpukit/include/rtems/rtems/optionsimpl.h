@@ -38,6 +38,7 @@
 #define _RTEMS_RTEMS_OPTIONSIMPL_H
 
 #include <rtems/rtems/options.h>
+#include <rtems/rtems/types.h>
 
 #ifdef __cplusplus
 extern "C" {
