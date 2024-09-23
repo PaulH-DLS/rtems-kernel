@@ -82,10 +82,7 @@ static bool _Scheduler_Check_processor_not_required(
   return iter_context->status != RTEMS_SUCCESSFUL;
 }
 
-static bool _Scheduler_Check_no_helping(
-  Thread_Control *the_thread,
-  void           *arg
-)
+static bool _Scheduler_Check_no_helping( Thread_Control *the_thread, void *arg )
 {
   Scheduler_Processor_removal_context *iter_context;
   ISR_lock_Context                     lock_context;

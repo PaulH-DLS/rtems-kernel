@@ -47,10 +47,7 @@ static void *_Partition_Allocate_buffer( Partition_Control *the_partition )
   return _Chain_Get_unprotected( &the_partition->Memory );
 }
 
-rtems_status_code rtems_partition_get_buffer(
-  rtems_id id,
-  void   **buffer
-)
+rtems_status_code rtems_partition_get_buffer( rtems_id id, void **buffer )
 {
   Partition_Control *the_partition;
   ISR_lock_Context   lock_context;

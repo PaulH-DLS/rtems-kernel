@@ -166,10 +166,7 @@ rtems_status_code _Timer_Fire_when(
   return _Timer_Fire( id, seconds, routine, user_data, the_class, adaptor );
 }
 
-void _Timer_Cancel(
-  Per_CPU_Control *cpu,
-  Timer_Control   *the_timer
-)
+void _Timer_Cancel( Per_CPU_Control *cpu, Timer_Control *the_timer )
 {
   Timer_Classes the_class;
 
@@ -198,10 +195,7 @@ void _Timer_Cancel(
   }
 }
 
-rtems_status_code rtems_timer_create(
-  rtems_name name,
-  rtems_id  *id
-)
+rtems_status_code rtems_timer_create( rtems_name name, rtems_id *id )
 {
   Timer_Control *the_timer;
 

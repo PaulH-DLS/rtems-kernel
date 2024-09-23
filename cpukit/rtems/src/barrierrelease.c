@@ -41,10 +41,7 @@
 
 #include <rtems/rtems/barrierimpl.h>
 
-rtems_status_code rtems_barrier_release(
-  rtems_id  id,
-  uint32_t *released
-)
+rtems_status_code rtems_barrier_release( rtems_id id, uint32_t *released )
 {
   Barrier_Control     *the_barrier;
   Thread_queue_Context queue_context;

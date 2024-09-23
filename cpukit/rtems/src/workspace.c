@@ -56,10 +56,7 @@ bool rtems_workspace_get_information( Heap_Information_block *the_info )
   return _Protected_heap_Get_information( &_Workspace_Area, the_info );
 }
 
-bool rtems_workspace_allocate(
-  size_t bytes,
-  void **pointer
-)
+bool rtems_workspace_allocate( size_t bytes, void **pointer )
 {
   void *ptr;
 

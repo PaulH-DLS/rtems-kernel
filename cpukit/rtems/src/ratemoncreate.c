@@ -47,10 +47,7 @@
 #include <rtems/score/watchdogimpl.h>
 #include <rtems/sysinit.h>
 
-rtems_status_code rtems_rate_monotonic_create(
-  rtems_name name,
-  rtems_id  *id
-)
+rtems_status_code rtems_rate_monotonic_create( rtems_name name, rtems_id *id )
 {
   Rate_monotonic_Control *the_period;
 

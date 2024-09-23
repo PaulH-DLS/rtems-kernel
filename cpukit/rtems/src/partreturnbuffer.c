@@ -81,10 +81,7 @@ static void _Partition_Free_buffer(
   _Chain_Append_unprotected( &the_partition->Memory, the_buffer );
 }
 
-rtems_status_code rtems_partition_return_buffer(
-  rtems_id id,
-  void    *buffer
-)
+rtems_status_code rtems_partition_return_buffer( rtems_id id, void *buffer )
 {
   Partition_Control *the_partition;
   ISR_lock_Context   lock_context;

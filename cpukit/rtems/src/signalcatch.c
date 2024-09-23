@@ -45,10 +45,7 @@
 #include <rtems/rtems/tasksdata.h>
 #include <rtems/score/threadimpl.h>
 
-RTEMS_STATIC_ASSERT(
-  RTEMS_DEFAULT_MODES == 0,
-  _ASR_Create_mode_set
-);
+RTEMS_STATIC_ASSERT( RTEMS_DEFAULT_MODES == 0, _ASR_Create_mode_set );
 
 rtems_status_code rtems_signal_catch(
   rtems_asr_entry asr_handler,

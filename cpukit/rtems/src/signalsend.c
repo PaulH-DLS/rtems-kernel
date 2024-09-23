@@ -155,10 +155,7 @@ static void _Signal_Action_handler(
   }
 }
 
-rtems_status_code rtems_signal_send(
-  rtems_id         id,
-  rtems_signal_set signal_set
-)
+rtems_status_code rtems_signal_send( rtems_id id, rtems_signal_set signal_set )
 {
   Thread_Control    *the_thread;
   ISR_lock_Context   lock_context;

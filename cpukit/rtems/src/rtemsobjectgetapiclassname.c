@@ -75,10 +75,7 @@ static const rtems_assoc_t rtems_object_api_posix_assoc[] = {
   {NULL,            0,                            0}
 };
 
-const char *rtems_object_get_api_class_name(
-  int the_api,
-  int the_class
-)
+const char *rtems_object_get_api_class_name( int the_api, int the_class )
 {
   const rtems_assoc_t *api_assoc;
   const rtems_assoc_t *class_assoc;

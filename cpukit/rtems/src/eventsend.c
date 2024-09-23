@@ -43,10 +43,7 @@
 #include <rtems/rtems/tasksdata.h>
 #include <rtems/score/threadimpl.h>
 
-rtems_status_code rtems_event_send(
-  rtems_id        id,
-  rtems_event_set event_in
-)
+rtems_status_code rtems_event_send( rtems_id id, rtems_event_set event_in )
 {
   Thread_Control    *the_thread;
   RTEMS_API_Control *api;

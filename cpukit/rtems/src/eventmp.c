@@ -77,10 +77,7 @@ static Event_MP_Packet *_Event_MP_Get_packet( Objects_Id id )
   return (Event_MP_Packet *) _MPCI_Get_packet();
 }
 
-rtems_status_code _Event_MP_Send(
-  rtems_id        id,
-  rtems_event_set event_in
-)
+rtems_status_code _Event_MP_Send( rtems_id id, rtems_event_set event_in )
 {
   Event_MP_Packet *the_packet;
   Status_Control   status;

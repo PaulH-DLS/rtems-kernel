@@ -87,10 +87,7 @@ static Signal_MP_Packet *_Signal_MP_Get_packet( Objects_Id id )
  *
  */
 
-rtems_status_code _Signal_MP_Send(
-  rtems_id         id,
-  rtems_signal_set signal_set
-)
+rtems_status_code _Signal_MP_Send( rtems_id id, rtems_signal_set signal_set )
 {
   Signal_MP_Packet *the_packet;
   Status_Control    status;

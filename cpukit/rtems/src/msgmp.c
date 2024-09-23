@@ -236,10 +236,7 @@ rtems_status_code _Message_queue_MP_Broadcast(
   );
 }
 
-rtems_status_code _Message_queue_MP_Flush(
-  rtems_id  id,
-  uint32_t *count
-)
+rtems_status_code _Message_queue_MP_Flush( rtems_id id, uint32_t *count )
 {
   _Thread_Get_executing()->Wait.return_argument = count;
   return _Message_queue_MP_Send_request_packet(

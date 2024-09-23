@@ -157,10 +157,7 @@ static rtems_status_code _Partition_MP_Send_request_packet(
   return RTEMS_SUCCESSFUL;
 }
 
-rtems_status_code _Partition_MP_Get_buffer(
-  rtems_id id,
-  void   **buffer
-)
+rtems_status_code _Partition_MP_Get_buffer( rtems_id id, void **buffer )
 {
   _Thread_Get_executing()->Wait.return_argument = buffer;
   return _Partition_MP_Send_request_packet(
@@ -170,10 +167,7 @@ rtems_status_code _Partition_MP_Get_buffer(
   );
 }
 
-rtems_status_code _Partition_MP_Return_buffer(
-  rtems_id id,
-  void    *buffer
-)
+rtems_status_code _Partition_MP_Return_buffer( rtems_id id, void *buffer )
 {
   return _Partition_MP_Send_request_packet(
     id,

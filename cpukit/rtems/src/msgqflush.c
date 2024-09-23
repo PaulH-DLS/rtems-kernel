@@ -41,10 +41,7 @@
 
 #include <rtems/rtems/messageimpl.h>
 
-rtems_status_code rtems_message_queue_flush(
-  rtems_id  id,
-  uint32_t *count
-)
+rtems_status_code rtems_message_queue_flush( rtems_id id, uint32_t *count )
 {
   Message_queue_Control *the_message_queue;
   Thread_queue_Context   queue_context;

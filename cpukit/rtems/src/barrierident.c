@@ -42,10 +42,7 @@
 #include <rtems/rtems/barrierimpl.h>
 #include <rtems/rtems/objectimpl.h>
 
-rtems_status_code rtems_barrier_ident(
-  rtems_name name,
-  rtems_id  *id
-)
+rtems_status_code rtems_barrier_ident( rtems_name name, rtems_id *id )
 {
   return _RTEMS_Name_to_id(
     name,

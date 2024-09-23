@@ -49,10 +49,7 @@
  *  If the object class uses 32-bit names, then only the first 4 bytes
  *  of the string will be used.
  */
-rtems_status_code rtems_object_set_name(
-  rtems_id    id,
-  const char *name
-)
+rtems_status_code rtems_object_set_name( rtems_id id, const char *name )
 {
   Objects_Information *information;
   Objects_Control     *the_object;

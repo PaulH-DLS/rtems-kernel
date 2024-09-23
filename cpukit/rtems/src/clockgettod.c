@@ -63,18 +63,12 @@ static uint32_t _Leap_years_before( uint32_t year )
   return ( year / 4 ) - ( year / 100 ) + ( year / 400 );
 }
 
-static uint32_t _Leap_years_between(
-  uint32_t from,
-  uint32_t to
-)
+static uint32_t _Leap_years_between( uint32_t from, uint32_t to )
 {
   return _Leap_years_before( to ) - _Leap_years_before( from + 1 );
 }
 
-static uint32_t _Year_day_as_month(
-  uint32_t  year,
-  uint32_t *day
-)
+static uint32_t _Year_day_as_month( uint32_t year, uint32_t *day )
 {
   const uint16_t *days_to_date;
   uint32_t        month = 0;

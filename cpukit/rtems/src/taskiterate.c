@@ -42,10 +42,7 @@
 #include <rtems/score/objectimpl.h>
 #include <rtems/score/threadimpl.h>
 
-void rtems_task_iterate(
-  rtems_task_visitor visitor,
-  void              *arg
-)
+void rtems_task_iterate( rtems_task_visitor visitor, void *arg )
 {
   _Objects_Allocator_lock();
   _Thread_Iterate( visitor, arg );
