@@ -43,14 +43,14 @@
 #include "config.h"
 #endif
 
-#include <rtems/score/threaddispatch.h>
+#include <rtems/config.h>
 #include <rtems/score/assert.h>
 #include <rtems/score/isr.h>
 #include <rtems/score/schedulerimpl.h>
+#include <rtems/score/threaddispatch.h>
 #include <rtems/score/threadimpl.h>
 #include <rtems/score/todimpl.h>
 #include <rtems/score/userextimpl.h>
-#include <rtems/config.h>
 
 #if ( CPU_HARDWARE_FP == TRUE ) || ( CPU_SOFTWARE_FP == TRUE )
 Thread_Control *_Thread_Allocated_fp;
@@ -58,7 +58,7 @@ Thread_Control *_Thread_Allocated_fp;
 
 CHAIN_DEFINE_EMPTY( _User_extensions_Switches_list );
 
-#if defined(RTEMS_SMP)
+#if defined( RTEMS_SMP )
 static ISR_Level _Thread_Check_pinning(
   Thread_Control  *executing,
   Per_CPU_Control *cpu_self,
@@ -70,8 +70,8 @@ static ISR_Level _Thread_Check_pinning(
   pin_level = executing->Scheduler.pin_level;
 
   if (
-    RTEMS_PREDICT_FALSE( pin_level != 0 )
-      && ( pin_level & THREAD_PIN_PREEMPTION ) == 0
+    RTEMS_PREDICT_FALSE( pin_level != 0 ) &&
+    ( pin_level & THREAD_PIN_PREEMPTION ) == 0
   ) {
     ISR_lock_Context         state_lock_context;
     ISR_lock_Context         scheduler_lock_context;
@@ -86,13 +86,13 @@ static ISR_Level _Thread_Check_pinning(
     _Thread_State_acquire( executing, &state_lock_context );
 
     pinned_scheduler = _Scheduler_Get_by_CPU( cpu_self );
-    pinned_node = _Thread_Scheduler_get_node_by_index(
+    pinned_node      = _Thread_Scheduler_get_node_by_index(
       executing,
       _Scheduler_Get_index( pinned_scheduler )
     );
 
     if ( _Thread_Is_ready( executing ) ) {
-      _Scheduler_Block( executing);
+      _Scheduler_Block( executing );
     }
 
     home_scheduler = _Thread_Scheduler_get_home( executing );
@@ -108,12 +108,8 @@ static ISR_Level _Thread_Check_pinning(
 
     _Scheduler_Acquire_critical( pinned_scheduler, &scheduler_lock_context );
 
-    ( *pinned_scheduler->Operations.pin )(
-      pinned_scheduler,
-      executing,
-      pinned_node,
-      cpu_self
-    );
+    ( *pinned_scheduler->Operations
+         .pin )( pinned_scheduler, executing, pinned_node, cpu_self );
 
     if ( _Thread_Is_ready( executing ) ) {
       ( *pinned_scheduler->Operations.unblock )(
@@ -148,7 +144,7 @@ static void _Thread_Ask_for_help( Thread_Control *the_thread )
     bool                     success;
 
     scheduler_node = SCHEDULER_NODE_OF_THREAD_SCHEDULER_NODE( node );
-    scheduler = _Scheduler_Node_get_scheduler( scheduler_node );
+    scheduler      = _Scheduler_Node_get_scheduler( scheduler_node );
 
     _Scheduler_Acquire_critical( scheduler, &lock_context );
     success = ( *scheduler->Operations.ask_for_help )(
@@ -168,8 +164,8 @@ static void _Thread_Ask_for_help( Thread_Control *the_thread )
 
 static bool _Thread_Can_ask_for_help( const Thread_Control *executing )
 {
-  return executing->Scheduler.helping_nodes > 0
-    && _Thread_Is_ready( executing );
+  return executing->Scheduler.helping_nodes > 0 &&
+         _Thread_Is_ready( executing );
 }
 #endif
 
@@ -179,7 +175,7 @@ static ISR_Level _Thread_Preemption_intervention(
   ISR_Level        level
 )
 {
-#if defined(RTEMS_SMP)
+#if defined( RTEMS_SMP )
   ISR_lock_Context lock_context;
 
   level = _Thread_Check_pinning( executing, cpu_self, level );
@@ -213,7 +209,7 @@ static ISR_Level _Thread_Preemption_intervention(
 
 static void _Thread_Post_switch_cleanup( Thread_Control *executing )
 {
-#if defined(RTEMS_SMP)
+#if defined( RTEMS_SMP )
   Chain_Node       *node;
   const Chain_Node *tail;
 
@@ -230,7 +226,7 @@ static void _Thread_Post_switch_cleanup( Thread_Control *executing )
     ISR_lock_Context         lock_context;
 
     scheduler_node = SCHEDULER_NODE_OF_THREAD_SCHEDULER_NODE( node );
-    scheduler = _Scheduler_Node_get_scheduler( scheduler_node );
+    scheduler      = _Scheduler_Node_get_scheduler( scheduler_node );
 
     _Scheduler_Acquire_critical( scheduler, &lock_context );
     ( *scheduler->Operations.reconsider_help_request )(
@@ -258,8 +254,8 @@ static Thread_Action *_Thread_Get_post_switch_action(
 
 static void _Thread_Run_post_switch_actions( Thread_Control *executing )
 {
-  ISR_lock_Context  lock_context;
-  Thread_Action    *action;
+  ISR_lock_Context lock_context;
+  Thread_Action   *action;
 
   _Thread_State_acquire( executing, &lock_context );
   _Thread_Post_switch_cleanup( executing );
@@ -280,11 +276,11 @@ void _Thread_Do_dispatch( Per_CPU_Control *cpu_self, ISR_Level level )
 
   _Assert( cpu_self->thread_dispatch_disable_level == 1 );
 
-#if defined(RTEMS_SCORE_ROBUST_THREAD_DISPATCH)
+#if defined( RTEMS_SCORE_ROBUST_THREAD_DISPATCH )
   if (
     !_ISR_Is_enabled( level )
-#if defined(RTEMS_SMP) && CPU_ENABLE_ROBUST_THREAD_DISPATCH == FALSE
-      && _SMP_Need_inter_processor_interrupts()
+#if defined( RTEMS_SMP ) && CPU_ENABLE_ROBUST_THREAD_DISPATCH == FALSE
+    && _SMP_Need_inter_processor_interrupts()
 #endif
   ) {
     _Internal_error( INTERNAL_ERROR_BAD_THREAD_DISPATCH_ENVIRONMENT );
@@ -298,7 +294,7 @@ void _Thread_Do_dispatch( Per_CPU_Control *cpu_self, ISR_Level level )
     const Thread_CPU_budget_operations *cpu_budget_operations;
 
     level = _Thread_Preemption_intervention( executing, cpu_self, level );
-    heir = _Thread_Get_heir_and_make_it_executing( cpu_self );
+    heir  = _Thread_Get_heir_and_make_it_executing( cpu_self );
 
     /*
      * If the heir and executing are the same, then there is no need to do a
@@ -322,13 +318,13 @@ void _Thread_Do_dispatch( Per_CPU_Control *cpu_self, ISR_Level level )
 
     _ISR_Local_enable( level );
 
-#if !defined(RTEMS_SMP)
+#if !defined( RTEMS_SMP )
     _User_extensions_Thread_switch( executing, heir );
 #endif
     _Thread_Save_fp( executing );
     _Context_Switch( &executing->Registers, &heir->Registers );
     _Thread_Restore_fp( executing );
-#if defined(RTEMS_SMP)
+#if defined( RTEMS_SMP )
     _User_extensions_Thread_switch( NULL, executing );
 #endif
 
@@ -368,8 +364,8 @@ void _Thread_Dispatch_direct( Per_CPU_Control *cpu_self )
   _Thread_Do_dispatch( cpu_self, level );
 }
 
-RTEMS_ALIAS( _Thread_Dispatch_direct ) void
-_Thread_Dispatch_direct_no_return( Per_CPU_Control * );
+RTEMS_ALIAS( _Thread_Dispatch_direct )
+void _Thread_Dispatch_direct_no_return( Per_CPU_Control * );
 
 void _Thread_Dispatch_enable( Per_CPU_Control *cpu_self )
 {
@@ -382,8 +378,8 @@ void _Thread_Dispatch_enable( Per_CPU_Control *cpu_self )
 
     if (
       cpu_self->dispatch_necessary
-#if defined(RTEMS_SCORE_ROBUST_THREAD_DISPATCH)
-        || !_ISR_Is_enabled( level )
+#if defined( RTEMS_SCORE_ROBUST_THREAD_DISPATCH )
+      || !_ISR_Is_enabled( level )
 #endif
     ) {
       _Thread_Do_dispatch( cpu_self, level );

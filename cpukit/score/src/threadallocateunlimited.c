@@ -38,9 +38,9 @@
 #include "config.h"
 #endif
 
-#include <rtems/score/thread.h>
 #include <rtems/score/freechainimpl.h>
 #include <rtems/score/objectimpl.h>
+#include <rtems/score/thread.h>
 #include <rtems/score/wkspace.h>
 
 static void _Thread_Extend_information( Objects_Information *base )
@@ -49,7 +49,7 @@ static void _Thread_Extend_information( Objects_Information *base )
   Objects_Maximum     block;
 
   information = (Thread_Information *) base;
-  block = _Objects_Extend_information( &information->Objects );
+  block       = _Objects_Extend_information( &information->Objects );
 
   if ( block > 0 ) {
     void *new_heads;

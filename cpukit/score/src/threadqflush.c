@@ -42,9 +42,9 @@
 #include "config.h"
 #endif
 
-#include <rtems/score/threadimpl.h>
 #include <rtems/score/schedulerimpl.h>
 #include <rtems/score/status.h>
+#include <rtems/score/threadimpl.h>
 
 Thread_Control *_Thread_queue_Flush_default_filter(
   Thread_Control       *the_thread,
@@ -96,7 +96,7 @@ size_t _Thread_queue_Flush_critical(
   Chain_Node   *node;
   Chain_Node   *tail;
 
-  flushed = 0;
+  flushed          = 0;
   priority_updates = 0;
   _Chain_Initialize_empty( &unblock );
 
@@ -138,8 +138,9 @@ size_t _Thread_queue_Flush_critical(
       );
     }
 
-    priority_updates +=
-      _Thread_queue_Context_get_priority_updates( queue_context );
+    priority_updates += _Thread_queue_Context_get_priority_updates(
+      queue_context
+    );
     ++flushed;
   }
 
@@ -150,16 +151,19 @@ size_t _Thread_queue_Flush_critical(
     Per_CPU_Control *cpu_self;
 
     cpu_self = _Thread_queue_Dispatch_disable( queue_context );
-    _Thread_queue_Queue_release( queue, &queue_context->Lock_context.Lock_context );
+    _Thread_queue_Queue_release(
+      queue,
+      &queue_context->Lock_context.Lock_context
+    );
 
     do {
       Scheduler_Node *scheduler_node;
       Thread_Control *the_thread;
       Chain_Node     *next;
 
-      next = _Chain_Next( node );
+      next           = _Chain_Next( node );
       scheduler_node = SCHEDULER_NODE_OF_WAIT_PRIORITY_NODE( node );
-      the_thread = _Scheduler_Node_get_owner( scheduler_node );
+      the_thread     = _Scheduler_Node_get_owner( scheduler_node );
       _Thread_Remove_timer_and_unblock( the_thread, queue );
 
       node = next;
@@ -178,7 +182,10 @@ size_t _Thread_queue_Flush_critical(
 
     _Thread_Dispatch_enable( cpu_self );
   } else {
-    _Thread_queue_Queue_release( queue, &queue_context->Lock_context.Lock_context );
+    _Thread_queue_Queue_release(
+      queue,
+      &queue_context->Lock_context.Lock_context
+    );
   }
 
   return flushed;

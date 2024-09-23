@@ -38,8 +38,8 @@
 #include "config.h"
 #endif
 
-#include <rtems/score/threadimpl.h>
 #include <rtems/score/schedulerimpl.h>
+#include <rtems/score/threadimpl.h>
 
 Timestamp_Control _Thread_Get_CPU_time_used_after_last_reset(
   Thread_Control *the_thread
@@ -55,7 +55,7 @@ Timestamp_Control _Thread_Get_CPU_time_used_after_last_reset(
   scheduler = _Thread_Scheduler_get_home( the_thread );
   _Scheduler_Acquire_critical( scheduler, &scheduler_lock_context );
 
-  cpu_time_used = _Thread_Get_CPU_time_used_locked( the_thread );
+  cpu_time_used               = _Thread_Get_CPU_time_used_locked( the_thread );
   cpu_time_used_at_last_reset = the_thread->cpu_time_used_at_last_reset;
 
   _Scheduler_Release_critical( scheduler, &scheduler_lock_context );

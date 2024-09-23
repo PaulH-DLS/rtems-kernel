@@ -39,9 +39,9 @@
 #include "config.h"
 #endif
 
-#include <rtems/score/threadimpl.h>
 #include <rtems/score/assert.h>
 #include <rtems/score/schedulerimpl.h>
+#include <rtems/score/threadimpl.h>
 
 States_Control _Thread_Clear_state_locked(
   Thread_Control *the_thread,
@@ -58,7 +58,7 @@ States_Control _Thread_Clear_state_locked(
   if ( ( previous_state & state ) != 0 ) {
     States_Control next_state;
 
-    next_state = _States_Clear( state, previous_state );
+    next_state                = _States_Clear( state, previous_state );
     the_thread->current_state = next_state;
 
     if ( _States_Is_ready( next_state ) ) {

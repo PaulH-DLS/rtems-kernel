@@ -58,9 +58,9 @@ void _Thread_Do_unpin( Thread_Control *executing, Per_CPU_Control *cpu_self )
     _Chain_First( &executing->Scheduler.Scheduler_nodes )
   );
   pinned_scheduler = _Scheduler_Node_get_scheduler( pinned_node );
-  home_node = _Thread_Scheduler_get_home_node( executing );
-  home_scheduler = _Thread_Scheduler_get_home( executing );
-  scheduler = pinned_scheduler;
+  home_node        = _Thread_Scheduler_get_home_node( executing );
+  home_scheduler   = _Thread_Scheduler_get_home( executing );
+  scheduler        = pinned_scheduler;
 
   executing->Scheduler.pinned_scheduler = NULL;
 
@@ -70,12 +70,8 @@ void _Thread_Do_unpin( Thread_Control *executing, Per_CPU_Control *cpu_self )
     ( *scheduler->Operations.block )( scheduler, executing, pinned_node );
   }
 
-  ( *scheduler->Operations.unpin )(
-    scheduler,
-    executing,
-    pinned_node,
-    cpu_self
-  );
+  ( *scheduler->Operations
+       .unpin )( scheduler, executing, pinned_node, cpu_self );
 
   if ( home_node != pinned_node ) {
     _Scheduler_Release_critical( scheduler, &scheduler_lock_context );

@@ -38,8 +38,8 @@
 #include "config.h"
 #endif
 
-#include <rtems/score/threadqimpl.h>
 #include <rtems/score/objectimpl.h>
+#include <rtems/score/threadqimpl.h>
 
 #include <string.h>
 
@@ -58,7 +58,7 @@ size_t _Thread_queue_Queue_get_name_and_id(
     const Thread_queue_Object *queue_object;
 
     queue_object = THREAD_QUEUE_QUEUE_TO_OBJECT( queue );
-    *id = queue_object->Object.id;
+    *id          = queue_object->Object.id;
     return _Objects_Name_to_string(
       queue_object->Object.name,
       false,
