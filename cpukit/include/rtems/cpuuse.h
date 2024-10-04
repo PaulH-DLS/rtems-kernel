@@ -59,6 +59,8 @@
 extern "C" {
 #endif
 
+#include <rtems/score/timestamp.h>
+#include <rtems/score/thread.h>
 /* Generated from spec:/rtems/cpuuse/if/group */
 
 /**
@@ -74,6 +76,113 @@ extern "C" {
 
 /* Forward declaration */
 struct rtems_printer;
+
+/**
+ *   @brief Struct that contains cpu usage information.
+ */
+typedef struct {
+
+  /**
+   * @brief inital value.
+   */
+  uint32_t           ival;
+  
+  /**
+   * @brief final value.
+   */
+  uint32_t           fval;
+
+  /**
+   * @brief uptime.
+   */
+  Timestamp_Control uptime;
+
+  /**
+   * @brief system uptime since last restart.
+   */
+  Timestamp_Control time_used_after_last_reset;
+  
+  /**
+   * @brief Total time.
+   */
+  Timestamp_Control    total;
+
+  /**
+   * @brief seconds.
+   */
+  uint32_t           seconds;
+
+  /**
+   * @brief nanoseconds.
+   */
+  uint32_t           nanoseconds;
+
+  /**
+   * @brief name of the thread.
+   */
+  char      name[ 38 ]; 
+} cpuuse_info;
+
+/**
+ * @ingroup RTEMSAPICPUUsageReporting
+ *
+ * @brief Prototype for the function to process cpu data.
+ *
+ * @param thread is the argument for the thread.
+ * 
+ * @param arg is a pointer for caller and the callback to use.
+ * 
+ * @param cpuuse_data is the structure for the cpuuse data. 
+ * 
+ * @par Constraints
+ * @parblock
+ * The following constraints apply to this directive:
+ *
+ * * The directive may be called from within device driver initialization
+ *   context.
+ *
+ * * The directive may be called from within task context.
+ *
+ * * The directive may obtain and release the object allocator mutex. This may
+ *   cause the calling task to be preempted.
+ * @endparblock
+ */
+typedef bool  (*usage_function_pointer) ( 
+  Thread_Control *the_thread,
+  void * arg,
+  cpuuse_info *  cpuuse_data
+  );
+
+/**
+ * @ingroup RTEMSAPICPUUsageReporting
+ *
+ * @brief Prototype for the usage report plugin.
+ *
+ * @param callback is the function to programatically process the data.
+ * 
+ * @param arg is the context structure.
+ * 
+ * @param info is the structure for the data. 
+ * 
+ * @par Constraints
+ * @parblock
+ * The following constraints apply to this directive:
+ *
+ * * The directive may be called from within device driver initialization
+ *   context.
+ *
+ * * The directive may be called from within task context.
+ *
+ * * The directive may obtain and release the object allocator mutex. This may
+ *   cause the calling task to be preempted.
+ * @endparblock
+ */
+void rtems_cpu_usage_report_with_callback( 
+  usage_function_pointer callback, 
+  cpuuse_info  * info,
+  void * arg
+  );
+
 
 /* Generated from spec:/rtems/cpuuse/if/cpu-info-report */
 
