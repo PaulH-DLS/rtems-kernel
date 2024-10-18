@@ -6,7 +6,7 @@ AlignAfterOpenBracketBreak:
   InIfConditionalStatements: true
   InOtherConditionalStatements: true
   Other: true
-AlignArrayOfStructures: Left
+AlignArrayOfStructures: None
 AlignConsecutiveMacros: false
 AlignConsecutiveAssignments:
   Enabled: true
