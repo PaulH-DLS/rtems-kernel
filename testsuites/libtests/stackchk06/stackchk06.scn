@@ -1,0 +1,6 @@
+﻿﻿RTEMS Testing - Run, 6.0.not_released
+ Command Line: /home/hamzy/quick-start/rtems/7/bin/rtems-run --rtems-bsps=erc32-sis stackchk06.exe
+ Host: Linux mohamed 6.8.0-59-generic #61~22.04.1-Ubuntu SMP PREEMPT_DYNAMIC Tue Apr 15 17:03:15 UTC 2 x86_64
+ Python: 3.10.12 (main, Feb  4 2025, 14:57:36) [GCC 11.4.0]
+Host: Linux-6.8.0-59-generic-x86_64-with-glibc2.35 (Linux mohamed 6.8.0-59-generic #61~22.04.1-Ubuntu SMP PREEMPT_DYNAMIC Tue Apr 15 17:03:15 UTC 2 x86_64 x86_64)
+Run time     : 0:00:00.254562
