@@ -602,3 +602,14 @@ RTEMS_SYSINIT_ITEM(
   RTEMS_SYSINIT_ISR_STACK,
   RTEMS_SYSINIT_ORDER_MIDDLE
 );
+
+/*
+ * This is the default implementation. The user can override it 
+ * at the application 
+ */
+RTEMS_WEAK RTEMS_NO_RETURN void __stack_chk_fail(void)
+{
+  Thread_Control *running = _Thread_Get_executing();
+  
+  Stack_checker_Reporter( running, true );
+}

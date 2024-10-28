@@ -1,0 +1,3 @@
+﻿*** TEST STACKCHK06 ***
+Custom stack overflow handler invoked
+*** END OF TEST STACKCHK06 ***

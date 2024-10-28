@@ -40,6 +40,8 @@ links:
   uid: libtftpfs
 - role: build-dependency
   uid: libz
+- role: build-dependency
+  uid: stackprotect
 type: build
 use-after: []
 use-before: []

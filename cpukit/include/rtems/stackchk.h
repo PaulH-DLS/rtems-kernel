@@ -272,6 +272,14 @@ typedef void (*Stack_checker_Reporter_handler)(
  */
 extern const Stack_checker_Reporter_handler Stack_checker_Reporter;
 
+/**
+ * @brief Stack smash protecting function
+ * 
+ * @note: This function is invoked if a stack overflow is detected
+ *        if GCC flag -fstack-protection is enabled.
+ */
+void __stack_chk_fail(void);
+
 #ifdef __cplusplus
 }
 #endif

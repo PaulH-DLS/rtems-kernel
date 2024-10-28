@@ -1,0 +1,3 @@
+*** TEST STACKCHK05 ***
+About to call rtems_fatal with code: 0x55493120
+*** END OF TEST STACKCHK05 ***
