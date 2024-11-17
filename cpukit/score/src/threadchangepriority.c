@@ -44,9 +44,9 @@
 #include "config.h"
 #endif
 
-#include <rtems/score/threadimpl.h>
 #include <rtems/score/assert.h>
 #include <rtems/score/schedulerimpl.h>
+#include <rtems/score/threadimpl.h>
 
 static void _Thread_Set_scheduler_node_priority(
   Priority_Aggregation *priority_aggregation,
@@ -60,7 +60,7 @@ static void _Thread_Set_scheduler_node_priority(
   );
 }
 
-#if defined(RTEMS_SMP)
+#if defined( RTEMS_SMP )
 static void _Thread_Priority_action_add(
   Priority_Aggregation *priority_aggregation,
   Priority_Actions     *priority_actions,
@@ -71,7 +71,7 @@ static void _Thread_Priority_action_add(
   Thread_Control *the_thread;
 
   scheduler_node = SCHEDULER_NODE_OF_WAIT_PRIORITY( priority_aggregation );
-  the_thread = arg;
+  the_thread     = arg;
 
   _Thread_Scheduler_add_wait_node( the_thread, scheduler_node );
   _Thread_Set_scheduler_node_priority(
@@ -92,7 +92,7 @@ static void _Thread_Priority_action_remove(
   Thread_Control *the_thread;
 
   scheduler_node = SCHEDULER_NODE_OF_WAIT_PRIORITY( priority_aggregation );
-  the_thread = arg;
+  the_thread     = arg;
 
   _Thread_Scheduler_remove_wait_node( the_thread, scheduler_node );
   _Thread_Set_scheduler_node_priority(
@@ -116,7 +116,7 @@ static void _Thread_Priority_action_change(
     priority_aggregation,
     priority_group_order
   );
-#if defined(RTEMS_SMP) || defined(RTEMS_DEBUG)
+#if defined( RTEMS_SMP ) || defined( RTEMS_DEBUG )
   _Priority_Set_action_type( priority_aggregation, PRIORITY_ACTION_CHANGE );
 #endif
   _Priority_Actions_add( priority_actions, priority_aggregation );
@@ -133,16 +133,18 @@ static void _Thread_Priority_do_perform_actions(
   Priority_Aggregation *priority_aggregation;
 
   _Assert( !_Priority_Actions_is_empty( &queue_context->Priority.Actions ) );
-  priority_aggregation = _Priority_Actions_move( &queue_context->Priority.Actions );
+  priority_aggregation = _Priority_Actions_move(
+    &queue_context->Priority.Actions
+  );
 
   do {
-#if defined(RTEMS_SMP)
+#if defined( RTEMS_SMP )
     Priority_Aggregation *next_aggregation;
 #endif
-    Priority_Node        *priority_action_node;
-    Priority_Action_type  priority_action_type;
+    Priority_Node       *priority_action_node;
+    Priority_Action_type priority_action_type;
 
-#if defined(RTEMS_SMP)
+#if defined( RTEMS_SMP )
     next_aggregation = _Priority_Get_next_action( priority_aggregation );
 #endif
 
@@ -151,7 +153,7 @@ static void _Thread_Priority_do_perform_actions(
 
     switch ( priority_action_type ) {
       case PRIORITY_ACTION_ADD:
-#if defined(RTEMS_SMP)
+#if defined( RTEMS_SMP )
         _Priority_Insert(
           priority_aggregation,
           priority_action_node,
@@ -171,7 +173,7 @@ static void _Thread_Priority_do_perform_actions(
 #endif
         break;
       case PRIORITY_ACTION_REMOVE:
-#if defined(RTEMS_SMP)
+#if defined( RTEMS_SMP )
         _Priority_Extract(
           priority_aggregation,
           priority_action_node,
@@ -203,7 +205,7 @@ static void _Thread_Priority_do_perform_actions(
         break;
     }
 
-#if defined(RTEMS_SMP)
+#if defined( RTEMS_SMP )
     priority_aggregation = next_aggregation;
   } while ( priority_aggregation != NULL );
 #else
@@ -239,7 +241,7 @@ void _Thread_Priority_perform_actions(
    * along the path.
    */
 
-  the_thread = start_of_path;
+  the_thread   = start_of_path;
   update_count = _Thread_queue_Context_get_priority_updates( queue_context );
 
   while ( true ) {
@@ -305,11 +307,11 @@ static void _Thread_Priority_apply(
   );
 
   if ( !_Priority_Actions_is_empty( &queue_context->Priority.Actions ) ) {
-#if defined(RTEMS_SMP)
+#if defined( RTEMS_SMP )
     (void) _Thread_queue_Path_acquire( queue, the_thread, queue_context );
 #endif
     _Thread_Priority_perform_actions( queue->owner, queue_context );
-#if defined(RTEMS_SMP)
+#if defined( RTEMS_SMP )
     _Thread_queue_Path_release( queue_context );
 #endif
   }
@@ -361,7 +363,7 @@ void _Thread_Priority_changed(
   );
 }
 
-#if defined(RTEMS_SMP)
+#if defined( RTEMS_SMP )
 void _Thread_Priority_replace(
   Thread_Control *the_thread,
   Priority_Node  *victim_node,
@@ -390,9 +392,9 @@ void _Thread_Priority_update( Thread_queue_Context *queue_context )
    * Update the priority of all threads of the set.  Do not care to clear the
    * set, since the thread queue context will soon get destroyed anyway.
    */
-  for ( i = 0; i < n ; ++i ) {
-    Thread_Control   *the_thread;
-    ISR_lock_Context  lock_context;
+  for ( i = 0; i < n; ++i ) {
+    Thread_Control  *the_thread;
+    ISR_lock_Context lock_context;
 
     the_thread = queue_context->Priority.update[ i ];
     _Thread_State_acquire( the_thread, &lock_context );
@@ -401,7 +403,7 @@ void _Thread_Priority_update( Thread_queue_Context *queue_context )
   }
 }
 
-#if defined(RTEMS_SMP)
+#if defined( RTEMS_SMP )
 static void _Thread_Priority_update_helping(
   Thread_Control *the_thread,
   Chain_Node     *first_node
@@ -419,7 +421,7 @@ static void _Thread_Priority_update_helping(
     ISR_lock_Context         lock_context;
 
     scheduler_node = SCHEDULER_NODE_OF_THREAD_SCHEDULER_NODE( node );
-    scheduler = _Scheduler_Node_get_scheduler( scheduler_node );
+    scheduler      = _Scheduler_Node_get_scheduler( scheduler_node );
 
     _Scheduler_Acquire_critical( scheduler, &lock_context );
     ( *scheduler->Operations.update_priority )(
@@ -446,13 +448,13 @@ void _Thread_Priority_update_and_make_sticky( Thread_Control *the_thread )
   _Thread_State_acquire( the_thread, &lock_context );
   _Thread_Scheduler_process_requests( the_thread );
 
-  node = _Chain_First( &the_thread->Scheduler.Scheduler_nodes );
+  node           = _Chain_First( &the_thread->Scheduler.Scheduler_nodes );
   scheduler_node = SCHEDULER_NODE_OF_THREAD_SCHEDULER_NODE( node );
-  scheduler = _Scheduler_Node_get_scheduler( scheduler_node );
+  scheduler      = _Scheduler_Node_get_scheduler( scheduler_node );
 
   _Scheduler_Acquire_critical( scheduler, &lock_context_2 );
 
-  new_sticky_level = scheduler_node->sticky_level + 1;
+  new_sticky_level             = scheduler_node->sticky_level + 1;
   scheduler_node->sticky_level = new_sticky_level;
   _Assert( new_sticky_level >= 1 );
 
@@ -494,13 +496,13 @@ void _Thread_Priority_update_and_clean_sticky( Thread_Control *the_thread )
   _Thread_State_acquire( the_thread, &lock_context );
   _Thread_Scheduler_process_requests( the_thread );
 
-  node = _Chain_First( &the_thread->Scheduler.Scheduler_nodes );
+  node           = _Chain_First( &the_thread->Scheduler.Scheduler_nodes );
   scheduler_node = SCHEDULER_NODE_OF_THREAD_SCHEDULER_NODE( node );
-  scheduler = _Scheduler_Node_get_scheduler( scheduler_node );
+  scheduler      = _Scheduler_Node_get_scheduler( scheduler_node );
 
   _Scheduler_Acquire_critical( scheduler, &lock_context_2 );
 
-  new_sticky_level = scheduler_node->sticky_level - 1;
+  new_sticky_level             = scheduler_node->sticky_level - 1;
   scheduler_node->sticky_level = new_sticky_level;
   _Assert( new_sticky_level >= 0 );
 

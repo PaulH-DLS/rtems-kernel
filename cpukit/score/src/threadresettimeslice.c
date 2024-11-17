@@ -41,9 +41,9 @@
 #include "config.h"
 #endif
 
+#include <rtems/score/statesimpl.h>
 #include <rtems/score/threadcpubudget.h>
 #include <rtems/score/threadimpl.h>
-#include <rtems/score/statesimpl.h>
 #include <rtems/score/watchdogticks.h>
 
 void _Thread_CPU_budget_consume_and_yield( Thread_Control *the_thread )
@@ -77,15 +77,13 @@ void _Thread_CPU_budget_consume_and_yield( Thread_Control *the_thread )
   }
 }
 
-void _Thread_CPU_budget_set_to_ticks_per_timeslice(
-  Thread_Control *the_thread
-)
+void _Thread_CPU_budget_set_to_ticks_per_timeslice( Thread_Control *the_thread )
 {
   the_thread->CPU_budget.available = _Watchdog_Ticks_per_timeslice;
 }
 
 const Thread_CPU_budget_operations _Thread_CPU_budget_reset_timeslice = {
-  .at_tick = _Thread_CPU_budget_consume_and_yield,
+  .at_tick           = _Thread_CPU_budget_consume_and_yield,
   .at_context_switch = _Thread_CPU_budget_set_to_ticks_per_timeslice,
-  .initialize = _Thread_CPU_budget_set_to_ticks_per_timeslice
+  .initialize        = _Thread_CPU_budget_set_to_ticks_per_timeslice
 };

@@ -40,8 +40,8 @@
 #include "config.h"
 #endif
 
-#include <rtems/score/threadqimpl.h>
 #include <rtems/score/threadimpl.h>
+#include <rtems/score/threadqimpl.h>
 #include <rtems/score/watchdogimpl.h>
 
 void _Thread_queue_Add_timeout_ticks(
@@ -80,7 +80,7 @@ static void _Thread_queue_Add_timeout_timespec(
   if ( queue_context->timeout_absolute ) {
     abstime = queue_context->Timeout.arg;
   } else {
-    base = *now;
+    base    = *now;
     abstime = _Watchdog_Future_timespec( &base, queue_context->Timeout.arg );
   }
 
@@ -103,7 +103,7 @@ static void _Thread_queue_Add_timeout_timespec(
         &lock_context
       );
 
-      the_thread->Timer.header = header;
+      the_thread->Timer.header           = header;
       the_thread->Timer.Watchdog.routine = _Thread_Timeout;
       _Watchdog_Per_CPU_insert(
         &the_thread->Timer.Watchdog,

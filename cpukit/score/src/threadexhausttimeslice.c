@@ -47,7 +47,7 @@ void _Thread_CPU_budget_do_nothing( Thread_Control *the_thread )
 }
 
 const Thread_CPU_budget_operations _Thread_CPU_budget_exhaust_timeslice = {
-  .at_tick = _Thread_CPU_budget_consume_and_yield,
+  .at_tick           = _Thread_CPU_budget_consume_and_yield,
   .at_context_switch = _Thread_CPU_budget_do_nothing,
-  .initialize = _Thread_CPU_budget_set_to_ticks_per_timeslice
+  .initialize        = _Thread_CPU_budget_set_to_ticks_per_timeslice
 };
