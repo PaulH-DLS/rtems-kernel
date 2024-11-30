@@ -91,7 +91,7 @@ rtems_status_code _TOD_Validate(
     return RTEMS_INVALID_CLOCK;
   }
 
-  if ( the_tod->year < TOD_BASE_YEAR || the_tod->year > TOD_LATEST_YEAR ) {
+  if ( the_tod->year < TOD_BASE_YEAR ) {
     return RTEMS_INVALID_CLOCK;
   }
 
