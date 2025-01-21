@@ -65,6 +65,8 @@ links:
   uid: objspi
 - role: build-dependency
   uid: objwatchdog
+- role: build-dependency
+  uid: obji2c
 source:
 - bsps/aarch64/raspberrypi/fdt/bsp_fdt.c
 - bsps/aarch64/raspberrypi/fdt/rpi4b_dtb.c
