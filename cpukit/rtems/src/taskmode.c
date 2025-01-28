@@ -60,8 +60,9 @@ rtems_status_code rtems_task_mode(
 
   executing = _Thread_Get_executing();
 
-  if ( !previous_mode_set )
+  if ( !previous_mode_set ) {
     return RTEMS_INVALID_ADDRESS;
+  }
 
 #if defined( RTEMS_SMP )
   if (
@@ -92,10 +93,11 @@ rtems_status_code rtems_task_mode(
 
   old_mode = ( executing->is_preemptible ) ? RTEMS_PREEMPT : RTEMS_NO_PREEMPT;
 
-  if ( executing->CPU_budget.operations == NULL )
+  if ( executing->CPU_budget.operations == NULL ) {
     old_mode |= RTEMS_NO_TIMESLICE;
-  else
+  } else {
     old_mode |= RTEMS_TIMESLICE;
+  }
 
   old_mode |= ( asr->is_enabled ) ? RTEMS_ASR : RTEMS_NO_ASR;
   old_mode |= _ISR_Get_level();
@@ -122,7 +124,7 @@ rtems_status_code rtems_task_mode(
       bool previous_asr_is_enabled;
 
       previous_asr_is_enabled = asr->is_enabled;
-      asr->is_enabled         = !_Modes_Is_asr_disabled( mode_set );
+      asr->is_enabled = !_Modes_Is_asr_disabled( mode_set );
 
       if (
         !previous_asr_is_enabled && asr->is_enabled && asr->signals_pending != 0
@@ -135,7 +137,7 @@ rtems_status_code rtems_task_mode(
     if ( ( mask & RTEMS_PREEMPT_MASK ) != 0 ) {
       bool previous_is_preemptible;
 
-      previous_is_preemptible   = executing->is_preemptible;
+      previous_is_preemptible = executing->is_preemptible;
       executing->is_preemptible = _Modes_Is_preempt( mode_set );
 
       if ( executing->is_preemptible && !previous_is_preemptible ) {

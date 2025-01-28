@@ -62,8 +62,8 @@ rtems_status_code rtems_rate_monotonic_get_statistics(
 
   _Rate_monotonic_Acquire_critical( the_period, &lock_context );
 
-  src               = &the_period->Statistics;
-  dst->count        = src->count;
+  src = &the_period->Statistics;
+  dst->count = src->count;
   dst->missed_count = src->missed_count;
   _Timestamp_To_timespec( &src->min_cpu_time, &dst->min_cpu_time );
   _Timestamp_To_timespec( &src->max_cpu_time, &dst->max_cpu_time );

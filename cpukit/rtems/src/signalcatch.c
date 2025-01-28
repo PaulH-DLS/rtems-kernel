@@ -77,9 +77,9 @@ rtems_status_code rtems_signal_catch(
   }
 #endif
 
-  api           = executing->API_Extensions[ THREAD_API_RTEMS ];
-  asr           = &api->Signal;
-  asr->handler  = asr_handler;
+  api = executing->API_Extensions[ THREAD_API_RTEMS ];
+  asr = &api->Signal;
+  asr->handler = asr_handler;
   asr->mode_set = mode_set;
 
 #if defined( RTEMS_SMP )

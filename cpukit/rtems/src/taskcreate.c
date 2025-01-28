@@ -51,8 +51,8 @@ static rtems_status_code _RTEMS_tasks_Allocate_and_prepare_stack(
   size_t size;
 
   thread_config->stack_free = _Stack_Free;
-  size                      = _Stack_Ensure_minimum( config->storage_size );
-  size                      = _Stack_Extend_size( size, thread_config->is_fp );
+  size = _Stack_Ensure_minimum( config->storage_size );
+  size = _Stack_Extend_size( size, thread_config->is_fp );
   thread_config->stack_size = size;
   thread_config->stack_area = _Stack_Allocate( size );
 
@@ -75,11 +75,11 @@ rtems_status_code rtems_task_create(
   rtems_task_config config;
 
   memset( &config, 0, sizeof( config ) );
-  config.name             = name;
+  config.name = name;
   config.initial_priority = initial_priority;
-  config.storage_size     = stack_size;
-  config.initial_modes    = initial_modes;
-  config.attributes       = attribute_set;
+  config.storage_size = stack_size;
+  config.initial_modes = initial_modes;
+  config.attributes = attribute_set;
 
   return _RTEMS_tasks_Create(
     &config,

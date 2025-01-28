@@ -175,11 +175,12 @@ rtems_status_code _Message_queue_Create(
 
   if ( status != STATUS_SUCCESSFUL ) {
 #if defined( RTEMS_MULTIPROCESSING )
-    if ( is_global )
+    if ( is_global ) {
       _Objects_MP_Close(
         &_Message_queue_Information,
         the_message_queue->Object.id
       );
+    }
 #endif
 
     _Message_queue_Free( the_message_queue );
@@ -194,13 +195,14 @@ rtems_status_code _Message_queue_Create(
   );
 
 #if defined( RTEMS_MULTIPROCESSING )
-  if ( is_global )
+  if ( is_global ) {
     _Message_queue_MP_Send_process_packet(
       MESSAGE_QUEUE_MP_ANNOUNCE_CREATE,
       the_message_queue->Object.id,
       config->name,
       0
     );
+  }
 #endif
 
   _Objects_Allocator_unlock();

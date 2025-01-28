@@ -7,13 +7,8 @@ AlignAfterOpenBracketBreak:
   InOtherConditionalStatements: true
   Other: true
 AlignArrayOfStructures: None
-AlignConsecutiveMacros: false
-AlignConsecutiveAssignments:
-  Enabled: true
-  AcrossEmptyLines: false
-  AcrossComments: true
-  AlignCompound: true
-  PadOperators: true
+AlignConsecutiveMacros: true
+AlignConsecutiveAssignments: None
 AlignConsecutiveDeclarations:
   Enabled: true
   AcrossEmptyLines: false
@@ -94,6 +89,7 @@ IndentGotoLabels: true
 IndentPPDirectives: None
 IndentWidth:     2
 IndentWrappedFunctionNames: false
+InsertBraces: true
 JavaScriptQuotes: Leave
 JavaScriptWrapImports: true
 KeepEmptyLinesAtTheStartOfBlocks: false

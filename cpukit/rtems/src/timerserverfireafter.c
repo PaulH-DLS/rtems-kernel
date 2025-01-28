@@ -52,8 +52,9 @@ rtems_status_code rtems_timer_server_fire_after(
 
   timer_server = _Timer_server;
 
-  if ( !timer_server )
+  if ( !timer_server ) {
     return RTEMS_INCORRECT_STATE;
+  }
 
   return _Timer_Fire_after(
     id,

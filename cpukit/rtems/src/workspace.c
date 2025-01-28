@@ -50,8 +50,9 @@
 
 bool rtems_workspace_get_information( Heap_Information_block *the_info )
 {
-  if ( !the_info )
+  if ( !the_info ) {
     return false;
+  }
 
   return _Protected_heap_Get_information( &_Workspace_Area, the_info );
 }
@@ -63,18 +64,21 @@ bool rtems_workspace_allocate( size_t bytes, void **pointer )
   /*
    * check the arguments
    */
-  if ( !pointer )
+  if ( !pointer ) {
     return false;
+  }
 
-  if ( !bytes )
+  if ( !bytes ) {
     return false;
+  }
 
   /*
    * Allocate the memory
    */
   ptr = _Protected_heap_Allocate( &_Workspace_Area, bytes );
-  if ( !ptr )
+  if ( !ptr ) {
     return false;
+  }
 
   *pointer = ptr;
   return true;

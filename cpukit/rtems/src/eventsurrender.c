@@ -76,9 +76,9 @@ static bool _Event_Is_satisfied(
   rtems_option    option_set;
   rtems_event_set event_condition;
 
-  option_set      = the_thread->Wait.option;
+  option_set = the_thread->Wait.option;
   event_condition = the_thread->Wait.count;
-  *seized_events  = _Event_sets_Get( pending_events, event_condition );
+  *seized_events = _Event_sets_Get( pending_events, event_condition );
 
   return !_Event_sets_Is_empty( *seized_events ) &&
          ( *seized_events == event_condition || _Options_Is_any( option_set ) );

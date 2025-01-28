@@ -69,19 +69,20 @@ void _Semaphore_MP_Send_process_packet(
     case SEMAPHORE_MP_ANNOUNCE_DELETE:
     case SEMAPHORE_MP_EXTRACT_PROXY:
 
-      the_packet                    = _Semaphore_MP_Get_packet();
-      the_packet->Prefix.the_class  = MP_PACKET_SEMAPHORE;
-      the_packet->Prefix.length     = sizeof( Semaphore_MP_Packet );
+      the_packet = _Semaphore_MP_Get_packet();
+      the_packet->Prefix.the_class = MP_PACKET_SEMAPHORE;
+      the_packet->Prefix.length = sizeof( Semaphore_MP_Packet );
       the_packet->Prefix.to_convert = sizeof( Semaphore_MP_Packet );
-      the_packet->operation         = operation;
-      the_packet->Prefix.id         = semaphore_id;
-      the_packet->name              = name;
-      the_packet->proxy_id          = proxy_id;
+      the_packet->operation = operation;
+      the_packet->Prefix.id = semaphore_id;
+      the_packet->name = name;
+      the_packet->proxy_id = proxy_id;
 
-      if ( operation == SEMAPHORE_MP_EXTRACT_PROXY )
+      if ( operation == SEMAPHORE_MP_EXTRACT_PROXY ) {
         node = _Objects_Get_node( semaphore_id );
-      else
+      } else {
         node = MPCI_ALL_NODES;
+      }
 
       _MPCI_Send_process_packet( node, &the_packet->Prefix );
       break;
@@ -112,15 +113,16 @@ static rtems_status_code _Semaphore_MP_Send_request_packet(
     case SEMAPHORE_MP_OBTAIN_REQUEST:
     case SEMAPHORE_MP_RELEASE_REQUEST:
 
-      the_packet                    = _Semaphore_MP_Get_packet();
-      the_packet->Prefix.the_class  = MP_PACKET_SEMAPHORE;
-      the_packet->Prefix.length     = sizeof( Semaphore_MP_Packet );
+      the_packet = _Semaphore_MP_Get_packet();
+      the_packet->Prefix.the_class = MP_PACKET_SEMAPHORE;
+      the_packet->Prefix.length = sizeof( Semaphore_MP_Packet );
       the_packet->Prefix.to_convert = sizeof( Semaphore_MP_Packet );
-      if ( !_Options_Is_no_wait( option_set ) )
+      if ( !_Options_Is_no_wait( option_set ) ) {
         the_packet->Prefix.timeout = timeout;
+      }
 
-      the_packet->operation  = operation;
-      the_packet->Prefix.id  = semaphore_id;
+      the_packet->operation = operation;
+      the_packet->Prefix.id = semaphore_id;
       the_packet->option_set = option_set;
 
       status = _MPCI_Send_request_packet(
@@ -252,12 +254,13 @@ static void _Semaphore_MP_Process_packet(
         the_packet->Prefix.timeout
       );
 
-      if ( the_packet->Prefix.return_code != RTEMS_PROXY_BLOCKING )
+      if ( the_packet->Prefix.return_code != RTEMS_PROXY_BLOCKING ) {
         _Semaphore_MP_Send_response_packet(
           SEMAPHORE_MP_OBTAIN_RESPONSE,
           the_packet->Prefix.id,
           _Thread_Executing
         );
+      }
       break;
 
     case SEMAPHORE_MP_OBTAIN_RESPONSE:

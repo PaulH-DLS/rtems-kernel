@@ -96,7 +96,7 @@ rtems_status_code rtems_region_get_segment(
 
     if ( the_segment != NULL ) {
       *segment = the_segment;
-      status   = RTEMS_SUCCESSFUL;
+      status = RTEMS_SUCCESSFUL;
     } else if ( _Options_Is_no_wait( option_set ) ) {
       status = RTEMS_UNSATISFIED;
     } else {
@@ -106,8 +106,8 @@ rtems_status_code rtems_region_get_segment(
       _Thread_queue_Context_initialize( &queue_context );
       _Thread_queue_Acquire( &the_region->Wait_queue, &queue_context );
 
-      executing                       = _Thread_Executing;
-      executing->Wait.count           = size;
+      executing = _Thread_Executing;
+      executing->Wait.count = size;
       executing->Wait.return_argument = segment;
 
       /* FIXME: This is a home grown condition variable */

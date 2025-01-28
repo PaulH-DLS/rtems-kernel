@@ -44,11 +44,13 @@
 
 rtems_status_code rtems_clock_get_tod_timeval( struct timeval *time_of_day )
 {
-  if ( !time_of_day )
+  if ( !time_of_day ) {
     return RTEMS_INVALID_ADDRESS;
+  }
 
-  if ( !_TOD_Is_set() )
+  if ( !_TOD_Is_set() ) {
     return RTEMS_NOT_DEFINED;
+  }
 
   _TOD_Get_timeval( time_of_day );
 

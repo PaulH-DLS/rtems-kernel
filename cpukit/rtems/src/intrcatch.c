@@ -49,14 +49,17 @@ rtems_status_code rtems_interrupt_catch(
   rtems_isr_entry    *old_isr_handler
 )
 {
-  if ( vector > CPU_INTERRUPT_MAXIMUM_VECTOR_NUMBER )
+  if ( vector > CPU_INTERRUPT_MAXIMUM_VECTOR_NUMBER ) {
     return RTEMS_INVALID_NUMBER;
+  }
 
-  if ( new_isr_handler == NULL )
+  if ( new_isr_handler == NULL ) {
     return RTEMS_INVALID_ADDRESS;
+  }
 
-  if ( old_isr_handler == NULL )
+  if ( old_isr_handler == NULL ) {
     return RTEMS_INVALID_ADDRESS;
+  }
 
   _ISR_Install_vector( vector, new_isr_handler, old_isr_handler );
 

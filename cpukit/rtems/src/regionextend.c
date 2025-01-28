@@ -70,7 +70,7 @@ rtems_status_code rtems_region_extend(
 
   if ( amount_extended > 0 ) {
     the_region->maximum_segment_size += amount_extended;
-    status                            = RTEMS_SUCCESSFUL;
+    status = RTEMS_SUCCESSFUL;
   } else {
     status = RTEMS_INVALID_ADDRESS;
   }

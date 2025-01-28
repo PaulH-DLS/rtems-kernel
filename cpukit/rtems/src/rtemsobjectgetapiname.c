@@ -55,7 +55,8 @@ const char *rtems_object_get_api_name( int api )
   const rtems_assoc_t *api_assoc;
 
   api_assoc = rtems_assoc_ptr_by_local( rtems_objects_api_assoc, api );
-  if ( api_assoc )
+  if ( api_assoc ) {
     return api_assoc->name;
+  }
   return "BAD CLASS";
 }

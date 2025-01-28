@@ -63,7 +63,7 @@ static bool _Partition_Is_address_a_buffer_begin(
   const void *base;
   const void *limit;
 
-  base  = the_partition->base_address;
+  base = the_partition->base_address;
   limit = the_partition->limit_address;
 
   if ( !_Addresses_Is_in_range( the_buffer, base, limit ) ) {

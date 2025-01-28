@@ -52,8 +52,9 @@ rtems_status_code rtems_task_wake_when( const rtems_time_of_day *time_buffer )
   Per_CPU_Control  *cpu_self;
   rtems_status_code status;
 
-  if ( !_TOD_Is_set() )
+  if ( !_TOD_Is_set() ) {
     return RTEMS_NOT_DEFINED;
+  }
 
   status = _TOD_Validate( time_buffer, TOD_DISABLE_TICKS_VALIDATION );
 
@@ -63,10 +64,11 @@ rtems_status_code rtems_task_wake_when( const rtems_time_of_day *time_buffer )
 
   seconds = _TOD_To_seconds( time_buffer );
 
-  if ( seconds <= _TOD_Seconds_since_epoch() )
+  if ( seconds <= _TOD_Seconds_since_epoch() ) {
     return RTEMS_INVALID_CLOCK;
+  }
 
-  cpu_self  = _Thread_Dispatch_disable();
+  cpu_self = _Thread_Dispatch_disable();
   executing = _Per_CPU_Get_executing( cpu_self );
   _Thread_Set_state( executing, STATES_WAITING_FOR_TIME );
   _Thread_Wait_flags_set( executing, THREAD_WAIT_STATE_BLOCKED );

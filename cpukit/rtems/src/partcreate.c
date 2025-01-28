@@ -63,10 +63,10 @@ static void _Partition_Initialize(
   const void *limit_address;
 
   limit_address = _Addresses_Add_offset( starting_address, length - 1 );
-  the_partition->base_address          = starting_address;
-  the_partition->limit_address         = limit_address;
-  the_partition->buffer_size           = buffer_size;
-  the_partition->attribute_set         = attribute_set;
+  the_partition->base_address = starting_address;
+  the_partition->limit_address = limit_address;
+  the_partition->buffer_size = buffer_size;
+  the_partition->attribute_set = attribute_set;
   the_partition->number_of_used_blocks = 0;
 
   _Chain_Initialize(
@@ -122,8 +122,9 @@ rtems_status_code rtems_partition_create(
     return RTEMS_INVALID_SIZE;
   }
 
-  if ( buffer_size < sizeof( Chain_Node ) )
+  if ( buffer_size < sizeof( Chain_Node ) ) {
     return RTEMS_INVALID_SIZE;
+  }
 
   /*
    * Ensure that the buffer area starting address is aligned on a pointer
@@ -176,13 +177,14 @@ rtems_status_code rtems_partition_create(
   );
 
 #if defined( RTEMS_MULTIPROCESSING )
-  if ( _Attributes_Is_global( attribute_set ) )
+  if ( _Attributes_Is_global( attribute_set ) ) {
     _Partition_MP_Send_process_packet(
       PARTITION_MP_ANNOUNCE_CREATE,
       the_partition->Object.id,
       name,
       0 /* Not used */
     );
+  }
 #endif
 
   _Objects_Allocator_unlock();

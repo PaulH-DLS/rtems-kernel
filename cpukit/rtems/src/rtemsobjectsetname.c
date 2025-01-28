@@ -56,14 +56,16 @@ rtems_status_code rtems_object_set_name( rtems_id id, const char *name )
   Objects_Id           tmpId;
   Status_Control       status;
 
-  if ( !name )
+  if ( !name ) {
     return RTEMS_INVALID_ADDRESS;
+  }
 
   tmpId = ( id == OBJECTS_ID_OF_SELF ) ? rtems_task_self() : id;
 
   information = _Objects_Get_information_id( tmpId );
-  if ( !information )
+  if ( !information ) {
     return RTEMS_INVALID_ID;
+  }
 
   _Objects_Allocator_lock();
   the_object = _Objects_Get_no_protection( tmpId, information );

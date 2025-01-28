@@ -72,8 +72,9 @@ rtems_status_code rtems_region_create(
 
   the_region = _Region_Allocate();
 
-  if ( !the_region )
+  if ( !the_region ) {
     return_status = RTEMS_TOO_MANY;
+  }
 
   else {
     _Thread_queue_Object_initialize( &the_region->Wait_queue );

@@ -51,7 +51,7 @@ rtems_status_code rtems_task_start(
 {
   Thread_Entry_information entry = {
     .adaptor = _Thread_Entry_adaptor_numeric,
-    .Kinds   = { .Numeric = { .entry = entry_point, .argument = argument } }
+    .Kinds = { .Numeric = { .entry = entry_point, .argument = argument } }
   };
   Thread_Control  *the_thread;
   ISR_lock_Context lock_context;

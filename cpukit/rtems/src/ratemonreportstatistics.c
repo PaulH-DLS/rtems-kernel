@@ -48,8 +48,8 @@
 
 /* We print to 1/10's of milliseconds */
 #define NANOSECONDS_DIVIDER 1000L
-#define PERCENT_FMT "%04" PRId32
-#define NANOSECONDS_FMT "%06ld"
+#define PERCENT_FMT         "%04" PRId32
+#define NANOSECONDS_FMT     "%06ld"
 
 void rtems_rate_monotonic_report_statistics_with_plugin(
   const rtems_printer *printer
@@ -93,14 +93,16 @@ void rtems_rate_monotonic_report_statistics_with_plugin(
   maximum_id = _Rate_monotonic_Information.maximum_id;
   for ( id = _Objects_Get_minimum_id( maximum_id ); id <= maximum_id; ++id ) {
     status = rtems_rate_monotonic_get_statistics( id, &the_stats );
-    if ( status != RTEMS_SUCCESSFUL )
+    if ( status != RTEMS_SUCCESSFUL ) {
       continue;
+    }
 
 /* If the above passed, so should this but check it anyway */
 #if defined( RTEMS_DEBUG )
     status = rtems_rate_monotonic_get_status( id, &the_status );
-    if ( status != RTEMS_SUCCESSFUL )
+    if ( status != RTEMS_SUCCESSFUL ) {
       continue;
+    }
 #else
     (void) rtems_rate_monotonic_get_status( id, &the_status );
 #endif
@@ -132,8 +134,8 @@ void rtems_rate_monotonic_report_statistics_with_plugin(
      */
     {
       struct timespec  cpu_average;
-      struct timespec *min_cpu   = &the_stats.min_cpu_time;
-      struct timespec *max_cpu   = &the_stats.max_cpu_time;
+      struct timespec *min_cpu = &the_stats.min_cpu_time;
+      struct timespec *max_cpu = &the_stats.max_cpu_time;
       struct timespec *total_cpu = &the_stats.total_cpu_time;
 
       _Timespec_Divide_by_integer( total_cpu, the_stats.count, &cpu_average );
@@ -156,8 +158,8 @@ void rtems_rate_monotonic_report_statistics_with_plugin(
      */
     {
       struct timespec  wall_average;
-      struct timespec *min_wall   = &the_stats.min_wall_time;
-      struct timespec *max_wall   = &the_stats.max_wall_time;
+      struct timespec *min_wall = &the_stats.min_wall_time;
+      struct timespec *max_wall = &the_stats.max_wall_time;
       struct timespec *total_wall = &the_stats.total_wall_time;
 
       _Timespec_Divide_by_integer( total_wall, the_stats.count, &wall_average );

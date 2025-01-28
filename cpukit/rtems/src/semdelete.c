@@ -69,7 +69,7 @@ rtems_status_code rtems_semaphore_delete( rtems_id id )
     &the_semaphore->Core_control.Wait_queue,
     &queue_context
   );
-  flags   = _Semaphore_Get_flags( the_semaphore );
+  flags = _Semaphore_Get_flags( the_semaphore );
   variant = _Semaphore_Get_variant( flags );
 
   switch ( variant ) {

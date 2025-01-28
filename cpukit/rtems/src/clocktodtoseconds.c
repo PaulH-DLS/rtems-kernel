@@ -62,8 +62,8 @@ Watchdog_Interval _TOD_To_seconds( const rtems_time_of_day *the_tod )
 
   time = the_tod->day - 1;
 
-  leap_year_index  = _TOD_Get_leap_year_index( the_tod->year );
-  time            += _TOD_Days_to_date[ leap_year_index ][ the_tod->month ];
+  leap_year_index = _TOD_Get_leap_year_index( the_tod->year );
+  time += _TOD_Days_to_date[ leap_year_index ][ the_tod->month ];
 
   time += ( ( the_tod->year - TOD_BASE_YEAR ) / 4 ) *
           ( ( TOD_DAYS_PER_YEAR * 4 ) + 1 );

@@ -62,11 +62,11 @@ static void _Partition_MP_Initialize_packet(
   Partition_MP_Remote_operations operation
 )
 {
-  the_packet->Prefix.the_class  = MP_PACKET_PARTITION;
-  the_packet->Prefix.length     = sizeof( *the_packet );
+  the_packet->Prefix.the_class = MP_PACKET_PARTITION;
+  the_packet->Prefix.length = sizeof( *the_packet );
   the_packet->Prefix.to_convert = sizeof( *the_packet );
-  the_packet->Prefix.id         = id;
-  the_packet->operation         = operation;
+  the_packet->Prefix.id = id;
+  the_packet->operation = operation;
 }
 
 /*
@@ -91,13 +91,14 @@ void _Partition_MP_Send_process_packet(
 
       the_packet = _Partition_MP_Get_packet();
       _Partition_MP_Initialize_packet( the_packet, partition_id, operation );
-      the_packet->name     = name;
+      the_packet->name = name;
       the_packet->proxy_id = proxy_id;
 
-      if ( operation == PARTITION_MP_EXTRACT_PROXY )
+      if ( operation == PARTITION_MP_EXTRACT_PROXY ) {
         node = _Objects_Get_node( partition_id );
-      else
+      } else {
         node = MPCI_ALL_NODES;
+      }
 
       _MPCI_Send_process_packet( node, &the_packet->Prefix );
       break;

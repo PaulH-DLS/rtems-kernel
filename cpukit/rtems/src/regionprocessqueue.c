@@ -72,14 +72,16 @@ void _Region_Process_queue( Region_Control *the_region )
       the_region->wait_operations
     );
 
-    if ( the_thread == NULL )
+    if ( the_thread == NULL ) {
       break;
+    }
 
-    the_segment = (void **)
-      _Region_Allocate_segment( the_region, the_thread->Wait.count );
+    the_segment = (void **
+    ) _Region_Allocate_segment( the_region, the_thread->Wait.count );
 
-    if ( the_segment == NULL )
+    if ( the_segment == NULL ) {
       break;
+    }
 
     *(void **) the_thread->Wait.return_argument = the_segment;
     _Thread_queue_Extract( the_thread );

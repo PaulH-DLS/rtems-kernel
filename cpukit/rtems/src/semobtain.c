@@ -94,7 +94,7 @@ rtems_status_code rtems_semaphore_obtain(
   }
 
   executing = _Thread_Executing;
-  wait      = !_Options_Is_no_wait( option_set );
+  wait = !_Options_Is_no_wait( option_set );
 
   if ( wait ) {
     _Thread_queue_Context_set_enqueue_timeout_ticks( &queue_context, timeout );
@@ -102,7 +102,7 @@ rtems_status_code rtems_semaphore_obtain(
     _Thread_queue_Context_set_enqueue_do_nothing_extra( &queue_context );
   }
 
-  flags   = _Semaphore_Get_flags( the_semaphore );
+  flags = _Semaphore_Get_flags( the_semaphore );
   variant = _Semaphore_Get_variant( flags );
 
   switch ( variant ) {

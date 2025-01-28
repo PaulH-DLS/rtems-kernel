@@ -49,7 +49,7 @@
  *  remote event operations.
  */
 typedef enum {
-  EVENT_MP_SEND_REQUEST  = 0,
+  EVENT_MP_SEND_REQUEST = 0,
   EVENT_MP_SEND_RESPONSE = 1
 } Event_MP_Remote_operations;
 
@@ -87,12 +87,12 @@ rtems_status_code _Event_MP_Send( rtems_id id, rtems_event_set event_in )
     return RTEMS_INVALID_ID;
   }
 
-  the_packet->Prefix.the_class  = MP_PACKET_EVENT;
-  the_packet->Prefix.length     = sizeof( *the_packet );
+  the_packet->Prefix.the_class = MP_PACKET_EVENT;
+  the_packet->Prefix.length = sizeof( *the_packet );
   the_packet->Prefix.to_convert = sizeof( *the_packet );
-  the_packet->operation         = EVENT_MP_SEND_REQUEST;
-  the_packet->Prefix.id         = id;
-  the_packet->event_in          = event_in;
+  the_packet->operation = EVENT_MP_SEND_REQUEST;
+  the_packet->Prefix.id = id;
+  the_packet->event_in = event_in;
 
   status = _MPCI_Send_request_packet(
     _Objects_Get_node( id ),

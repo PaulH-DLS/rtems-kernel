@@ -80,16 +80,18 @@ const char *rtems_object_get_api_class_name( int the_api, int the_class )
   const rtems_assoc_t *api_assoc;
   const rtems_assoc_t *class_assoc;
 
-  if ( the_api == OBJECTS_INTERNAL_API )
+  if ( the_api == OBJECTS_INTERNAL_API ) {
     api_assoc = rtems_object_api_internal_assoc;
-  else if ( the_api == OBJECTS_CLASSIC_API )
+  } else if ( the_api == OBJECTS_CLASSIC_API ) {
     api_assoc = rtems_object_api_classic_assoc;
-  else if ( the_api == OBJECTS_POSIX_API )
+  } else if ( the_api == OBJECTS_POSIX_API ) {
     api_assoc = rtems_object_api_posix_assoc;
-  else
+  } else {
     return "BAD API";
+  }
   class_assoc = rtems_assoc_ptr_by_local( api_assoc, the_class );
-  if ( class_assoc )
+  if ( class_assoc ) {
     return class_assoc->name;
+  }
   return "BAD CLASS";
 }

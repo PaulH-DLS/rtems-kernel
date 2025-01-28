@@ -44,7 +44,8 @@
 
 int rtems_object_api_minimum_class( int api )
 {
-  if ( _Objects_Is_api_valid( api ) )
+  if ( _Objects_Is_api_valid( api ) ) {
     return 1;
+  }
   return -1;
 }

@@ -71,11 +71,13 @@ rtems_status_code rtems_semaphore_create(
   Priority_Control         priority;
   uintptr_t                flags;
 
-  if ( !rtems_is_name_valid( name ) )
+  if ( !rtems_is_name_valid( name ) ) {
     return RTEMS_INVALID_NAME;
+  }
 
-  if ( !id )
+  if ( !id ) {
     return RTEMS_INVALID_ADDRESS;
+  }
 
 #if defined( RTEMS_MULTIPROCESSING )
   if ( !_System_state_Is_multiprocessing ) {
@@ -270,13 +272,14 @@ rtems_status_code rtems_semaphore_create(
   );
 
 #if defined( RTEMS_MULTIPROCESSING )
-  if ( _Attributes_Is_global( attribute_set ) )
+  if ( _Attributes_Is_global( attribute_set ) ) {
     _Semaphore_MP_Send_process_packet(
       SEMAPHORE_MP_ANNOUNCE_CREATE,
       the_semaphore->Object.id,
       name,
       0 /* Not used */
     );
+  }
 #endif
   _Objects_Allocator_unlock();
   return RTEMS_SUCCESSFUL;

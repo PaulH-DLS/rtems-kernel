@@ -86,9 +86,9 @@ rtems_status_code rtems_scheduler_add_processor(
     ISR_lock_Context         lock_context;
     Per_CPU_Control         *cpu_self;
 
-    scheduler         = &_Scheduler_Table[ scheduler_index ];
+    scheduler = &_Scheduler_Table[ scheduler_index ];
     scheduler_context = _Scheduler_Get_context( scheduler );
-    idle_priority     = _Scheduler_Map_priority(
+    idle_priority = _Scheduler_Map_priority(
       scheduler,
       scheduler->maximum_priority
     );
@@ -98,8 +98,8 @@ rtems_status_code rtems_scheduler_add_processor(
     cpu->Scheduler.idle_if_online_and_unused = NULL;
 
     idle->Scheduler.home_scheduler = scheduler;
-    idle->Start.initial_priority   = idle_priority;
-    scheduler_node                 = _Thread_Scheduler_get_node_by_index(
+    idle->Start.initial_priority = idle_priority;
+    scheduler_node = _Thread_Scheduler_get_node_by_index(
       idle,
       scheduler_index
     );

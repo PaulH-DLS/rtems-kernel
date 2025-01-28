@@ -172,8 +172,9 @@ static void _Rate_monotonic_Update_statistics(
   stats = &the_period->Statistics;
   stats->count++;
 
-  if ( the_period->state == RATE_MONOTONIC_EXPIRED )
+  if ( the_period->state == RATE_MONOTONIC_EXPIRED ) {
     stats->missed_count++;
+  }
 
   /*
    *  Grab status for time statistics.
@@ -185,22 +186,26 @@ static void _Rate_monotonic_Update_statistics(
    */
   _Timestamp_Add_to( &stats->total_cpu_time, &executed );
 
-  if ( _Timestamp_Less_than( &executed, &stats->min_cpu_time ) )
+  if ( _Timestamp_Less_than( &executed, &stats->min_cpu_time ) ) {
     stats->min_cpu_time = executed;
+  }
 
-  if ( _Timestamp_Greater_than( &executed, &stats->max_cpu_time ) )
+  if ( _Timestamp_Greater_than( &executed, &stats->max_cpu_time ) ) {
     stats->max_cpu_time = executed;
+  }
 
   /*
    *  Update Wall time
    */
   _Timestamp_Add_to( &stats->total_wall_time, &since_last_period );
 
-  if ( _Timestamp_Less_than( &since_last_period, &stats->min_wall_time ) )
+  if ( _Timestamp_Less_than( &since_last_period, &stats->min_wall_time ) ) {
     stats->min_wall_time = since_last_period;
+  }
 
-  if ( _Timestamp_Greater_than( &since_last_period, &stats->max_wall_time ) )
+  if ( _Timestamp_Greater_than( &since_last_period, &stats->max_wall_time ) ) {
     stats->max_wall_time = since_last_period;
+  }
 }
 
 static rtems_status_code _Rate_monotonic_Get_status_for_state(
@@ -226,7 +231,7 @@ static rtems_status_code _Rate_monotonic_Activate(
 )
 {
   _Assert( the_period->postponed_jobs == 0 );
-  the_period->state       = RATE_MONOTONIC_ACTIVE;
+  the_period->state = RATE_MONOTONIC_ACTIVE;
   the_period->next_length = length;
   _Rate_monotonic_Restart( the_period, executing, lock_context );
   return RTEMS_SUCCESSFUL;
@@ -252,7 +257,7 @@ static rtems_status_code _Rate_monotonic_Block_while_active(
    *  in the process of blocking on the period and that we
    *  may be changing the length of the next period.
    */
-  the_period->next_length         = length;
+  the_period->next_length = length;
   executing->Wait.return_argument = the_period;
   _Thread_Wait_flags_set( executing, RATE_MONOTONIC_INTEND_TO_BLOCK );
 
@@ -298,7 +303,7 @@ static rtems_status_code _Rate_monotonic_Block_while_expired(
    */
   _Rate_monotonic_Update_statistics( the_period );
 
-  the_period->state       = RATE_MONOTONIC_ACTIVE;
+  the_period->state = RATE_MONOTONIC_ACTIVE;
   the_period->next_length = length;
 
   _Rate_monotonic_Release_postponed_job(

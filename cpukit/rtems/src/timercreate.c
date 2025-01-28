@@ -65,7 +65,7 @@ void _Timer_Routine_adaptor( Watchdog_Control *the_watchdog )
   Per_CPU_Control *cpu;
 
   the_timer = RTEMS_CONTAINER_OF( the_watchdog, Timer_Control, Ticker );
-  cpu       = _Watchdog_Get_CPU( &the_timer->Ticker );
+  cpu = _Watchdog_Get_CPU( &the_timer->Ticker );
   the_timer->stop_time = _Timer_Get_CPU_ticks( cpu );
 
   ( *the_timer->routine )( the_timer->Object.id, the_timer->user_data );
@@ -90,10 +90,10 @@ rtems_status_code _Timer_Fire(
     cpu = _Timer_Acquire_critical( the_timer, &lock_context );
     _Timer_Cancel( cpu, the_timer );
     _Watchdog_Initialize( &the_timer->Ticker, adaptor );
-    the_timer->the_class  = the_class;
-    the_timer->routine    = routine;
-    the_timer->user_data  = user_data;
-    the_timer->initial    = interval;
+    the_timer->the_class = the_class;
+    the_timer->routine = routine;
+    the_timer->user_data = user_data;
+    the_timer->initial = interval;
     the_timer->start_time = _Timer_Get_CPU_ticks( cpu );
 
     if ( _Timer_Is_interval_class( the_class ) ) {
@@ -126,11 +126,13 @@ rtems_status_code _Timer_Fire_after(
   Watchdog_Service_routine_entry    adaptor
 )
 {
-  if ( ticks == 0 )
+  if ( ticks == 0 ) {
     return RTEMS_INVALID_NUMBER;
+  }
 
-  if ( !routine )
+  if ( !routine ) {
     return RTEMS_INVALID_ADDRESS;
+  }
 
   return _Timer_Fire( id, ticks, routine, user_data, the_class, adaptor );
 }
@@ -147,11 +149,13 @@ rtems_status_code _Timer_Fire_when(
   rtems_status_code status;
   rtems_interval    seconds;
 
-  if ( !_TOD_Is_set() )
+  if ( !_TOD_Is_set() ) {
     return RTEMS_NOT_DEFINED;
+  }
 
-  if ( !routine )
+  if ( !routine ) {
     return RTEMS_INVALID_ADDRESS;
+  }
 
   status = _TOD_Validate( wall_time, TOD_ENABLE_TICKS_VALIDATION );
 
@@ -160,8 +164,9 @@ rtems_status_code _Timer_Fire_when(
   }
 
   seconds = _TOD_To_seconds( wall_time );
-  if ( seconds <= _TOD_Seconds_since_epoch() )
+  if ( seconds <= _TOD_Seconds_since_epoch() ) {
     return RTEMS_INVALID_CLOCK;
+  }
 
   return _Timer_Fire( id, seconds, routine, user_data, the_class, adaptor );
 }
@@ -199,11 +204,13 @@ rtems_status_code rtems_timer_create( rtems_name name, rtems_id *id )
 {
   Timer_Control *the_timer;
 
-  if ( !rtems_is_name_valid( name ) )
+  if ( !rtems_is_name_valid( name ) ) {
     return RTEMS_INVALID_NAME;
+  }
 
-  if ( !id )
+  if ( !id ) {
     return RTEMS_INVALID_ADDRESS;
+  }
 
   the_timer = _Timer_Allocate();
 

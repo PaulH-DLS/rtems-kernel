@@ -58,8 +58,9 @@
  */
 rtems_status_code rtems_clock_get_uptime( struct timespec *uptime )
 {
-  if ( !uptime )
+  if ( !uptime ) {
     return RTEMS_INVALID_ADDRESS;
+  }
 
   _TOD_Get_zero_based_uptime_as_timespec( uptime );
   return RTEMS_SUCCESSFUL;
