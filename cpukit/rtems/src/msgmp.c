@@ -175,7 +175,9 @@ static rtems_status_code _Message_queue_MP_Send_request_packet(
       }
 
       status = _MPCI_Send_request_packet(
-        _Objects_Get_node( message_queue_id ),
+        _Objects_Get_node(
+          message_queue_id
+        ),
         &the_packet->Prefix,
         STATES_WAITING_FOR_MESSAGE
       );
@@ -201,7 +203,9 @@ static rtems_status_code _Message_queue_MP_Send_request_packet(
       _Thread_Executing->Wait.return_argument = size_p;
 
       status = _MPCI_Send_request_packet(
-        _Objects_Get_node( message_queue_id ),
+        _Objects_Get_node(
+          message_queue_id
+        ),
         &the_packet->Prefix,
         STATES_WAITING_FOR_MESSAGE
       );

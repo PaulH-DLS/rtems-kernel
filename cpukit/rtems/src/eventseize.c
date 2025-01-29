@@ -68,10 +68,12 @@ rtems_status_code _Event_Seize(
   pending_events = event->pending_events;
   seized_events = _Event_sets_Get( pending_events, event_in );
 
-  if (
-    !_Event_sets_Is_empty( seized_events ) &&
-    ( seized_events == event_in || _Options_Is_any( option_set ) )
-  ) {
+  if ( !_Event_sets_Is_empty(
+         seized_events
+       ) &&
+       ( seized_events == event_in || _Options_Is_any(
+                                        option_set
+                                      ) ) ) {
     event->pending_events = _Event_sets_Clear( pending_events, seized_events );
     _Thread_Wait_release_default( executing, lock_context );
     *event_out = seized_events;

@@ -65,19 +65,19 @@ rtems_status_code rtems_task_mode(
   }
 
 #if defined( RTEMS_SMP )
-  if (
-    ( mask & RTEMS_PREEMPT_MASK ) != 0 &&
-    !_Modes_Is_preempt_mode_supported( mode_set, executing )
-  ) {
+  if ( ( mask & RTEMS_PREEMPT_MASK ) != 0 && !_Modes_Is_preempt_mode_supported(
+                                               mode_set,
+                                               executing
+                                             ) ) {
     return RTEMS_NOT_IMPLEMENTED;
   }
 #endif
 
 #if defined( RTEMS_SMP ) || CPU_ENABLE_ROBUST_THREAD_DISPATCH == TRUE
-  if (
-    ( mask & RTEMS_INTERRUPT_MASK ) != 0 &&
-    !_Modes_Is_interrupt_level_supported( mode_set )
-  ) {
+  if ( ( mask & RTEMS_INTERRUPT_MASK ) != 0 &&
+       !_Modes_Is_interrupt_level_supported(
+         mode_set
+       ) ) {
     return RTEMS_NOT_IMPLEMENTED;
   }
 #endif
@@ -126,9 +126,9 @@ rtems_status_code rtems_task_mode(
       previous_asr_is_enabled = asr->is_enabled;
       asr->is_enabled = !_Modes_Is_asr_disabled( mode_set );
 
-      if (
-        !previous_asr_is_enabled && asr->is_enabled && asr->signals_pending != 0
-      ) {
+      if ( !previous_asr_is_enabled &&
+           asr->is_enabled &&
+           asr->signals_pending != 0 ) {
         need_thread_dispatch = true;
         _Thread_Append_post_switch_action( executing, &api->Signal_action );
       }

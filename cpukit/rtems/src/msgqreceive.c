@@ -92,7 +92,9 @@ rtems_status_code rtems_message_queue_receive(
     executing,
     buffer,
     size,
-    !_Options_Is_no_wait( option_set ),
+    !_Options_Is_no_wait(
+      option_set
+    ),
     &queue_context
   );
   return _Status_Get( status );

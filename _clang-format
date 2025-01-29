@@ -32,6 +32,7 @@ AlwaysBreakTemplateDeclarations: MultiLine
 BinPackArguments: false
 BinPackParameters: OnePerLine
 BreakBeforeBraces: Custom
+BreakBinaryOperations: RespectPrecedence
 BraceWrapping:
   AfterCaseLabel:  false
   AfterClass:      false

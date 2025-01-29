@@ -190,7 +190,12 @@ static rtems_status_code _Timer_server_Initiate(
    *  GNAT run-time is violated.
    */
   status = rtems_task_create(
-    rtems_build_name( 'T', 'I', 'M', 'E' ),
+    rtems_build_name(
+      'T',
+      'I',
+      'M',
+      'E'
+    ),
     priority,
     stack_size,
 #ifdef RTEMS_SMP

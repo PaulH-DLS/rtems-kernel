@@ -106,7 +106,9 @@ rtems_status_code _Timer_Fire(
       _Watchdog_Insert(
         &cpu->Watchdog.Header[ PER_CPU_WATCHDOG_REALTIME ],
         &the_timer->Ticker,
-        _Watchdog_Ticks_from_seconds( interval )
+        _Watchdog_Ticks_from_seconds(
+          interval
+        )
       );
     }
 
@@ -180,7 +182,9 @@ void _Timer_Cancel( Per_CPU_Control *cpu, Timer_Control *the_timer )
   if ( _Watchdog_Is_scheduled( &the_timer->Ticker ) ) {
     the_timer->stop_time = _Timer_Get_CPU_ticks( cpu );
     _Watchdog_Remove(
-      &cpu->Watchdog.Header[ _Timer_Watchdog_header_index( the_class ) ],
+      &cpu->Watchdog.Header[ _Timer_Watchdog_header_index(
+        the_class
+      ) ],
       &the_timer->Ticker
     );
   } else if ( _Timer_Is_on_task_class( the_class ) ) {

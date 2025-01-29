@@ -65,10 +65,12 @@ rtems_status_code rtems_port_create(
     return RTEMS_INVALID_ADDRESS;
   }
 
-  if (
-    !_Addresses_Is_aligned( internal_start ) ||
-    !_Addresses_Is_aligned( external_start )
-  ) {
+  if ( !_Addresses_Is_aligned(
+         internal_start
+       ) ||
+       !_Addresses_Is_aligned(
+         external_start
+       ) ) {
     return RTEMS_INVALID_ADDRESS;
   }
 

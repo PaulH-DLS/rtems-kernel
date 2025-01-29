@@ -53,8 +53,8 @@
 
 static bool _Leap_year( uint32_t year )
 {
-  return ( ( ( year % 4 ) == 0 ) && ( ( year % 100 ) != 0 ) ) ||
-         ( ( year % 400 ) == 0 );
+  return ( ( ( year % 4 ) == 0 ) && ( ( year % 100 ) != 0 ) ) || ( ( year % 400
+                                                                   ) == 0 );
 }
 
 static uint32_t _Leap_years_before( uint32_t year )

@@ -65,6 +65,9 @@ rtems_status_code rtems_task_suspend( rtems_id id )
   previous_state = _Thread_Set_state( the_thread, STATES_SUSPENDED );
 
   _Thread_Dispatch_enable( cpu_self );
-  return _States_Is_suspended( previous_state ) ? RTEMS_ALREADY_SUSPENDED :
-                                                  RTEMS_SUCCESSFUL;
+  return _States_Is_suspended(
+           previous_state
+         ) ?
+           RTEMS_ALREADY_SUSPENDED :
+           RTEMS_SUCCESSFUL;
 }

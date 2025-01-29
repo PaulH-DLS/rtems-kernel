@@ -44,7 +44,9 @@
 static rtems_api_configuration_table config;
 
 const rtems_api_configuration_table *
-rtems_configuration_get_rtems_api_configuration( void )
+rtems_configuration_get_rtems_api_configuration(
+  void
+)
 {
   /*
    * Always initialize the configuration table and do not bother with

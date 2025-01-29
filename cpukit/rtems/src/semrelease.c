@@ -89,7 +89,9 @@ rtems_status_code rtems_semaphore_release( rtems_id id )
     case SEMAPHORE_VARIANT_MUTEX_NO_PROTOCOL:
       status = _CORE_recursive_mutex_Surrender(
         &the_semaphore->Core_control.Mutex.Recursive,
-        _Semaphore_Get_operations( flags ),
+        _Semaphore_Get_operations(
+          flags
+        ),
         executing,
         &queue_context
       );
@@ -97,7 +99,9 @@ rtems_status_code rtems_semaphore_release( rtems_id id )
     case SEMAPHORE_VARIANT_SIMPLE_BINARY:
       status = _CORE_semaphore_Surrender(
         &the_semaphore->Core_control.Semaphore,
-        _Semaphore_Get_operations( flags ),
+        _Semaphore_Get_operations(
+          flags
+        ),
         1,
         &queue_context
       );
@@ -120,7 +124,9 @@ rtems_status_code rtems_semaphore_release( rtems_id id )
       _Assert( variant == SEMAPHORE_VARIANT_COUNTING );
       status = _CORE_semaphore_Surrender(
         &the_semaphore->Core_control.Semaphore,
-        _Semaphore_Get_operations( flags ),
+        _Semaphore_Get_operations(
+          flags
+        ),
         UINT32_MAX,
         &queue_context
       );

@@ -126,7 +126,9 @@ static rtems_status_code _Semaphore_MP_Send_request_packet(
       the_packet->option_set = option_set;
 
       status = _MPCI_Send_request_packet(
-        _Objects_Get_node( semaphore_id ),
+        _Objects_Get_node(
+          semaphore_id
+        ),
         &the_packet->Prefix,
         STATES_WAITING_FOR_SEMAPHORE
       );

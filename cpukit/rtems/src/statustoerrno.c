@@ -38,7 +38,8 @@
 #include <rtems/rtems/statusimpl.h>
 
 static const int status_code_to_errno[ RTEMS_STATUS_CODES_LAST + 1 ] = {
-  [RTEMS_SUCCESSFUL] = 0,           [RTEMS_TASK_EXITTED] = EIO,
+  [RTEMS_SUCCESSFUL]
+  = 0,           [RTEMS_TASK_EXITTED] = EIO,
   [RTEMS_MP_NOT_CONFIGURED] = EIO,  [RTEMS_INVALID_NAME] = EINVAL,
   [RTEMS_INVALID_ID] = EIO,         [RTEMS_TOO_MANY] = EIO,
   [RTEMS_TIMEOUT] = ETIMEDOUT,      [RTEMS_OBJECT_WAS_DELETED] = EIO,

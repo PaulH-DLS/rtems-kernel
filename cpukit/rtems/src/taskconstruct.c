@@ -54,10 +54,11 @@
 
 #include <string.h>
 
-#define STATUS_ASSERT( status )                            \
-  RTEMS_STATIC_ASSERT(                                     \
-    (int) STATUS_CLASSIC_##status == (int) RTEMS_##status, \
-    status                                                 \
+#define STATUS_ASSERT( status )                          \
+  RTEMS_STATIC_ASSERT(                                   \
+    (int)                                                \
+        STATUS_CLASSIC_##status == (int) RTEMS_##status, \
+    status                                               \
   )
 
 STATUS_ASSERT( INCORRECT_STATE );

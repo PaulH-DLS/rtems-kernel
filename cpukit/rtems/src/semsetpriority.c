@@ -72,10 +72,9 @@ static rtems_status_code _Semaphore_Set_priority(
   switch ( variant ) {
     case SEMAPHORE_VARIANT_MUTEX_PRIORITY_CEILING:
 #if defined( RTEMS_SMP )
-      if (
-        scheduler !=
-        _CORE_ceiling_mutex_Get_scheduler( &the_semaphore->Core_control.Mutex )
-      ) {
+      if ( scheduler != _CORE_ceiling_mutex_Get_scheduler(
+                          &the_semaphore->Core_control.Mutex
+                        ) ) {
         _Thread_queue_Release(
           &the_semaphore->Core_control.Wait_queue,
           queue_context

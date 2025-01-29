@@ -76,8 +76,10 @@ void _Region_Process_queue( Region_Control *the_region )
       break;
     }
 
-    the_segment = (void **
-    ) _Region_Allocate_segment( the_region, the_thread->Wait.count );
+    the_segment = (void **) _Region_Allocate_segment(
+      the_region,
+      the_thread->Wait.count
+    );
 
     if ( the_segment == NULL ) {
       break;

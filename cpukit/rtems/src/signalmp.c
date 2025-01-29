@@ -105,7 +105,9 @@ rtems_status_code _Signal_MP_Send( rtems_id id, rtems_signal_set signal_set )
   the_packet->signal_set = signal_set;
 
   status = _MPCI_Send_request_packet(
-    _Objects_Get_node( id ),
+    _Objects_Get_node(
+      id
+    ),
     &the_packet->Prefix,
     STATES_READY
   );

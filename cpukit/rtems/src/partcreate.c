@@ -148,14 +148,15 @@ rtems_status_code rtems_partition_create(
   }
 
 #if defined( RTEMS_MULTIPROCESSING )
-  if (
-    _Attributes_Is_global( attribute_set ) && !( _Objects_MP_Allocate_and_open(
-                                                &_Partition_Information,
-                                                name,
-                                                the_partition->Object.id,
-                                                false
-                                              ) )
-  ) {
+  if ( _Attributes_Is_global(
+         attribute_set
+       ) &&
+       !( _Objects_MP_Allocate_and_open(
+         &_Partition_Information,
+         name,
+         the_partition->Object.id,
+         false
+       ) ) ) {
     _Objects_Free( &_Partition_Information, &the_partition->Object );
     _Objects_Allocator_unlock();
     return RTEMS_TOO_MANY;

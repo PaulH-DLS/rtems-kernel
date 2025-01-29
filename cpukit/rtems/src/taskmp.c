@@ -132,7 +132,9 @@ static rtems_status_code _RTEMS_tasks_MP_Send_request_packet(
   the_packet->operation = operation;
 
   status = _MPCI_Send_request_packet(
-    _Objects_Get_node( id ),
+    _Objects_Get_node(
+      id
+    ),
     &the_packet->Prefix,
     STATES_READY /* Not used */
   );
