@@ -3,6 +3,7 @@ actions:
 - set-value: true
 - env-enable: null
 build-type: option
+third-party: null
 copyrights:
 - Copyright (C) 2021 Chris Johns (chrisj@rtems.org)
 default: []

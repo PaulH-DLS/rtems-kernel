@@ -63,6 +63,7 @@ actions:
     - validation-0
     - validation-smp-only-0
 build-type: option
+third-party: null
 copyrights:
 - Copyright (C) 2023 On-Line Applications Research (OAR)
 default: []

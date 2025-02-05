@@ -34,6 +34,7 @@ actions:
     - spstkalloc02
     - tmfine01
 build-type: option
+third-party: null
 copyrights:
 - Copyright (C) 2020 embedded brains GmbH & Co. KG
 default: []

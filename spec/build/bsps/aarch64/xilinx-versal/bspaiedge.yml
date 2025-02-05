@@ -3,6 +3,7 @@ arch: aarch64
 bsp: versal_aiedge
 build-type: bsp
 cflags: []
+third-party: null
 copyrights:
 - Copyright (C) 2022 Chris Johns <chris@contemporary.software>
 cppflags: []

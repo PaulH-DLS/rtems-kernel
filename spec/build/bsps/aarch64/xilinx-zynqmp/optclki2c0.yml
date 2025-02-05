@@ -3,6 +3,7 @@ actions:
 - get-integer: null
 - define: null
 build-type: option
+third-party: null
 copyrights:
 - Copyright (C) 2021 On-Line Applications Research (OAR)
 - Copyright (C) 2020 embedded brains GmbH & Co. KG

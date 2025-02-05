@@ -6,6 +6,7 @@ content: |
   CPU_CFLAGS = ${ABI_FLAGS}
   CFLAGS_OPTIMIZE_V = ${OPTIMIZATION_FLAGS}
   LDFLAGS = -B$$(exec_prefix)/$$(RTEMS_BSP)/lib ${PKGCONFIG_LDFLAGS}
+third-party: null
 copyrights:
 - Copyright (C) 2020 embedded brains GmbH & Co. KG
 enabled-by: true

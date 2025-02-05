@@ -38,6 +38,7 @@ content: |
   zynqmp_memory_ocm_begin = ORIGIN (OCM);
   zynqmp_memory_ocm_end = ORIGIN (OCM) + LENGTH (OCM);
   zynqmp_memory_ocm_size = LENGTH (OCM);
+third-party: null
 copyrights:
 - Copyright (C) 2024 embedded brains GmbH & Co. KG
 enabled-by: true

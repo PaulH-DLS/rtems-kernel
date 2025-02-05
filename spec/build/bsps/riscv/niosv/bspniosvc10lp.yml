@@ -3,6 +3,7 @@ arch: riscv
 bsp: niosvc10lp
 build-type: bsp
 cflags: []
+third-party: null
 copyrights:
 - Copyright (C) 2024 Kevin Kirspel
 cppflags: []

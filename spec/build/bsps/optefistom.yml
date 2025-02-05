@@ -3,6 +3,7 @@ actions:
 - get-string: null
 - define: null
 build-type: option
+third-party: null
 copyrights:
 - Copyright (C) 2023 Karel Gardas
 default:

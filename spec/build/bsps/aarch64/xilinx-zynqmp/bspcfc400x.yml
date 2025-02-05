@@ -3,6 +3,7 @@ arch: aarch64
 bsp: zynqmp_cfc400x
 build-type: bsp
 cflags: []
+third-party: null
 copyrights:
 - Copyright (C) 2022 On-Line Applications Research (OAR)
 cppflags: []

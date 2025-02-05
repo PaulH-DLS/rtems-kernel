@@ -3,6 +3,7 @@ arch: arm
 bsp: stm32h757i-eval-m4
 build-type: bsp
 cflags: []
+third-party: null
 copyrights:
 - Copyright (C) 2022 Karel Gardas <karel@functional.vision>
 cppflags: []

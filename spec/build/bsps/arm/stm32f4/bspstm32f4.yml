@@ -3,6 +3,7 @@ arch: arm
 bsp: stm32f4
 build-type: bsp
 cflags: []
+third-party: null
 copyrights:
 - Copyright (C) 2020 embedded brains GmbH & Co. KG
 cppflags: []

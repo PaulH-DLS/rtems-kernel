@@ -3,6 +3,7 @@ arch: arm
 bsp: zynqmp_rpu_split_1
 build-type: bsp
 cflags: []
+third-party: null
 copyrights:
 - Copyright (C) 2024 embedded brains GmbH
 cppflags: []

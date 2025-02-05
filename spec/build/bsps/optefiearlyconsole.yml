@@ -9,6 +9,7 @@ actions:
     conf.define("SERIAL", "2", False)
 - define-unquoted: null
 build-type: option
+third-party: null
 copyrights:
 - Copyright (C) 2023 Karel Gardas
 default:

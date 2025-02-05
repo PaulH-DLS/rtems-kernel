@@ -3,6 +3,7 @@ actions:
 - get-string: null
 - define-unquoted: null
 build-type: option
+third-party: null
 copyrights:
 - Copyright (C) 2022 Karel Gardas <karel@functional.vision>
 default:

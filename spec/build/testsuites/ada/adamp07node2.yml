@@ -8,6 +8,7 @@ adaincludes:
 - testsuites/ada/mptests/mp07
 build-type: ada-test-program
 cflags: []
+third-party: null
 copyrights:
 - Copyright (C) 2020 embedded brains GmbH & Co. KG
 cppflags: []

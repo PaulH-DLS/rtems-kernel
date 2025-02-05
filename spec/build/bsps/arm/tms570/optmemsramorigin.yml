@@ -4,6 +4,7 @@ actions:
 - env-assign: null
 - format-and-define: TMS570_MEMORY_SRAM_ORIGIN
 build-type: option
+third-party: null
 copyrights:
 - Copyright (C) 2023 embedded brains GmbH & Co. KG
 default:

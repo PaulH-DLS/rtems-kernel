@@ -105,6 +105,7 @@ content: |
   OUTPUT_ARCH (aarch64)
 
   INCLUDE linkcmds.base
+third-party: null
 copyrights:
 - Copyright (C) 2020 On-Line Applications Research (OAR)
 - Copyright (C) 2024 Contemporary Software (Chris Johns)

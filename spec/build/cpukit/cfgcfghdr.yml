@@ -3,6 +3,7 @@ actions:
 - set-value: -DHAVE_CONFIG_H=1
 - env-append: CPPFLAGS
 build-type: option
+third-party: null
 copyrights:
 - Copyright (C) 2020 embedded brains GmbH & Co. KG
 default: []

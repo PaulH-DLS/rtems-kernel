@@ -8,6 +8,7 @@ actions:
 - env-append: LDFLAGS
 - env-append: PKGCONFIG_LDFLAGS
 build-type: option
+third-party: null
 copyrights:
 - Copyright (C) 2023 Karel Gardas
 default:

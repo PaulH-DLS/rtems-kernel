@@ -3,6 +3,7 @@ arch: microblaze
 bsp: kcu105
 build-type: bsp
 cflags: []
+third-party: null
 copyrights:
 - Copyright (C) 2021 On-Line Applications Research Corporation (OAR)
 cppflags: []

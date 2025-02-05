@@ -32,6 +32,7 @@ content: |
   ## Does this BSP support RTEMS's networking ?
   ##
   HAS_NETWORKING = ${RTEMS_HAS_NETWORKING}
+third-party: null
 copyrights:
 - Copyright (C) 2020 embedded brains GmbH & Co. KG
 enabled-by: true

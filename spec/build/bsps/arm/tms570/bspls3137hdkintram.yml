@@ -3,6 +3,7 @@ arch: arm
 bsp: tms570ls3137_hdk_intram
 build-type: bsp
 cflags: []
+third-party: null
 copyrights:
 - Copyright (C) 2020 embedded brains GmbH & Co. KG
 cppflags: []

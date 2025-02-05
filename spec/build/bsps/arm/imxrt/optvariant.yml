@@ -102,5 +102,6 @@ description: |
   Select the i.MXRT series chip variant. Can be (for example) MIMXRT1052CVJ5B or
   MIMXRT1166DVM6A_cm7.
 type: build
+third-party: null
 copyrights:
 - Copyright (C) 2021 embedded brains GmbH & Co. KG

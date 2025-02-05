@@ -3,6 +3,7 @@ arch: aarch64
 bsp: raspberrypi4b
 build-type: bsp
 cflags: []
+third-party: null
 copyrights:
 - Copyright (C) 2022 Mohd Noor Aman
 cppflags: []

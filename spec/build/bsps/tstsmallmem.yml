@@ -139,6 +139,7 @@ actions:
 - append-test-cppflags: tmonetoone
 - append-test-cppflags: tmtimer01
 build-type: option
+third-party: null
 copyrights:
 - Copyright (C) 2020 embedded brains GmbH & Co. KG
 default: []

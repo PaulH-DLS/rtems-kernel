@@ -5,6 +5,7 @@ actions:
 - env-assign: null
 - format-and-define: null
 build-type: option
+third-party: null
 copyrights:
 - Copyright (C) 2020 embedded brains GmbH & Co. KG
 default:

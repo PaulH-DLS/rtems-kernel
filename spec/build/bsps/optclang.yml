@@ -5,6 +5,7 @@ actions:
 - set-value: ALIGN(8)
 - env-assign: LINKCMDS_ALIGN_DIRECTIVE
 build-type: option
+third-party: null
 copyrights:
 - Copyright (C) 2020 Hesham Almatary <Hesham.Almatary@cl.cam.ac.uk>
 default: []

@@ -14,6 +14,7 @@ actions:
         conf.fatal("The value of {} shall be one of {}".format(
                    name, verbosities.keys()))
 build-type: option
+third-party: null
 copyrights:
 - Copyright (C) 2020 embedded brains GmbH & Co. KG
 default:

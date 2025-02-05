@@ -7,6 +7,7 @@ actions:
     tests:
     - dl05
 build-type: option
+third-party: null
 copyrights:
 - Copyright (C) 2021 On-Line Applications Research Corporation (OAR)
 default: []

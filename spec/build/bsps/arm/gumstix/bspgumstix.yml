@@ -3,6 +3,7 @@ arch: arm
 bsp: gumstix
 build-type: bsp
 cflags: []
+third-party: null
 copyrights:
 - Copyright (C) 2020 embedded brains GmbH & Co. KG
 cppflags: []

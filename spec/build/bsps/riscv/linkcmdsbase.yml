@@ -409,6 +409,7 @@ content: |
      */
     .unexpected_sections : { *(*) } > UNEXPECTED_SECTIONS
   }
+third-party: null
 copyrights:
 - Copyright (C) 2020 embedded brains GmbH & Co. KG
 enabled-by: true
