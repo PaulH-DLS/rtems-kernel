@@ -17,9 +17,6 @@ install:
   - cpukit/include/crypt.h
   - cpukit/include/dlfcn.h
   - cpukit/include/endian.h
-  - cpukit/include/fdt.h
-  - cpukit/include/libfdt.h
-  - cpukit/include/libfdt_env.h
   - cpukit/include/link.h
   - cpukit/include/link_elf.h
   - cpukit/include/md4.h
@@ -512,6 +509,8 @@ links:
 - role: build-dependency
   uid: objdrvmgr
 - role: build-dependency
+  uid: objdtc
+- role: build-dependency
   uid: objexceptionmapping
 - role: build-dependency
   uid: objgnat
@@ -561,14 +560,6 @@ source:
 - cpukit/dev/serial/sc16is752-spi.c
 - cpukit/dev/serial/sc16is752.c
 - cpukit/dev/spi/spi-bus.c
-- cpukit/dtc/libfdt/fdt.c
-- cpukit/dtc/libfdt/fdt_addresses.c
-- cpukit/dtc/libfdt/fdt_empty_tree.c
-- cpukit/dtc/libfdt/fdt_ro.c
-- cpukit/dtc/libfdt/fdt_rw.c
-- cpukit/dtc/libfdt/fdt_strerror.c
-- cpukit/dtc/libfdt/fdt_sw.c
-- cpukit/dtc/libfdt/fdt_wip.c
 - cpukit/libblock/src/bdbuf.c
 - cpukit/libblock/src/bdpart-create.c
 - cpukit/libblock/src/bdpart-dump.c
