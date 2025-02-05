@@ -1,7 +1,19 @@
 SPDX-License-Identifier: CC-BY-SA-4.0 OR BSD-2-Clause
 build-type: objects
 cflags: []
-third-party: null
+third-party:
+  extra-files:
+  - cpukit/libmisc/shell/dd.h
+  - cpukit/libmisc/shell/err.h
+  - cpukit/libmisc/shell/extern-cp.h
+  - cpukit/libmisc/shell/extern-dd.h
+  - cpukit/libmisc/shell/extern-ls.h
+  - cpukit/libmisc/shell/fts.h
+  - cpukit/libmisc/shell/hexdump.h
+  - cpukit/libmisc/shell/pathnames-mv.h
+  - cpukit/libmisc/shell/sysexits.h
+  - cpukit/libmisc/shell/vis.h
+  - cpukit/libmisc/shell/mknod-pack_dev.h
 copyrights:
 - Copyright (C) 2020 embedded brains GmbH & Co. KG
 cppflags: []
