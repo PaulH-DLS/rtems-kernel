@@ -3,7 +3,16 @@ build-type: library
 cflags:
 - ${COVERAGE_COMPILER_FLAGS}
 - -Wno-pointer-sign
-third-party: null
+third-party:
+  extra-files:
+  - cpukit/libfs/src/jffs2/src/acl.h
+  - cpukit/libfs/src/jffs2/src/compr.h
+  - cpukit/libfs/src/jffs2/src/debug.h
+  - cpukit/libfs/src/jffs2/src/jffs2_fs_i.h
+  - cpukit/libfs/src/jffs2/src/jffs2_fs_sb.h
+  - cpukit/libfs/src/jffs2/src/nodelist.h
+  - cpukit/libfs/src/jffs2/src/summary.h
+  - cpukit/libfs/src/jffs2/src/xattr.h
 copyrights:
 - Copyright (C) 2020 embedded brains GmbH & Co. KG
 cppflags: []
