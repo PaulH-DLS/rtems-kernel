@@ -3,6 +3,7 @@ actions:
 - get-boolean: null
 - define-condition: null
 build-type: option
+third-party: null
 copyrights:
 - Copyright (C) 2024 Ning Yang
 default:

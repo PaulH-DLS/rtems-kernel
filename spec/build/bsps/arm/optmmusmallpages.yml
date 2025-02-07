@@ -12,6 +12,7 @@ actions:
 
     conf.env["ARM_MMU_TRANSLATION_TABLE_SIZE"] = tbl_sz
 build-type: option
+third-party: null
 copyrights:
 - Copyright (C) 2020 embedded brains GmbH & Co. KG
 default:

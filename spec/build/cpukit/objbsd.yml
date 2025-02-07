@@ -1,0 +1,77 @@
+SPDX-License-Identifier: CC-BY-SA-4.0 OR BSD-2-Clause
+build-type: objects
+cflags: []
+copyrights:
+- Copyright (C) 2022 Gedare Bloom
+cppflags: []
+cxxflags: []
+third-party:
+  extra-files:
+  - cpukit/score/cpu/i386/include/machine/elf_machdep.h
+  - cpukit/score/cpu/m68k/include/machine/elf_machdep.h
+  - cpukit/score/cpu/mips/include/machine/elf_machdep.h
+  - cpukit/score/cpu/nios2/include/machine/elf_machdep.h
+  - cpukit/score/cpu/sparc/include/machine/elf_machdep.h
+  - cpukit/score/cpu/x86_64/include/machine/elf_machdep.h
+enabled-by: true
+includes: []
+install:
+- destination: ${BSP_INCLUDEDIR}/arpa
+  source:
+  - cpukit/include/arpa/ftp.h
+- destination: ${BSP_INCLUDEDIR}/machine
+  source:
+  - cpukit/include/machine/_kernel_cpuset.h
+  - cpukit/include/machine/_kernel_in.h
+  - cpukit/include/machine/_kernel_in6.h
+  - cpukit/include/machine/_kernel_mman.h
+  - cpukit/include/machine/_kernel_param.h
+  - cpukit/include/machine/_kernel_time.h
+  - cpukit/include/machine/_kernel_types.h
+  - cpukit/include/machine/_kernel_uio.h
+  - cpukit/include/machine/_timecounter.h
+- destination: ${BSP_INCLUDEDIR}
+  source:
+  - cpukit/include/crypt.h
+  - cpukit/include/dlfcn.h
+  - cpukit/include/link.h
+  - cpukit/include/link_elf.h
+  - cpukit/include/md4.h
+  - cpukit/include/md5.h
+  - cpukit/include/sha224.h
+  - cpukit/include/sha256.h
+  - cpukit/include/sha384.h
+  - cpukit/include/sha512.h
+  - cpukit/include/sha512t.h
+- destination: ${BSP_INCLUDEDIR}/sys
+  source:
+  - cpukit/include/sys/_ffcounter.h
+  - cpukit/include/sys/cdefs_elf.h
+  - cpukit/include/sys/endian.h
+  - cpukit/include/sys/event.h
+  - cpukit/include/sys/exec_elf.h
+  - cpukit/include/sys/priority.h
+  - cpukit/include/sys/statvfs.h
+  - cpukit/include/sys/timeffc.h
+  - cpukit/include/sys/timepps.h
+  - cpukit/include/sys/timetc.h
+  - cpukit/include/sys/timex.h
+  - cpukit/include/sys/utsname.h
+links: []
+source:
+- cpukit/libcrypt/crypt-md5.c
+- cpukit/libcrypt/crypt-sha256.c
+- cpukit/libcrypt/crypt-sha512.c
+- cpukit/libcrypt/crypt.c
+- cpukit/libcrypt/misc.c
+- cpukit/libcsupport/src/cfmakeraw.c
+- cpukit/libcsupport/src/cfmakesane.c
+- cpukit/libcsupport/src/realpath.c
+- cpukit/libmd/md4.c
+- cpukit/libmd/md5.c
+- cpukit/libmd/sha256c.c
+- cpukit/libmd/sha512c.c
+- cpukit/dev/iovprintf.c
+- cpukit/score/src/kern_ntptime.c
+- cpukit/score/src/kern_tc.c
+type: build

@@ -3,6 +3,7 @@ actions:
 - set-value: __SIZEOF_SIZE_T__
 - define-unquoted: null
 build-type: option
+third-party: null
 copyrights:
 - Copyright (C) 2020 embedded brains GmbH & Co. KG
 default: []

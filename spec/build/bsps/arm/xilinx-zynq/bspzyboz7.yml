@@ -3,6 +3,7 @@ arch: arm
 bsp: xilinx_zynq_zybo_z7
 build-type: bsp
 cflags: []
+third-party: null
 copyrights:
 - Copyright (C) 2023 B. Moessner
 cppflags: []

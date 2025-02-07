@@ -3,6 +3,7 @@ arch: arm
 bsp: imxrt1052
 build-type: bsp
 cflags: []
+third-party: null
 copyrights:
 - Copyright (C) 2020, 2023 embedded brains GmbH & Co. KG
 cppflags: []

@@ -3,6 +3,7 @@ arch: aarch64
 bsp: zynqmp_apu_ilp32
 build-type: bsp
 cflags: []
+third-party: null
 copyrights:
 - Copyright (C) 2020 On-Line Applications Research (OAR)
 cppflags: []

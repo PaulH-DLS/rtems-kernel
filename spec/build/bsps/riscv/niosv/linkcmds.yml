@@ -23,6 +23,7 @@ content: |
   REGION_ALIAS ("REGION_WORK", EXT_RAM);
 
   INCLUDE linkcmds.base
+third-party: null
 copyrights:
 - Copyright (C) 2024 Kevin Kirspel
 enabled-by: true

@@ -4,6 +4,7 @@ actions:
 - assert-uint32: null
 - format-and-define: null
 build-type: option
+third-party: null
 copyrights:
 - Copyright (C) 2021 embedded brains GmbH & Co. KG
 default:

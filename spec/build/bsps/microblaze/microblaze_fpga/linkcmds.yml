@@ -233,6 +233,7 @@ content: |
     WorkAreaBase = bsp_section_work_begin;
     HeapSize = 0;
   }
+third-party: null
 copyrights:
 - Copyright (C) 2021 On-Line Applications Research Corporation (OAR)
 enabled-by: true

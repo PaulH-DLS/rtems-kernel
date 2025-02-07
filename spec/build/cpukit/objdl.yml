@@ -1,6 +1,7 @@
 SPDX-License-Identifier: CC-BY-SA-4.0 OR BSD-2-Clause
 build-type: objects
 cflags: []
+third-party: null
 copyrights:
 - Copyright (C) 2020 embedded brains GmbH & Co. KG
 cppflags: []
@@ -48,10 +49,11 @@ links:
   uid: objdlriscv
 - role: build-dependency
   uid: objdlsparc
+- role: build-dependency
+  uid: objdlfastlz
 source:
 - cpukit/libdl/dlfcn-shell.c
 - cpukit/libdl/dlfcn.c
-- cpukit/libdl/fastlz.c
 - cpukit/libdl/rap-shell.c
 - cpukit/libdl/rap.c
 - cpukit/libdl/rtl-alloc-heap.c

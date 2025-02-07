@@ -8,6 +8,7 @@ actions:
     - fileio
     - iostream
 build-type: option
+third-party: null
 copyrights:
 - Copyright (C) 2020 embedded brains GmbH & Co. KG
 default: []

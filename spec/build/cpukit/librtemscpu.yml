@@ -2,6 +2,7 @@ SPDX-License-Identifier: CC-BY-SA-4.0 OR BSD-2-Clause
 build-type: library
 cflags:
 - ${COVERAGE_COMPILER_FLAGS}
+third-party: null
 copyrights:
 - Copyright (C) 2020 embedded brains GmbH & Co. KG
 cppflags: []
@@ -13,28 +14,10 @@ install:
 - destination: ${BSP_INCLUDEDIR}
   source:
   - cpukit/include/aio.h
-  - cpukit/include/crypt.h
-  - cpukit/include/dlfcn.h
   - cpukit/include/endian.h
-  - cpukit/include/fdt.h
-  - cpukit/include/libfdt.h
-  - cpukit/include/libfdt_env.h
-  - cpukit/include/link.h
-  - cpukit/include/link_elf.h
-  - cpukit/include/md4.h
-  - cpukit/include/md5.h
   - cpukit/include/memory.h
   - cpukit/include/mqueue.h
   - cpukit/include/rtems.h
-  - cpukit/include/sha224.h
-  - cpukit/include/sha256.h
-  - cpukit/include/sha384.h
-  - cpukit/include/sha512.h
-  - cpukit/include/sha512t.h
-  - cpukit/include/xz.h
-- destination: ${BSP_INCLUDEDIR}/arpa
-  source:
-  - cpukit/include/arpa/ftp.h
 - destination: ${BSP_INCLUDEDIR}/dev/can
   source:
   - cpukit/include/dev/can/can-bittiming.h
@@ -78,17 +61,6 @@ install:
 - destination: ${BSP_INCLUDEDIR}/linux/spi
   source:
   - cpukit/include/linux/spi/spidev.h
-- destination: ${BSP_INCLUDEDIR}/machine
-  source:
-  - cpukit/include/machine/_kernel_cpuset.h
-  - cpukit/include/machine/_kernel_in.h
-  - cpukit/include/machine/_kernel_in6.h
-  - cpukit/include/machine/_kernel_mman.h
-  - cpukit/include/machine/_kernel_param.h
-  - cpukit/include/machine/_kernel_time.h
-  - cpukit/include/machine/_kernel_types.h
-  - cpukit/include/machine/_kernel_uio.h
-  - cpukit/include/machine/_timecounter.h
 - destination: ${BSP_INCLUDEDIR}/rtems
   source:
   - cpukit/include/rtems/assoc.h
@@ -148,7 +120,6 @@ install:
   - cpukit/include/rtems/malloc.h
   - cpukit/include/rtems/media.h
   - cpukit/include/rtems/monitor.h
-  - cpukit/include/rtems/mouse_parser.h
   - cpukit/include/rtems/mptables.h
   - cpukit/include/rtems/mw_uid.h
   - cpukit/include/rtems/nvdisk-sram.h
@@ -461,23 +432,6 @@ install:
 - destination: ${BSP_INCLUDEDIR}/rtems/trace
   source:
   - cpukit/include/rtems/trace/rtems-trace-buffer-vars.h
-- destination: ${BSP_INCLUDEDIR}/sys
-  source:
-  - cpukit/include/sys/_ffcounter.h
-  - cpukit/include/sys/cdefs_elf.h
-  - cpukit/include/sys/endian.h
-  - cpukit/include/sys/event.h
-  - cpukit/include/sys/exec_elf.h
-  - cpukit/include/sys/priority.h
-  - cpukit/include/sys/statvfs.h
-  - cpukit/include/sys/timeffc.h
-  - cpukit/include/sys/timepps.h
-  - cpukit/include/sys/timetc.h
-  - cpukit/include/sys/timex.h
-  - cpukit/include/sys/utsname.h
-- destination: ${BSP_INCLUDEDIR}/uuid
-  source:
-  - cpukit/include/uuid/uuid.h
 install-path: ${BSP_LIBDIR}
 links:
 - role: build-dependency
@@ -507,13 +461,19 @@ links:
 - role: build-dependency
   uid: cpux8664
 - role: build-dependency
+  uid: objbsd
+- role: build-dependency
   uid: objdl
 - role: build-dependency
   uid: objdrvmgr
 - role: build-dependency
+  uid: objdtc
+- role: build-dependency
   uid: objexceptionmapping
 - role: build-dependency
   uid: objgnat
+- role: build-dependency
+  uid: objmouseparser
 - role: build-dependency
   uid: objmpci
 - role: build-dependency
@@ -527,11 +487,12 @@ links:
 - role: build-dependency
   uid: objutf8
 - role: build-dependency
+  uid: objuuid
+- role: build-dependency
+  uid: objxz
+- role: build-dependency
   uid: vckey
 source:
-- cpukit/compression/xz/xz_crc32.c
-- cpukit/compression/xz/xz_dec_lzma2.c
-- cpukit/compression/xz/xz_dec_stream.c
 - cpukit/crc/crc24q.c
 - cpukit/base64/base64-encode.c
 - cpukit/base64/base64-decode.c
@@ -556,18 +517,9 @@ source:
 - cpukit/dev/i2c/xilinx-axi-i2c.c
 - cpukit/dev/ioprintf.c
 - cpukit/dev/iorelax.c
-- cpukit/dev/iovprintf.c
 - cpukit/dev/serial/sc16is752-spi.c
 - cpukit/dev/serial/sc16is752.c
 - cpukit/dev/spi/spi-bus.c
-- cpukit/dtc/libfdt/fdt.c
-- cpukit/dtc/libfdt/fdt_addresses.c
-- cpukit/dtc/libfdt/fdt_empty_tree.c
-- cpukit/dtc/libfdt/fdt_ro.c
-- cpukit/dtc/libfdt/fdt_rw.c
-- cpukit/dtc/libfdt/fdt_strerror.c
-- cpukit/dtc/libfdt/fdt_sw.c
-- cpukit/dtc/libfdt/fdt_wip.c
 - cpukit/libblock/src/bdbuf.c
 - cpukit/libblock/src/bdpart-create.c
 - cpukit/libblock/src/bdpart-dump.c
@@ -597,11 +549,6 @@ source:
 - cpukit/libblock/src/ramdisk-init.c
 - cpukit/libblock/src/ramdisk-register.c
 - cpukit/libblock/src/sparse-disk.c
-- cpukit/libcrypt/crypt-md5.c
-- cpukit/libcrypt/crypt-sha256.c
-- cpukit/libcrypt/crypt-sha512.c
-- cpukit/libcrypt/crypt.c
-- cpukit/libcrypt/misc.c
 - cpukit/libcsupport/src/__assert.c
 - cpukit/libcsupport/src/__getpid.c
 - cpukit/libcsupport/src/__gettod.c
@@ -637,8 +584,6 @@ source:
 - cpukit/libcsupport/src/calloc.c
 - cpukit/libcsupport/src/cfgetispeed.c
 - cpukit/libcsupport/src/cfgetospeed.c
-- cpukit/libcsupport/src/cfmakeraw.c
-- cpukit/libcsupport/src/cfmakesane.c
 - cpukit/libcsupport/src/cfsetispeed.c
 - cpukit/libcsupport/src/cfsetospeed.c
 - cpukit/libcsupport/src/cfsetspeed.c
@@ -738,7 +683,6 @@ source:
 - cpukit/libcsupport/src/readlink.c
 - cpukit/libcsupport/src/readv.c
 - cpukit/libcsupport/src/realloc.c
-- cpukit/libcsupport/src/realpath.c
 - cpukit/libcsupport/src/resource_snapshot.c
 - cpukit/libcsupport/src/rmdir.c
 - cpukit/libcsupport/src/rtemscalloc.c
@@ -919,10 +863,6 @@ source:
 - cpukit/libfs/src/rfs/rtems-rfs-shell.c
 - cpukit/libfs/src/rfs/rtems-rfs-trace.c
 - cpukit/libi2c/libi2c.c
-- cpukit/libmd/md4.c
-- cpukit/libmd/md5.c
-- cpukit/libmd/sha256c.c
-- cpukit/libmd/sha512c.c
 - cpukit/libmisc/bspcmdline/bspcmdline_get.c
 - cpukit/libmisc/bspcmdline/bspcmdline_getparam.c
 - cpukit/libmisc/bspcmdline/bspcmdline_getparamraw.c
@@ -962,7 +902,6 @@ source:
 - cpukit/libmisc/monitor/mon-server.c
 - cpukit/libmisc/monitor/mon-symbols.c
 - cpukit/libmisc/monitor/mon-task.c
-- cpukit/libmisc/mouse/mouse_parser.c
 - cpukit/libmisc/mouse/serial_mouse.c
 - cpukit/libmisc/redirector/stdio-redirect.c
 - cpukit/libmisc/regulator/regulator.c
@@ -983,16 +922,6 @@ source:
 - cpukit/libmisc/untar/untar.c
 - cpukit/libmisc/untar/untar_tgz.c
 - cpukit/libmisc/untar/untar_txz.c
-- cpukit/libmisc/uuid/clear.c
-- cpukit/libmisc/uuid/compare.c
-- cpukit/libmisc/uuid/copy.c
-- cpukit/libmisc/uuid/gen_uuid.c
-- cpukit/libmisc/uuid/isnull.c
-- cpukit/libmisc/uuid/pack.c
-- cpukit/libmisc/uuid/parse.c
-- cpukit/libmisc/uuid/unpack.c
-- cpukit/libmisc/uuid/unparse.c
-- cpukit/libmisc/uuid/uuid_time.c
 - cpukit/libstdthreads/call_once.c
 - cpukit/libstdthreads/cnd.c
 - cpukit/libstdthreads/mtx.c
@@ -1451,8 +1380,6 @@ source:
 - cpukit/score/src/isrisinprogress.c
 - cpukit/score/src/isrvectortable.c
 - cpukit/score/src/iterateoverthreads.c
-- cpukit/score/src/kern_ntptime.c
-- cpukit/score/src/kern_tc.c
 - cpukit/score/src/libatomic.c
 - cpukit/score/src/log2table.c
 - cpukit/score/src/memoryallocate.c

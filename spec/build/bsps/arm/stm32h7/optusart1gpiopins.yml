@@ -3,6 +3,7 @@ actions:
 - get-string: null
 - define-unquoted: null
 build-type: option
+third-party: null
 copyrights:
 - Copyright (C) 2021, 22 embedded brains GmbH & Co. KG
 default:

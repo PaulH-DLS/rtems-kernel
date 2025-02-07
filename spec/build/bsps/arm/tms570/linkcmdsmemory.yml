@@ -18,6 +18,7 @@ content: |
   tms570_memory_sdram_begin = ORIGIN (RAM_EXT);
   tms570_memory_sdram_end = ORIGIN (RAM_EXT) + LENGTH (RAM_EXT);
   tms570_memory_sdram_size = LENGTH (RAM_EXT);
+third-party: null
 copyrights:
 - Copyright (C) 2023 embedded brains GmbH & Co. KG
 enabled-by: true

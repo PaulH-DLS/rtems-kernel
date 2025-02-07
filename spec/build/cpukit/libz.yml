@@ -2,6 +2,17 @@ SPDX-License-Identifier: CC-BY-SA-4.0 OR BSD-2-Clause
 build-type: library
 cflags:
 - ${COVERAGE_COMPILER_FLAGS}
+third-party:
+  extra-files:
+  - cpukit/compression/zlib/gzguts.h
+  - cpukit/compression/zlib/inffast.h
+  - cpukit/compression/zlib/inflate.h
+  - cpukit/compression/zlib/inftrees.h
+  - cpukit/compression/zlib/deflate.h
+  - cpukit/compression/zlib/zutil.h
+  - cpukit/compression/zlib/crc32.h
+  - cpukit/compression/zlib/inffixed.h
+  - cpukit/compression/zlib/trees.h
 copyrights:
 - Copyright (C) 2020 embedded brains GmbH & Co. KG
 cppflags: []

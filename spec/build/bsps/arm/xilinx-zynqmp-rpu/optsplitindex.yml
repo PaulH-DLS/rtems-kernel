@@ -10,6 +10,7 @@ actions:
 - substitute: null
 - env-append: ENABLE
 build-type: option
+third-party: null
 copyrights:
 - Copyright (C) 2024 embedded brains GmbH & Co. KG
 default:

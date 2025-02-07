@@ -3,6 +3,7 @@ arch: or1k
 bsp: generic_or1k
 build-type: bsp
 cflags: []
+third-party: null
 copyrights:
 - Copyright (C) 2020 embedded brains GmbH & Co. KG
 cppflags: []

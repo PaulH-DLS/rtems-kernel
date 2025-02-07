@@ -259,6 +259,17 @@ class Item(object):
                 raise type(e)("Build error related to item spec:{}: {}".format(
                     self.uid, str(e)))
 
+    def thirdparties(self, ctx):
+        tpl = []
+        for p in self.links():
+            x = p.thirdparties(ctx)
+            if x is not None:
+                tpl.extend(x)
+        x = self.do_thirdparties(ctx)
+        if x is not None:
+            tpl.extend(x)
+        return tpl
+
     def do_defaults(self, enabled):
         return
 
@@ -273,6 +284,15 @@ class Item(object):
 
     def do_build(self, bld, bic):
         return
+
+    def do_thirdparties(self, ctx):
+        tp = self.data["third-party"]
+        if tp:
+            source = tp["extra-files"]
+            for x in self.data["install"]:
+                source.extend(x["source"])
+            source.extend(self.data["source"])
+            return source
 
     def substitute(self, ctx, value):
         if isinstance(value, str):
@@ -1742,3 +1762,14 @@ def bsplist(ctx):
                 print(variant)
     if first:
         no_matches_error(ctx, white_list)
+
+
+def thirdparties(ctx):
+    """lists third-party sources"""
+    check_forbidden_options(ctx, ["compiler", "config", "tools", "top_group"])
+    add_log_filter(ctx.cmd)
+    load_items_from_options(ctx)
+    top_group = get_top_group(ctx)
+    tp = items[top_group].thirdparties(ctx)
+    for s in tp:
+        print(s)

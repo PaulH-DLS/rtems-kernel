@@ -7,6 +7,7 @@ actions:
        conf.fatal("STM32H7 boot core '{}' is not one of {}".format(value, cores))
     conf.define_cond(value, True)
 build-type: option
+third-party: null
 copyrights:
 - Copyright (C) 2022 Karel Gardas <karel@functional.vision>
 default:

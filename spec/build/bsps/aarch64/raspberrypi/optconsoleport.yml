@@ -9,6 +9,7 @@ actions:
     - UART4
     - UART5
 build-type: option
+third-party: null
 copyrights:
   - Copyright (C) 2023 Utkarsh Verma
 default:

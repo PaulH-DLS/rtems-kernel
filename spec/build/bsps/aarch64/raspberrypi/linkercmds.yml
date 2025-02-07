@@ -68,6 +68,7 @@ content: |
   OUTPUT_ARCH (aarch64)
 
   INCLUDE linkcmds.base
+third-party: null
 copyrights:
 - Copyright (C) 2022 Mohd Noor Aman
 enabled-by: true

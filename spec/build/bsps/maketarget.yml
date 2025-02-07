@@ -46,6 +46,7 @@ content: |
   export RTEMS_BSP
   export RTEMS_CUSTOM
   export PROJECT_ROOT
+third-party: null
 copyrights:
 - Copyright (C) 2020 embedded brains GmbH & Co. KG
 enabled-by: true

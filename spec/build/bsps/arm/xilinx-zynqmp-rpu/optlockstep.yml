@@ -18,6 +18,7 @@ actions:
     value: BTCM
 - env-assign: ZYNQMP_MEMORY_ATCM_OR_BTCM
 build-type: option
+third-party: null
 copyrights:
 - Copyright (C) 2024 embedded brains GmbH & Co. KG
 default:

@@ -4,6 +4,7 @@ actions:
 - env-enable: null
 - define-condition: null
 build-type: option
+third-party: null
 copyrights:
 - Copyright (C) 2023 B. Moessner
 - Copyright (C) 2020 embedded brains GmbH & Co. KG

@@ -1,0 +1,29 @@
+SPDX-License-Identifier: CC-BY-SA-4.0 OR BSD-2-Clause
+build-type: objects
+cflags: []
+copyrights:
+- Copyright (C) 2025 Gedare Bloom
+cppflags: []
+cxxflags: []
+third-party: 
+  extra-files:
+  - cpukit/dtc/libfdt/libfdt_internal.h
+enabled-by: true
+includes: []
+install:
+- destination: ${BSP_INCLUDEDIR}
+  source:
+  - cpukit/include/fdt.h
+  - cpukit/include/libfdt.h
+  - cpukit/include/libfdt_env.h
+links: []
+source:
+- cpukit/dtc/libfdt/fdt.c
+- cpukit/dtc/libfdt/fdt_addresses.c
+- cpukit/dtc/libfdt/fdt_empty_tree.c
+- cpukit/dtc/libfdt/fdt_ro.c
+- cpukit/dtc/libfdt/fdt_rw.c
+- cpukit/dtc/libfdt/fdt_strerror.c
+- cpukit/dtc/libfdt/fdt_sw.c
+- cpukit/dtc/libfdt/fdt_wip.c
+type: build

@@ -1,6 +1,7 @@
 SPDX-License-Identifier: CC-BY-SA-4.0 OR BSD-2-Clause
 build-type: test-program
 cflags: []
+third-party: null
 copyrights:
 - Copyright (C) 2023 Aaron Nyholm (Southern Innovation)
 cppflags: []

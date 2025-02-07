@@ -74,6 +74,7 @@ content: |
   OUTPUT_ARCH (aarch64:ilp32)
 
   INCLUDE linkcmds.base
+third-party: null
 copyrights:
 - Copyright (C) 2020 On-Line Applications Research (OAR)
 enabled-by: true

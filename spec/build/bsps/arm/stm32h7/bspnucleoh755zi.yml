@@ -3,6 +3,7 @@ arch: arm
 bsp: nucleo-h755zi
 build-type: bsp
 cflags: []
+third-party: null
 copyrights:
 - Copyright (C) 2021 embedded brains GmbH & Co. KG
 cppflags: []
