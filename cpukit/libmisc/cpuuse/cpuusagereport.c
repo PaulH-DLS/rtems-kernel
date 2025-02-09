@@ -47,50 +47,71 @@
 
 #include <rtems/cpuuse.h>
 #include <rtems/printer.h>
-#include <rtems/score/threadimpl.h>
-#include <rtems/score/todimpl.h>
+
 
 #include "cpuuseimpl.h"
 
-typedef struct {
-  const rtems_printer *printer;
-  Timestamp_Control    total;
-  Timestamp_Control    uptime_at_last_reset;
+
+
+typedef struct  {
+  usage_function_pointer  stats_callback; 
+   cpuuse_info  * cpuuse_data;
+   void * arg;
 } cpu_usage_context;
 
-static bool cpu_usage_visitor( Thread_Control *the_thread, void *arg )
-{
+
+static bool  print_usage_stats( Thread_Control *the_thread,  void * arg, cpuuse_info  * cpuuse_data ){
   cpu_usage_context *ctx;
-  char               name[ 38 ];
-  uint32_t           ival;
-  uint32_t           fval;
-  Timestamp_Control  uptime;
-  Timestamp_Control  used;
-  uint32_t           seconds;
-  uint32_t           nanoseconds;
-
   ctx = arg;
-  _Thread_Get_name( the_thread, name, sizeof( name ) );
-
-  used = _Thread_Get_CPU_time_used_after_last_reset( the_thread );
-  _TOD_Get_uptime( &uptime );
-  _Timestamp_Subtract( &ctx->uptime_at_last_reset, &uptime, &ctx->total );
-  _Timestamp_Divide( &used, &ctx->total, &ival, &fval );
-  seconds = _Timestamp_Get_seconds( &used );
-  nanoseconds = _Timestamp_Get_nanoseconds( &used ) /
-    TOD_NANOSECONDS_PER_MICROSECOND;
 
   rtems_printf(
-    ctx->printer,
+    ctx->arg,
     " 0x%08" PRIx32 " | %-38s |"
       "%7" PRIu32 ".%06" PRIu32 " |%4" PRIu32 ".%03" PRIu32 "\n",
     the_thread->Object.id,
-    name,
-    seconds, nanoseconds,
-    ival, fval
+    cpuuse_data->name,
+    cpuuse_data->seconds, cpuuse_data->nanoseconds,
+    cpuuse_data->ival, cpuuse_data->fval
   );
-
   return false;
+}
+
+
+bool cpu_usage_visitor( Thread_Control *the_thread, void *arg )
+{
+  cpu_usage_context *ctx;
+  ctx = arg;
+  cpuuse_info  * cpuuse_data;
+  cpuuse_data =   ctx-> cpuuse_data;
+  _Thread_Get_name( the_thread, cpuuse_data->name, sizeof( cpuuse_data->name ) );
+  cpuuse_data->time_used_after_last_reset = 
+  _Thread_Get_CPU_time_used_after_last_reset(the_thread );
+  _TOD_Get_uptime( &cpuuse_data->uptime );
+  _Timestamp_Subtract( &cpuuse_data->time_used_after_last_reset, 
+    &cpuuse_data->uptime, &cpuuse_data->total );
+  _Timestamp_Divide( &cpuuse_data->time_used_after_last_reset, 
+    &cpuuse_data->total, &cpuuse_data->ival, &cpuuse_data->fval );
+  cpuuse_data->seconds = _Timestamp_Get_seconds( 
+    &cpuuse_data->time_used_after_last_reset );
+  cpuuse_data->nanoseconds = _Timestamp_Get_nanoseconds(
+    &cpuuse_data->time_used_after_last_reset ) /  TOD_NANOSECONDS_PER_MICROSECOND;
+  ctx-> cpuuse_data = cpuuse_data;
+  ctx->stats_callback(the_thread, arg , ctx-> cpuuse_data );
+  return false;
+}
+
+
+
+
+void rtems_cpu_usage_report_with_callback(  usage_function_pointer callback  , cpuuse_info  * info ,void * arg)
+{
+  cpu_usage_context  ctx;
+  ctx.arg = arg;
+  Timestamp_Set_to_zero( &info->total );
+  info->time_used_after_last_reset = CPU_usage_Uptime_at_last_reset;
+  ctx.cpuuse_data = info;
+  ctx.stats_callback = print_usage_stats;
+  rtems_task_iterate( cpu_usage_visitor, &ctx );
 }
 
 /*
@@ -103,16 +124,18 @@ void rtems_cpu_usage_report_with_plugin(
   cpu_usage_context  ctx;
   uint32_t           seconds;
   uint32_t           nanoseconds;
+  cpuuse_info        info;
 
-  ctx.printer = printer;
+  ctx.arg = printer;
 
   /*
    *  When not using nanosecond CPU usage resolution, we have to count
    *  the number of "ticks" we gave credit for to give the user a rough
    *  guideline as to what each number means proportionally.
    */
-  _Timestamp_Set_to_zero( &ctx.total );
-  ctx.uptime_at_last_reset = CPU_usage_Uptime_at_last_reset;
+  
+  _Timestamp_Set_to_zero( &info.total );
+  info.time_used_after_last_reset = CPU_usage_Uptime_at_last_reset;
 
   rtems_printf(
      printer,
@@ -123,10 +146,10 @@ void rtems_cpu_usage_report_with_plugin(
      "------------+----------------------------------------+---------------+---------\n"
   );
 
-  rtems_task_iterate( cpu_usage_visitor, &ctx );
+  rtems_cpu_usage_report_with_callback(  usage_function_pointer callback  , cpuuse_info  * info ,  ctx.arg );
 
-  seconds = _Timestamp_Get_seconds( &ctx.total );
-  nanoseconds = _Timestamp_Get_nanoseconds( &ctx.total ) /
+  seconds = _Timestamp_Get_seconds( &info.total );
+  nanoseconds = _Timestamp_Get_nanoseconds( &info.total ) /
     TOD_NANOSECONDS_PER_MICROSECOND;
   rtems_printf(
      printer,
