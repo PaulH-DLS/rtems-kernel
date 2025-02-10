@@ -8,7 +8,7 @@ AlignAfterOpenBracketBreak:
   Other: true
 AlignArrayOfStructures: None
 AlignConsecutiveMacros: true
-AlignConsecutiveAssignments: None
+AlignConsecutiveAssignments: Consecutive
 AlignConsecutiveDeclarations:
   Enabled: true
   AcrossEmptyLines: false

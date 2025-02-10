@@ -124,7 +124,7 @@ rtems_status_code rtems_task_mode(
       bool previous_asr_is_enabled;
 
       previous_asr_is_enabled = asr->is_enabled;
-      asr->is_enabled = !_Modes_Is_asr_disabled( mode_set );
+      asr->is_enabled         = !_Modes_Is_asr_disabled( mode_set );
 
       if (
         !previous_asr_is_enabled && asr->is_enabled && asr->signals_pending != 0
@@ -137,7 +137,7 @@ rtems_status_code rtems_task_mode(
     if ( ( mask & RTEMS_PREEMPT_MASK ) != 0 ) {
       bool previous_is_preemptible;
 
-      previous_is_preemptible = executing->is_preemptible;
+      previous_is_preemptible   = executing->is_preemptible;
       executing->is_preemptible = _Modes_Is_preempt( mode_set );
 
       if ( executing->is_preemptible && !previous_is_preemptible ) {

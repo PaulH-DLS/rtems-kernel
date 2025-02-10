@@ -79,9 +79,9 @@ void _Timer_server_Routine_adaptor( Watchdog_Control *the_watchdog )
 
   _Assert( _Watchdog_Get_state( &the_timer->Ticker ) == WATCHDOG_INACTIVE );
   _Watchdog_Set_state( &the_timer->Ticker, WATCHDOG_PENDING );
-  cpu = _Watchdog_Get_CPU( &the_timer->Ticker );
+  cpu                  = _Watchdog_Get_CPU( &the_timer->Ticker );
   the_timer->stop_time = _Timer_Get_CPU_ticks( cpu );
-  wakeup = _Chain_Is_empty( &ts->Pending );
+  wakeup               = _Chain_Is_empty( &ts->Pending );
   _Chain_Append_unprotected( &ts->Pending, &the_timer->Ticker.Node.Chain );
 
   _Timer_server_Release( ts, &lock_context );
@@ -130,8 +130,8 @@ static rtems_task _Timer_server_Body( rtems_task_argument arg )
       _Assert( _Watchdog_Get_state( the_watchdog ) == WATCHDOG_PENDING );
       _Watchdog_Set_state( the_watchdog, WATCHDOG_INACTIVE );
       the_timer = RTEMS_CONTAINER_OF( the_watchdog, Timer_Control, Ticker );
-      routine = the_timer->routine;
-      id = the_timer->Object.id;
+      routine   = the_timer->routine;
+      id        = the_timer->Object.id;
       user_data = the_timer->user_data;
 
       _Timer_server_Release( ts, &lock_context );

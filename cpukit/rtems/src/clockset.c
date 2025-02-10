@@ -57,7 +57,7 @@ rtems_status_code rtems_clock_set( const rtems_time_of_day *tod )
     return status;
   }
 
-  tod_as_timespec.tv_sec = _TOD_To_seconds( tod );
+  tod_as_timespec.tv_sec  = _TOD_To_seconds( tod );
   tod_as_timespec.tv_nsec = tod->ticks *
                             rtems_configuration_get_nanoseconds_per_tick();
 

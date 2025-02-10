@@ -68,7 +68,7 @@ rtems_status_code rtems_semaphore_flush( rtems_id id )
     &queue_context,
     _Semaphore_MP_Send_object_was_deleted
   );
-  flags = _Semaphore_Get_flags( the_semaphore );
+  flags   = _Semaphore_Get_flags( the_semaphore );
   variant = _Semaphore_Get_variant( flags );
 
   switch ( variant ) {

@@ -55,7 +55,7 @@ void _Rate_monotonic_Cancel(
 
   _Watchdog_Per_CPU_remove_ticks( &the_period->Timer );
   the_period->postponed_jobs = 0;
-  the_period->state = RATE_MONOTONIC_INACTIVE;
+  the_period->state          = RATE_MONOTONIC_INACTIVE;
   _Scheduler_Cancel_job(
     the_period->owner,
     &the_period->Priority,

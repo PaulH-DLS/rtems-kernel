@@ -65,7 +65,7 @@ rtems_status_code rtems_task_restart(
     return RTEMS_INVALID_ID;
   }
 
-  entry = the_thread->Start.Entry;
+  entry                        = the_thread->Start.Entry;
   entry.Kinds.Numeric.argument = argument;
   status = _Thread_Restart( the_thread, &entry, &lock_context );
 

@@ -120,7 +120,7 @@ rtems_status_code rtems_clock_get_tod( rtems_time_of_day *time_of_day )
    * A 32-bit integer can represent enough days for several 1000 years.  When
    * the current time is valid, the integer conversions below are well defined.
    */
-  days = (uint32_t) ( now.tv_sec / RTEMS_SECS_PER_DAY );
+  days     = (uint32_t) ( now.tv_sec / RTEMS_SECS_PER_DAY );
   day_secs = (uint32_t) ( now.tv_sec % RTEMS_SECS_PER_DAY );
 
   /* How many non-leap year years ? */
@@ -140,14 +140,14 @@ rtems_status_code rtems_clock_get_tod( rtems_time_of_day *time_of_day )
     }
   }
 
-  time_of_day->year = year;
-  time_of_day->month = _Year_day_as_month( year, &year_days ) + 1;
-  time_of_day->day = year_days + 1;
-  time_of_day->hour = day_secs / RTEMS_SECS_PER_HOUR;
+  time_of_day->year   = year;
+  time_of_day->month  = _Year_day_as_month( year, &year_days ) + 1;
+  time_of_day->day    = year_days + 1;
+  time_of_day->hour   = day_secs / RTEMS_SECS_PER_HOUR;
   time_of_day->minute = day_secs % RTEMS_SECS_PER_HOUR;
   time_of_day->second = time_of_day->minute % RTEMS_SECS_PER_MINUTE;
   time_of_day->minute = time_of_day->minute / RTEMS_SECS_PER_MINUTE;
-  time_of_day->ticks = now.tv_usec /
+  time_of_day->ticks  = now.tv_usec /
                        rtems_configuration_get_microseconds_per_tick();
 
   return RTEMS_SUCCESSFUL;

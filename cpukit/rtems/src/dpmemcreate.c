@@ -81,7 +81,7 @@ rtems_status_code rtems_port_create(
 
   the_port->internal_base = internal_start;
   the_port->external_base = external_start;
-  the_port->length = length - 1;
+  the_port->length        = length - 1;
 
   *id = _Objects_Open_u32(
     &_Dual_ported_memory_Information,

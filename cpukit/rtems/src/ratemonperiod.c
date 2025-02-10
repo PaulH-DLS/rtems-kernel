@@ -231,7 +231,7 @@ static rtems_status_code _Rate_monotonic_Activate(
 )
 {
   _Assert( the_period->postponed_jobs == 0 );
-  the_period->state = RATE_MONOTONIC_ACTIVE;
+  the_period->state       = RATE_MONOTONIC_ACTIVE;
   the_period->next_length = length;
   _Rate_monotonic_Restart( the_period, executing, lock_context );
   return RTEMS_SUCCESSFUL;
@@ -257,7 +257,7 @@ static rtems_status_code _Rate_monotonic_Block_while_active(
    *  in the process of blocking on the period and that we
    *  may be changing the length of the next period.
    */
-  the_period->next_length = length;
+  the_period->next_length         = length;
   executing->Wait.return_argument = the_period;
   _Thread_Wait_flags_set( executing, RATE_MONOTONIC_INTEND_TO_BLOCK );
 
@@ -303,7 +303,7 @@ static rtems_status_code _Rate_monotonic_Block_while_expired(
    */
   _Rate_monotonic_Update_statistics( the_period );
 
-  the_period->state = RATE_MONOTONIC_ACTIVE;
+  the_period->state       = RATE_MONOTONIC_ACTIVE;
   the_period->next_length = length;
 
   _Rate_monotonic_Release_postponed_job(

@@ -51,7 +51,7 @@
  *  remote signal operations.
  */
 typedef enum {
-  SIGNAL_MP_SEND_REQUEST = 0,
+  SIGNAL_MP_SEND_REQUEST  = 0,
   SIGNAL_MP_SEND_RESPONSE = 1
 } Signal_MP_Remote_operations;
 
@@ -97,12 +97,12 @@ rtems_status_code _Signal_MP_Send( rtems_id id, rtems_signal_set signal_set )
     return RTEMS_INVALID_ID;
   }
 
-  the_packet->Prefix.the_class = MP_PACKET_SIGNAL;
-  the_packet->Prefix.length = sizeof( *the_packet );
+  the_packet->Prefix.the_class  = MP_PACKET_SIGNAL;
+  the_packet->Prefix.length     = sizeof( *the_packet );
   the_packet->Prefix.to_convert = sizeof( *the_packet );
-  the_packet->operation = SIGNAL_MP_SEND_REQUEST;
-  the_packet->Prefix.id = id;
-  the_packet->signal_set = signal_set;
+  the_packet->operation         = SIGNAL_MP_SEND_REQUEST;
+  the_packet->Prefix.id         = id;
+  the_packet->signal_set        = signal_set;
 
   status = _MPCI_Send_request_packet(
     _Objects_Get_node( id ),

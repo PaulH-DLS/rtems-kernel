@@ -96,13 +96,13 @@ void _RTEMS_tasks_MP_Send_process_packet(
     case RTEMS_TASKS_MP_ANNOUNCE_CREATE:
     case RTEMS_TASKS_MP_ANNOUNCE_DELETE:
 
-      the_packet = _RTEMS_tasks_MP_Get_packet();
-      the_packet->Prefix.the_class = MP_PACKET_TASKS;
-      the_packet->Prefix.length = sizeof( RTEMS_tasks_MP_Packet );
+      the_packet                    = _RTEMS_tasks_MP_Get_packet();
+      the_packet->Prefix.the_class  = MP_PACKET_TASKS;
+      the_packet->Prefix.length     = sizeof( RTEMS_tasks_MP_Packet );
       the_packet->Prefix.to_convert = sizeof( RTEMS_tasks_MP_Packet );
-      the_packet->operation = operation;
-      the_packet->Prefix.id = task_id;
-      the_packet->name = name;
+      the_packet->operation         = operation;
+      the_packet->Prefix.id         = task_id;
+      the_packet->name              = name;
 
       _MPCI_Send_process_packet( MPCI_ALL_NODES, &the_packet->Prefix );
       break;
@@ -125,11 +125,11 @@ static rtems_status_code _RTEMS_tasks_MP_Send_request_packet(
 {
   Status_Control status;
 
-  the_packet->Prefix.the_class = MP_PACKET_TASKS;
-  the_packet->Prefix.length = sizeof( *the_packet );
+  the_packet->Prefix.the_class  = MP_PACKET_TASKS;
+  the_packet->Prefix.length     = sizeof( *the_packet );
   the_packet->Prefix.to_convert = sizeof( *the_packet );
-  the_packet->Prefix.id = id;
-  the_packet->operation = operation;
+  the_packet->Prefix.id         = id;
+  the_packet->operation         = operation;
 
   status = _MPCI_Send_request_packet(
     _Objects_Get_node( id ),
@@ -152,7 +152,7 @@ rtems_status_code _RTEMS_tasks_MP_Set_priority(
     return RTEMS_INVALID_ID;
   }
 
-  the_packet->the_priority = new_priority;
+  the_packet->the_priority                = new_priority;
   _Thread_Executing->Wait.return_argument = old_priority;
   return _RTEMS_tasks_MP_Send_request_packet(
     the_packet,

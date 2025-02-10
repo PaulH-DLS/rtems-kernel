@@ -104,7 +104,7 @@ static bool _Scheduler_Check_no_helping( Thread_Control *the_thread, void *arg )
     const Scheduler_Control *scheduler;
 
     scheduler_node = SCHEDULER_NODE_OF_THREAD_SCHEDULER_NODE( node );
-    scheduler = _Scheduler_Node_get_scheduler( scheduler_node );
+    scheduler      = _Scheduler_Node_get_scheduler( scheduler_node );
 
     if ( scheduler == iter_context->scheduler ) {
       iter_context->status = RTEMS_RESOURCE_IN_USE;
@@ -144,9 +144,9 @@ rtems_status_code rtems_scheduler_remove_processor(
 
 #if defined( RTEMS_SMP )
   iter_context.scheduler = scheduler;
-  iter_context.status = RTEMS_SUCCESSFUL;
-  scheduler_context = _Scheduler_Get_context( scheduler );
-  cpu = _Per_CPU_Get_by_index( cpu_index );
+  iter_context.status    = RTEMS_SUCCESSFUL;
+  scheduler_context      = _Scheduler_Get_context( scheduler );
+  cpu                    = _Per_CPU_Get_by_index( cpu_index );
 
   _Objects_Allocator_lock();
 

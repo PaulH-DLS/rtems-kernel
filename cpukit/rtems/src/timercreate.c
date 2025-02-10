@@ -65,7 +65,7 @@ void _Timer_Routine_adaptor( Watchdog_Control *the_watchdog )
   Per_CPU_Control *cpu;
 
   the_timer = RTEMS_CONTAINER_OF( the_watchdog, Timer_Control, Ticker );
-  cpu = _Watchdog_Get_CPU( &the_timer->Ticker );
+  cpu       = _Watchdog_Get_CPU( &the_timer->Ticker );
   the_timer->stop_time = _Timer_Get_CPU_ticks( cpu );
 
   ( *the_timer->routine )( the_timer->Object.id, the_timer->user_data );
@@ -90,10 +90,10 @@ rtems_status_code _Timer_Fire(
     cpu = _Timer_Acquire_critical( the_timer, &lock_context );
     _Timer_Cancel( cpu, the_timer );
     _Watchdog_Initialize( &the_timer->Ticker, adaptor );
-    the_timer->the_class = the_class;
-    the_timer->routine = routine;
-    the_timer->user_data = user_data;
-    the_timer->initial = interval;
+    the_timer->the_class  = the_class;
+    the_timer->routine    = routine;
+    the_timer->user_data  = user_data;
+    the_timer->initial    = interval;
     the_timer->start_time = _Timer_Get_CPU_ticks( cpu );
 
     if ( _Timer_Is_interval_class( the_class ) ) {

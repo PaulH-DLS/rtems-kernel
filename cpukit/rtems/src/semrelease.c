@@ -67,7 +67,7 @@ rtems_status_code rtems_semaphore_release( rtems_id id )
     &queue_context,
     _Semaphore_Core_mutex_mp_support
   );
-  flags = _Semaphore_Get_flags( the_semaphore );
+  flags   = _Semaphore_Get_flags( the_semaphore );
   variant = _Semaphore_Get_variant( flags );
 
   switch ( variant ) {

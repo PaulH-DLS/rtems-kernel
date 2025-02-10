@@ -66,7 +66,7 @@ rtems_status_code _Event_Seize(
   Per_CPU_Control  *cpu_self;
 
   pending_events = event->pending_events;
-  seized_events = _Event_sets_Get( pending_events, event_in );
+  seized_events  = _Event_sets_Get( pending_events, event_in );
 
   if (
     !_Event_sets_Is_empty( seized_events ) &&
@@ -94,9 +94,9 @@ rtems_status_code _Event_Seize(
    *  NOTE: Since interrupts are disabled, this isn't that much of an
    *        issue but better safe than sorry.
    */
-  executing->Wait.return_code = STATUS_SUCCESSFUL;
-  executing->Wait.option = option_set;
-  executing->Wait.count = event_in;
+  executing->Wait.return_code     = STATUS_SUCCESSFUL;
+  executing->Wait.option          = option_set;
+  executing->Wait.count           = event_in;
   executing->Wait.return_argument = event_out;
   _Thread_Wait_flags_set( executing, intend_to_block );
 

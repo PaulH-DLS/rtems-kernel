@@ -134,8 +134,8 @@ void rtems_rate_monotonic_report_statistics_with_plugin(
      */
     {
       struct timespec  cpu_average;
-      struct timespec *min_cpu = &the_stats.min_cpu_time;
-      struct timespec *max_cpu = &the_stats.max_cpu_time;
+      struct timespec *min_cpu   = &the_stats.min_cpu_time;
+      struct timespec *max_cpu   = &the_stats.max_cpu_time;
       struct timespec *total_cpu = &the_stats.total_cpu_time;
 
       _Timespec_Divide_by_integer( total_cpu, the_stats.count, &cpu_average );
@@ -158,8 +158,8 @@ void rtems_rate_monotonic_report_statistics_with_plugin(
      */
     {
       struct timespec  wall_average;
-      struct timespec *min_wall = &the_stats.min_wall_time;
-      struct timespec *max_wall = &the_stats.max_wall_time;
+      struct timespec *min_wall   = &the_stats.min_wall_time;
+      struct timespec *max_wall   = &the_stats.max_wall_time;
       struct timespec *total_wall = &the_stats.total_wall_time;
 
       _Timespec_Divide_by_integer( total_wall, the_stats.count, &wall_average );

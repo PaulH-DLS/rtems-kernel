@@ -57,11 +57,11 @@ rtems_status_code rtems_timer_get_information(
   if ( the_timer != NULL ) {
     Per_CPU_Control *cpu;
 
-    cpu = _Timer_Acquire_critical( the_timer, &lock_context );
-    the_info->the_class = the_timer->the_class;
-    the_info->initial = the_timer->initial;
+    cpu                  = _Timer_Acquire_critical( the_timer, &lock_context );
+    the_info->the_class  = the_timer->the_class;
+    the_info->initial    = the_timer->initial;
     the_info->start_time = the_timer->start_time;
-    the_info->stop_time = the_timer->stop_time;
+    the_info->stop_time  = the_timer->stop_time;
     _Timer_Release( cpu, &lock_context );
     return RTEMS_SUCCESSFUL;
   }
