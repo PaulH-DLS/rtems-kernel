@@ -81,9 +81,7 @@ static bool _Event_Is_satisfied(
   *seized_events = _Event_sets_Get( pending_events, event_condition );
 
   return !_Event_sets_Is_empty( *seized_events ) &&
-         ( *seized_events == event_condition || _Options_Is_any(
-                                                  option_set
-                                                ) );
+         ( *seized_events == event_condition || _Options_Is_any( option_set ) );
 }
 
 rtems_status_code _Event_Surrender(
@@ -103,15 +101,10 @@ rtems_status_code _Event_Surrender(
   _Event_sets_Post( event_in, &event->pending_events );
   pending_events = event->pending_events;
 
-  if ( _Event_Is_blocking_on_event(
-         the_thread,
-         wait_class
-       ) &&
-       _Event_Is_satisfied(
-         the_thread,
-         pending_events,
-         &seized_events
-       ) ) {
+  if (
+    _Event_Is_blocking_on_event( the_thread, wait_class ) &&
+    _Event_Is_satisfied( the_thread, pending_events, &seized_events )
+  ) {
     bool success;
 
     _Event_Satisfy( the_thread, event, pending_events, seized_events );
@@ -126,9 +119,8 @@ rtems_status_code _Event_Surrender(
       unblock = false;
     } else {
       _Assert(
-        _Thread_Wait_flags_get(
-          the_thread
-        ) == ( wait_class | THREAD_WAIT_STATE_BLOCKED )
+        _Thread_Wait_flags_get( the_thread ) ==
+        ( wait_class | THREAD_WAIT_STATE_BLOCKED )
       );
       _Thread_Wait_flags_set( the_thread, THREAD_WAIT_STATE_READY );
       unblock = true;

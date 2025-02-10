@@ -76,9 +76,11 @@ rtems_status_code rtems_semaphore_delete( rtems_id id )
     case SEMAPHORE_VARIANT_MUTEX_INHERIT_PRIORITY:
     case SEMAPHORE_VARIANT_MUTEX_PRIORITY_CEILING:
     case SEMAPHORE_VARIANT_MUTEX_NO_PROTOCOL:
-      if ( _CORE_mutex_Is_locked(
-             &the_semaphore->Core_control.Mutex.Recursive.Mutex
-           ) ) {
+      if (
+        _CORE_mutex_Is_locked(
+          &the_semaphore->Core_control.Mutex.Recursive.Mutex
+        )
+      ) {
         status = STATUS_RESOURCE_IN_USE;
       } else {
         status = STATUS_SUCCESSFUL;
@@ -126,9 +128,7 @@ rtems_status_code rtems_semaphore_delete( rtems_id id )
       );
       _Thread_queue_Flush_critical(
         &the_semaphore->Core_control.Wait_queue.Queue,
-        _Semaphore_Get_operations(
-          flags
-        ),
+        _Semaphore_Get_operations( flags ),
         _Thread_queue_Flush_status_object_was_deleted,
         &queue_context
       );

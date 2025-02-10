@@ -44,9 +44,7 @@
 static rtems_api_configuration_table config;
 
 const rtems_api_configuration_table *
-rtems_configuration_get_rtems_api_configuration(
-  void
-)
+rtems_configuration_get_rtems_api_configuration( void )
 {
   /*
    * Always initialize the configuration table and do not bother with
@@ -58,8 +56,8 @@ rtems_configuration_get_rtems_api_configuration(
   config.maximum_tasks = rtems_configuration_get_maximum_tasks();
   config.maximum_timers = rtems_configuration_get_maximum_timers();
   config.maximum_semaphores = rtems_configuration_get_maximum_semaphores();
-  config
-    .maximum_message_queues = rtems_configuration_get_maximum_message_queues();
+  config.maximum_message_queues =
+    rtems_configuration_get_maximum_message_queues();
   config.maximum_partitions = rtems_configuration_get_maximum_partitions();
   config.maximum_regions = rtems_configuration_get_maximum_regions();
   config.maximum_ports = rtems_configuration_get_maximum_ports();

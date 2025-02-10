@@ -132,9 +132,7 @@ static rtems_status_code _RTEMS_tasks_MP_Send_request_packet(
   the_packet->operation = operation;
 
   status = _MPCI_Send_request_packet(
-    _Objects_Get_node(
-      id
-    ),
+    _Objects_Get_node( id ),
     &the_packet->Prefix,
     STATES_READY /* Not used */
   );
@@ -276,7 +274,8 @@ static void _RTEMS_tasks_MP_Process_packet(
 
     case RTEMS_TASKS_MP_SUSPEND_REQUEST:
 
-      the_packet->Prefix.return_code = rtems_task_suspend( the_packet->Prefix.id
+      the_packet->Prefix.return_code = rtems_task_suspend(
+        the_packet->Prefix.id
       );
 
       _RTEMS_tasks_MP_Send_response_packet(
@@ -295,7 +294,8 @@ static void _RTEMS_tasks_MP_Process_packet(
 
     case RTEMS_TASKS_MP_RESUME_REQUEST:
 
-      the_packet->Prefix.return_code = rtems_task_resume( the_packet->Prefix.id
+      the_packet->Prefix.return_code = rtems_task_resume(
+        the_packet->Prefix.id
       );
 
       _RTEMS_tasks_MP_Send_response_packet(
@@ -322,7 +322,8 @@ static void _RTEMS_tasks_MP_Process_packet(
 
       the_thread = _MPCI_Process_response( the_packet_prefix );
 
-      *(rtems_task_priority *
+      *(
+         rtems_task_priority *
       ) the_thread->Wait.return_argument = the_packet->the_priority;
 
       _MPCI_Return_packet( the_packet_prefix );

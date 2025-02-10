@@ -67,13 +67,13 @@ static bool _Scheduler_Check_processor_not_required(
   _Thread_Wait_acquire( the_thread, &queue_context );
   _Thread_State_acquire_critical( the_thread, &state_context );
 
-  if ( _Thread_Scheduler_get_home(
-         the_thread
-       ) == iter_context->scheduler &&
-       !_Processor_mask_Has_overlap(
-         &the_thread->Scheduler.Affinity,
-         _Scheduler_Get_processors( iter_context->scheduler )
-       ) ) {
+  if (
+    _Thread_Scheduler_get_home( the_thread ) == iter_context->scheduler &&
+    !_Processor_mask_Has_overlap(
+      &the_thread->Scheduler.Affinity,
+      _Scheduler_Get_processors( iter_context->scheduler )
+    )
+  ) {
     iter_context->status = RTEMS_RESOURCE_IN_USE;
   }
 
@@ -167,8 +167,10 @@ rtems_status_code rtems_scheduler_remove_processor(
 
   _Thread_Iterate( _Scheduler_Check_processor_not_required, &iter_context );
 
-  if ( _Processor_mask_Is_zero( &scheduler_context->Processors ) &&
-       iter_context.status == RTEMS_SUCCESSFUL ) {
+  if (
+    _Processor_mask_Is_zero( &scheduler_context->Processors ) &&
+    iter_context.status == RTEMS_SUCCESSFUL
+  ) {
     _Thread_Iterate( _Scheduler_Check_no_helping, &iter_context );
   }
 

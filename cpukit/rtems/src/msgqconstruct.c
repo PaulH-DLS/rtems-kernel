@@ -142,12 +142,14 @@ rtems_status_code _Message_queue_Create(
   }
 
 #if defined( RTEMS_MULTIPROCESSING )
-  if ( is_global && !_Objects_MP_Allocate_and_open(
-                      &_Message_queue_Information,
-                      config->name,
-                      the_message_queue->Object.id,
-                      false
-                    ) ) {
+  if (
+    is_global && !_Objects_MP_Allocate_and_open(
+                   &_Message_queue_Information,
+                   config->name,
+                   the_message_queue->Object.id,
+                   false
+                 )
+  ) {
     _Message_queue_Free( the_message_queue );
     _Objects_Allocator_unlock();
     return RTEMS_TOO_MANY;

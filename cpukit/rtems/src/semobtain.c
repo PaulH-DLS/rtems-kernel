@@ -128,9 +128,7 @@ rtems_status_code rtems_semaphore_obtain(
     case SEMAPHORE_VARIANT_MUTEX_NO_PROTOCOL:
       status = _CORE_recursive_mutex_Seize(
         &the_semaphore->Core_control.Mutex.Recursive,
-        _Semaphore_Get_operations(
-          flags
-        ),
+        _Semaphore_Get_operations( flags ),
         executing,
         wait,
         _CORE_recursive_mutex_Seize_nested,
@@ -154,9 +152,7 @@ rtems_status_code rtems_semaphore_obtain(
       );
       status = _CORE_semaphore_Seize(
         &the_semaphore->Core_control.Semaphore,
-        _Semaphore_Get_operations(
-          flags
-        ),
+        _Semaphore_Get_operations( flags ),
         executing,
         wait,
         &queue_context

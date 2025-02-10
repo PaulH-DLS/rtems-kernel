@@ -90,9 +90,7 @@ rtems_status_code rtems_semaphore_flush( rtems_id id )
       );
       _Thread_queue_Flush_critical(
         &the_semaphore->Core_control.Wait_queue.Queue,
-        _Semaphore_Get_operations(
-          flags
-        ),
+        _Semaphore_Get_operations( flags ),
         _Thread_queue_Flush_status_unavailable,
         &queue_context
       );

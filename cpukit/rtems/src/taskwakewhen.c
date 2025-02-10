@@ -76,9 +76,7 @@ rtems_status_code rtems_task_wake_when( const rtems_time_of_day *time_buffer )
     executing,
     cpu_self,
     _Thread_Timeout,
-    _Watchdog_Ticks_from_seconds(
-      seconds
-    )
+    _Watchdog_Ticks_from_seconds( seconds )
   );
   _Thread_Dispatch_direct( cpu_self );
   return RTEMS_SUCCESSFUL;

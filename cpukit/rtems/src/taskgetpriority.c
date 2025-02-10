@@ -78,9 +78,7 @@ rtems_status_code rtems_task_get_priority(
 
   scheduler_node = _Thread_Scheduler_get_node_by_index(
     the_thread,
-    _Scheduler_Get_index(
-      scheduler
-    )
+    _Scheduler_Get_index( scheduler )
   );
 
   _Thread_Wait_acquire_critical( the_thread, &queue_context );

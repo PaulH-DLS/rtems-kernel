@@ -100,18 +100,21 @@ rtems_status_code rtems_semaphore_create(
     variant = SEMAPHORE_VARIANT_SIMPLE_BINARY;
   } else if ( maybe_global == RTEMS_BINARY_SEMAPHORE ) {
     variant = SEMAPHORE_VARIANT_MUTEX_NO_PROTOCOL;
-  } else if ( mutex_with_protocol ==
-              ( RTEMS_BINARY_SEMAPHORE | RTEMS_PRIORITY | RTEMS_INHERIT_PRIORITY
-              ) ) {
+  } else if (
+    mutex_with_protocol ==
+    ( RTEMS_BINARY_SEMAPHORE | RTEMS_PRIORITY | RTEMS_INHERIT_PRIORITY )
+  ) {
     variant = SEMAPHORE_VARIANT_MUTEX_INHERIT_PRIORITY;
-  } else if ( mutex_with_protocol ==
-              ( RTEMS_BINARY_SEMAPHORE | RTEMS_PRIORITY | RTEMS_PRIORITY_CEILING
-              ) ) {
+  } else if (
+    mutex_with_protocol ==
+    ( RTEMS_BINARY_SEMAPHORE | RTEMS_PRIORITY | RTEMS_PRIORITY_CEILING )
+  ) {
     variant = SEMAPHORE_VARIANT_MUTEX_PRIORITY_CEILING;
-  } else if ( mutex_with_protocol ==
-              ( RTEMS_BINARY_SEMAPHORE |
-                RTEMS_PRIORITY |
-                RTEMS_MULTIPROCESSOR_RESOURCE_SHARING ) ) {
+  } else if (
+    mutex_with_protocol == ( RTEMS_BINARY_SEMAPHORE |
+                             RTEMS_PRIORITY |
+                             RTEMS_MULTIPROCESSOR_RESOURCE_SHARING )
+  ) {
 #if defined( RTEMS_SMP )
     variant = SEMAPHORE_VARIANT_MRSP;
 #else

@@ -120,7 +120,8 @@ static rtems_task _Timer_server_Body( rtems_task_argument arg )
       Objects_Id                        id;
       void                             *user_data;
 
-      the_watchdog = (Watchdog_Control *) _Chain_Get_unprotected( &ts->Pending
+      the_watchdog = (Watchdog_Control *) _Chain_Get_unprotected(
+        &ts->Pending
       );
       if ( the_watchdog == NULL ) {
         break;
@@ -190,12 +191,7 @@ static rtems_status_code _Timer_server_Initiate(
    *  GNAT run-time is violated.
    */
   status = rtems_task_create(
-    rtems_build_name(
-      'T',
-      'I',
-      'M',
-      'E'
-    ),
+    rtems_build_name( 'T', 'I', 'M', 'E' ),
     priority,
     stack_size,
 #ifdef RTEMS_SMP

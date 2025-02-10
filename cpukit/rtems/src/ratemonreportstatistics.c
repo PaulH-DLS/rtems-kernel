@@ -144,20 +144,10 @@ void rtems_rate_monotonic_report_statistics_with_plugin(
         "%" PRIdtime_t "." NANOSECONDS_FMT "/"  /* min cpu time */
         "%" PRIdtime_t "." NANOSECONDS_FMT "/"  /* max cpu time */
         "%" PRIdtime_t "." NANOSECONDS_FMT " ", /* avg cpu time */
-        _Timespec_Get_seconds(
-          min_cpu
-        ),
-        _Timespec_Get_nanoseconds(
-          min_cpu
-        ) /
-          NANOSECONDS_DIVIDER,
-        _Timespec_Get_seconds(
-          max_cpu
-        ),
-        _Timespec_Get_nanoseconds(
-          max_cpu
-        ) /
-          NANOSECONDS_DIVIDER,
+        _Timespec_Get_seconds( min_cpu ),
+        _Timespec_Get_nanoseconds( min_cpu ) / NANOSECONDS_DIVIDER,
+        _Timespec_Get_seconds( max_cpu ),
+        _Timespec_Get_nanoseconds( max_cpu ) / NANOSECONDS_DIVIDER,
         _Timespec_Get_seconds( &cpu_average ),
         _Timespec_Get_nanoseconds( &cpu_average ) / NANOSECONDS_DIVIDER
       );
@@ -178,20 +168,10 @@ void rtems_rate_monotonic_report_statistics_with_plugin(
         "%" PRIdtime_t "." NANOSECONDS_FMT "/"   /* min wall time */
         "%" PRIdtime_t "." NANOSECONDS_FMT "/"   /* max wall time */
         "%" PRIdtime_t "." NANOSECONDS_FMT "\n", /* avg wall time */
-        _Timespec_Get_seconds(
-          min_wall
-        ),
-        _Timespec_Get_nanoseconds(
-          min_wall
-        ) /
-          NANOSECONDS_DIVIDER,
-        _Timespec_Get_seconds(
-          max_wall
-        ),
-        _Timespec_Get_nanoseconds(
-          max_wall
-        ) /
-          NANOSECONDS_DIVIDER,
+        _Timespec_Get_seconds( min_wall ),
+        _Timespec_Get_nanoseconds( min_wall ) / NANOSECONDS_DIVIDER,
+        _Timespec_Get_seconds( max_wall ),
+        _Timespec_Get_nanoseconds( max_wall ) / NANOSECONDS_DIVIDER,
         _Timespec_Get_seconds( &wall_average ),
         _Timespec_Get_nanoseconds( &wall_average ) / NANOSECONDS_DIVIDER
       );

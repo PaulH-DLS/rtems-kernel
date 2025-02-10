@@ -85,8 +85,10 @@ void _Rate_monotonic_Timeout( Watchdog_Control *the_watchdog )
   _Rate_monotonic_Acquire_critical( the_period, &lock_context );
   wait_flags = _Thread_Wait_flags_get( owner );
 
-  if ( ( wait_flags & THREAD_WAIT_CLASS_PERIOD ) != 0 &&
-       owner->Wait.return_argument == the_period ) {
+  if (
+    ( wait_flags & THREAD_WAIT_CLASS_PERIOD ) != 0 &&
+    owner->Wait.return_argument == the_period
+  ) {
     bool unblock;
     bool success;
 

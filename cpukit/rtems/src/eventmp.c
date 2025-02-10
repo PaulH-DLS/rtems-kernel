@@ -95,9 +95,7 @@ rtems_status_code _Event_MP_Send( rtems_id id, rtems_event_set event_in )
   the_packet->event_in = event_in;
 
   status = _MPCI_Send_request_packet(
-    _Objects_Get_node(
-      id
-    ),
+    _Objects_Get_node( id ),
     &the_packet->Prefix,
     STATES_READY
   );

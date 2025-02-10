@@ -58,9 +58,9 @@ rtems_status_code rtems_signal_catch(
   ISR_lock_Context   lock_context;
 
 #if defined( RTEMS_SMP ) || CPU_ENABLE_ROBUST_THREAD_DISPATCH == TRUE
-  if ( asr_handler != NULL && !_Modes_Is_interrupt_level_supported(
-                                mode_set
-                              ) ) {
+  if (
+    asr_handler != NULL && !_Modes_Is_interrupt_level_supported( mode_set )
+  ) {
     return RTEMS_NOT_IMPLEMENTED;
   }
 #endif
@@ -68,10 +68,10 @@ rtems_status_code rtems_signal_catch(
   executing = _Thread_State_acquire_for_executing( &lock_context );
 
 #if defined( RTEMS_SMP )
-  if ( asr_handler != NULL && !_Modes_Is_preempt_mode_supported(
-                                mode_set,
-                                executing
-                              ) ) {
+  if (
+    asr_handler != NULL &&
+    !_Modes_Is_preempt_mode_supported( mode_set, executing )
+  ) {
     _Thread_State_release( executing, &lock_context );
     return RTEMS_NOT_IMPLEMENTED;
   }

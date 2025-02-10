@@ -62,9 +62,6 @@ rtems_status_code rtems_task_is_suspended( rtems_id id )
 
   current_state = the_thread->current_state;
   _ISR_lock_ISR_enable( &lock_context );
-  return _States_Is_suspended(
-           current_state
-         ) ?
-           RTEMS_ALREADY_SUSPENDED :
-           RTEMS_SUCCESSFUL;
+  return _States_Is_suspended( current_state ) ? RTEMS_ALREADY_SUSPENDED :
+                                                 RTEMS_SUCCESSFUL;
 }
