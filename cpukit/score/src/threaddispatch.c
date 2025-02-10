@@ -108,8 +108,12 @@ static ISR_Level _Thread_Check_pinning(
 
     _Scheduler_Acquire_critical( pinned_scheduler, &scheduler_lock_context );
 
-    ( *pinned_scheduler->Operations
-         .pin )( pinned_scheduler, executing, pinned_node, cpu_self );
+    ( *pinned_scheduler->Operations.pin )(
+      pinned_scheduler,
+      executing,
+      pinned_node,
+      cpu_self
+    );
 
     if ( _Thread_Is_ready( executing ) ) {
       ( *pinned_scheduler->Operations.unblock )(

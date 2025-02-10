@@ -200,11 +200,11 @@ static Thread_Life_state _Thread_Change_life_locked(
   Thread_Life_state previous;
   Thread_Life_state state;
 
-  previous                = the_thread->Life.state;
-  state                   = previous;
-  state                  &= ~life_states_to_clear;
-  state                  |= life_states_to_set;
-  the_thread->Life.state  = state;
+  previous = the_thread->Life.state;
+  state    = previous;
+  state &= ~life_states_to_clear;
+  state |= life_states_to_set;
+  the_thread->Life.state = state;
 
   state &= ~ignored_life_states;
 
@@ -356,7 +356,8 @@ static void _Thread_Remove_life_change_request( Thread_Control *the_thread )
      */
     _Thread_Clear_state_locked(
       the_thread,
-      STATES_LIFE_IS_CHANGING | STATES_SUSPENDED |
+      STATES_LIFE_IS_CHANGING |
+        STATES_SUSPENDED |
         ( STATES_BLOCKED & ~STATES_LOCALLY_BLOCKED )
     );
   }

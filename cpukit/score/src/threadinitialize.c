@@ -85,8 +85,9 @@ void _Thread_Free( Thread_Information *information, Thread_Control *the_thread )
    */
 #if ( CPU_HARDWARE_FP == TRUE ) || ( CPU_SOFTWARE_FP == TRUE )
 #if ( CPU_USE_DEFERRED_FP_SWITCH == TRUE )
-  if ( _Thread_Is_allocated_fp( the_thread ) )
+  if ( _Thread_Is_allocated_fp( the_thread ) ) {
     _Thread_Deallocate_fp();
+  }
 #endif
 #endif
 
@@ -244,8 +245,9 @@ static bool _Thread_Try_initialize(
   for ( i = 0; i < _Thread_Control_add_on_count; ++i ) {
     const Thread_Control_add_on *add_on = &_Thread_Control_add_ons[ i ];
 
-    *(void **) ( (char *) the_thread + add_on->destination_offset
-    ) = (char *) the_thread + add_on->source_offset;
+    *(void **) ( (char *) the_thread +
+                 add_on->destination_offset ) = (char *) the_thread +
+                                                add_on->source_offset;
   }
 
   /* Set up the properly aligned stack area begin and end */
@@ -257,9 +259,9 @@ static bool _Thread_Try_initialize(
   /* Allocate floating-point context in stack area */
 #if ( CPU_HARDWARE_FP == TRUE ) || ( CPU_SOFTWARE_FP == TRUE )
   if ( config->is_fp ) {
-    stack_end                    -= CONTEXT_FP_SIZE;
-    the_thread->fp_context        = (Context_Control_fp *) stack_end;
-    the_thread->Start.fp_context  = (Context_Control_fp *) stack_end;
+    stack_end -= CONTEXT_FP_SIZE;
+    the_thread->fp_context       = (Context_Control_fp *) stack_end;
+    the_thread->Start.fp_context = (Context_Control_fp *) stack_end;
   }
 #endif
 
@@ -267,8 +269,8 @@ static bool _Thread_Try_initialize(
 
   /* Allocate thread-local storage (TLS) area in stack area */
   if ( tls_size > 0 ) {
-    stack_end                  -= tls_size;
-    the_thread->Start.tls_area  = stack_end;
+    stack_end -= tls_size;
+    the_thread->Start.tls_area = stack_end;
   }
 
   _Stack_Initialize(

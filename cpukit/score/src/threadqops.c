@@ -68,8 +68,18 @@ static void _Thread_queue_Queue_enqueue(
   Thread_queue_Queue   *queue,
   Thread_Control       *the_thread,
   Thread_queue_Context *queue_context,
-  void ( *initialize )( Thread_queue_Queue *, Thread_Control *, Thread_queue_Context *, Thread_queue_Heads * ),
-  void ( *enqueue )( Thread_queue_Queue *, Thread_Control *, Thread_queue_Context *, Thread_queue_Heads * )
+  void ( *initialize )(
+    Thread_queue_Queue *,
+    Thread_Control *,
+    Thread_queue_Context *,
+    Thread_queue_Heads *
+  ),
+  void ( *enqueue )(
+    Thread_queue_Queue *,
+    Thread_Control *,
+    Thread_queue_Context *,
+    Thread_queue_Heads *
+  )
 )
 {
   Thread_queue_Heads *heads;
@@ -99,7 +109,13 @@ static void _Thread_queue_Queue_extract(
   Thread_Control       *current_or_previous_owner,
   Thread_queue_Context *queue_context,
   Thread_Control       *the_thread,
-  void ( *extract )( Thread_queue_Queue *, Thread_queue_Heads *, Thread_Control *, Thread_queue_Context *, Thread_Control * )
+  void ( *extract )(
+    Thread_queue_Queue *,
+    Thread_queue_Heads *,
+    Thread_Control *,
+    Thread_queue_Context *,
+    Thread_Control *
+  )
 )
 {
   _Assert( heads != NULL );

@@ -70,8 +70,12 @@ void _Thread_Do_unpin( Thread_Control *executing, Per_CPU_Control *cpu_self )
     ( *scheduler->Operations.block )( scheduler, executing, pinned_node );
   }
 
-  ( *scheduler->Operations
-       .unpin )( scheduler, executing, pinned_node, cpu_self );
+  ( *scheduler->Operations.unpin )(
+    scheduler,
+    executing,
+    pinned_node,
+    cpu_self
+  );
 
   if ( home_node != pinned_node ) {
     _Scheduler_Release_critical( scheduler, &scheduler_lock_context );

@@ -304,7 +304,8 @@ static
     return THREAD_QUEUE_DEADLOCK_DETECTED;
   }
 
-  _Chain_Initialize_node( &queue_context->Path.Start.Lock_context.Wait.Gate.Node
+  _Chain_Initialize_node(
+    &queue_context->Path.Start.Lock_context.Wait.Gate.Node
   );
   link = &queue_context->Path.Start;
   _RBTree_Initialize_node( &link->Registry_node );
@@ -456,8 +457,12 @@ void _Thread_queue_Enqueue(
     &queue_context->Lock_context.Lock_context
   );
 
-  ( *queue_context
-       ->enqueue_callout )( queue, the_thread, cpu_self, queue_context );
+  ( *queue_context->enqueue_callout )(
+    queue,
+    the_thread,
+    cpu_self,
+    queue_context
+  );
 
   /*
    *  Set the blocking state for this thread queue in the thread.
@@ -539,8 +544,12 @@ Status_Control _Thread_queue_Enqueue_sticky(
     );
   }
 
-  ( *queue_context
-       ->enqueue_callout )( queue, the_thread, cpu_self, queue_context );
+  ( *queue_context->enqueue_callout )(
+    queue,
+    the_thread,
+    cpu_self,
+    queue_context
+  );
 
   _Thread_Priority_update( queue_context );
   _Thread_Priority_update_and_make_sticky( the_thread );
@@ -715,8 +724,12 @@ void _Thread_queue_Surrender(
   _Assert( heads != NULL );
 
   _Thread_queue_Context_clear_priority_updates( queue_context );
-  new_owner    = ( *operations
-                   ->surrender )( queue, heads, previous_owner, queue_context );
+  new_owner = ( *operations->surrender )(
+    queue,
+    heads,
+    previous_owner,
+    queue_context
+  );
   queue->owner = new_owner;
 
 #if defined( RTEMS_MULTIPROCESSING )
@@ -842,8 +855,12 @@ void _Thread_queue_Surrender_sticky(
   _Assert( heads != NULL );
 
   _Thread_queue_Context_clear_priority_updates( queue_context );
-  new_owner    = ( *operations
-                   ->surrender )( queue, heads, previous_owner, queue_context );
+  new_owner = ( *operations->surrender )(
+    queue,
+    heads,
+    previous_owner,
+    queue_context
+  );
   queue->owner = new_owner;
 
   /*

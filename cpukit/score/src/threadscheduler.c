@@ -107,7 +107,8 @@ void _Thread_Scheduler_process_requests( Thread_Control *the_thread )
         );
       } else if ( request == SCHEDULER_NODE_REQUEST_REMOVE ) {
         --the_thread->Scheduler.helping_nodes;
-        _Chain_Extract_unprotected( &scheduler_node->Thread.Scheduler_node.Chain
+        _Chain_Extract_unprotected(
+          &scheduler_node->Thread.Scheduler_node.Chain
         );
         scheduler_node->Thread.Scheduler_node.next = remove;
         remove                                     = scheduler_node;
