@@ -3693,7 +3693,9 @@ ALT_STATUS_CODE alt_dma_periph_to_memory(ALT_DMA_CHANNEL_t channel,
 
 /////
 
-static bool alt_dma_is_init(void)
+#ifndef __rtems__
+/* RTEMS: Warning for unused */
+bool alt_dma_is_init(void)
 {
     uint32_t permodrst = alt_read_word(ALT_RSTMGR_PERMODRST_ADDR);
 
@@ -3706,7 +3708,10 @@ static bool alt_dma_is_init(void)
         return true;
     }
 }
+#endif
 
+#ifndef __rtems__
+/* RTEMS: Needs a prototype if used */
 ALT_STATUS_CODE alt_dma_ecc_start(void * block, size_t size)
 {
     if (alt_dma_is_init() == false)
@@ -3753,3 +3758,4 @@ ALT_STATUS_CODE alt_dma_ecc_start(void * block, size_t size)
 
     return ALT_E_SUCCESS;
 }
+#endif
