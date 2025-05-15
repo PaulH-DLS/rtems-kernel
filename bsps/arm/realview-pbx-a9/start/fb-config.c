@@ -29,7 +29,7 @@
 #include <bsp/arm-pl111-regs.h>
 
 #include <bsp.h>
-#include <rtems/bspIo.h>              // printk() for logging
+#include <rtems/bspIo.h>              
 
 void fb_set_up(const pl111_fb_config *cfg)
 {
@@ -54,7 +54,7 @@ void fb_set_up(const pl111_fb_config *cfg)
   regs[6] = cfg->control;
   regs[7] = 0;
 
-  printk("regs[4] (upbase) = 0x%08x\n", regs[4]);
+  printk("regs[4] (upbase) = 0x%08x\n", regs[4]);  
   printk("PL111 LCD controller configured (safe mode)\n");
 
 
