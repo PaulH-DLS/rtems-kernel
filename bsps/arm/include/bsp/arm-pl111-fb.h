@@ -46,6 +46,8 @@ typedef struct pl111_fb_config {
   uint32_t timing3;
   uint32_t control;
   uint32_t power_delay_in_us;
+
+  void *framebuffer; // framebuffer
   void (*set_up)(const struct pl111_fb_config *cfg);
   void (*pins_set_up)(const struct pl111_fb_config *cfg);
   void (*pins_tear_down)(const struct pl111_fb_config *cfg);
