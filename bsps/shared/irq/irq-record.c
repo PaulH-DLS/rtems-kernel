@@ -38,23 +38,12 @@
 
 #include <rtems/record.h>
 
-/* The regular interrupt entries are registered in this table */
-static rtems_interrupt_entry *
-_Record_Interrupt_dispatch_table[ BSP_INTERRUPT_DISPATCH_TABLE_SIZE ];
-
 /*
  * Provide one interrupt entry for the _Record_Interrupt_handler() interrupt
  * dispatch wrapper for each interrupt vector.
  */
 static rtems_interrupt_entry
 _Record_Interrupt_entry_table[ BSP_INTERRUPT_DISPATCH_TABLE_SIZE ];
-
-rtems_interrupt_entry **bsp_interrupt_get_dispatch_table_slot(
-  rtems_vector_number index
-)
-{
-  return &_Record_Interrupt_dispatch_table[ index ];
-}
 
 static void _Record_Interrupt_handler( void *arg )
 {
@@ -65,7 +54,7 @@ static void _Record_Interrupt_handler( void *arg )
   rtems_record_produce( RTEMS_RECORD_INTERRUPT_ENTRY, vector );
 
   entry = bsp_interrupt_entry_load_acquire(
-    &_Record_Interrupt_dispatch_table[ vector ]
+    bsp_interrupt_get_dispatch_table_slot( vector )
   );
 
   if ( RTEMS_PREDICT_TRUE( entry != NULL ) ) {
