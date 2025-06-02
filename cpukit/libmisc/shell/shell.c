@@ -57,8 +57,16 @@
 #include <pwd.h>
 #include <pthread.h>
 #include <assert.h>
+#include <dirent.h>
+#include <limits.h>
+#include <ctype.h>
 
 #define SHELL_STD_DEBUG 0
+
+#define RTEMS_SHELL_MAXIMUM_ARGUMENTS (128)
+#define RTEMS_SHELL_CMD_SIZE          (128)
+#define RTEMS_SHELL_CMD_COUNT         (32)
+#define RTEMS_SHELL_PROMPT_SIZE       (128)
 
 #if SHELL_STD_DEBUG
 #include <rtems/bspIo.h>
@@ -316,7 +324,276 @@ static void rtems_shell_move_left(char *start, size_t offset)
 {
   memmove(start, start + offset, strlen(start + offset) + 1);
 }
+/* 
+ * Find the boundaries of the current word in a command line
+ */
+static void rtems_shell_find_word_bounds(char *line, int col, char **word_start, int *word_len) {
+  *word_start = line + col;
+  while (*word_start > line && !isspace((unsigned char)*(*word_start - 1))) {
+    (*word_start)--;
+  }
+  *word_len = (line + col) - *word_start;
+}
 
+/* Calculate the common prefix length between two strings */
+static int rtems_shell_calculate_common_prefix(const char *str1, const char *str2, int start_pos, int current_common_len) {
+  int i;
+  int max_len = current_common_len;
+  
+  for (i = start_pos; i < current_common_len && i < strlen(str2); i++) {
+    if (str1[i] != str2[i]) {
+      max_len = i;
+      break;
+    }
+  }
+  
+  return max_len;
+}
+
+/* Insert completion content into command line */
+static int insert_completion(char *line, int col, int size, FILE *out, 
+                            const char *completion, int word_len, int common_len,
+                            int matches, int add_suffix, char suffix_char) {
+  int complete_len = (matches == 1) ? strlen(completion) : common_len;
+  int chars_to_add = complete_len - word_len;
+  
+  if (chars_to_add <= 0 || (col + chars_to_add) >= (size - 1)) {
+    return 0;
+  }
+  
+    /* Save a copy of original string before moving */
+    char *temp = strdup(line + col);
+    if (!temp) {
+        return 0;
+    }
+    
+    /* Add completion part */
+    memcpy(line + col, completion + word_len, chars_to_add);
+    
+    /* Add original content after completion */
+    strcpy(line + col + chars_to_add, temp);
+    free(temp);
+    
+    /* Add suffix if needed */
+    if (add_suffix && matches == 1 && (col + chars_to_add + 1) < (size - 1)) {
+        if (line[col + chars_to_add] == '\0') {
+            line[col + chars_to_add] = suffix_char;
+            line[col + chars_to_add + 1] = '\0';
+            chars_to_add++;
+        }
+    }
+    
+    /* Ensure string is properly terminated */
+    line[size - 1] = '\0';
+    
+    /* Update display */
+    if (out) {
+        /* Clear current line */
+        fprintf(out, "\r");
+        for (int i = 0; i < size; i++) {
+            fputc(' ', out);
+        }
+        
+        /* Redisplay entire line content */
+        fprintf(out, "\r%s", line);
+        
+        /* Move cursor back to correct position */
+        if (col + chars_to_add < strlen(line)) {
+            for (size_t i = 0; i < strlen(line) - (col + chars_to_add); i++) {
+                fputc('\b', out);
+            }
+        }
+        fflush(out);
+    }
+  return chars_to_add;
+}
+
+/* Command completion function */
+static int rtems_shell_complete_command(char *line, int col, int size, FILE *out)
+{
+  rtems_shell_cmd_t *cmd;
+  char *word_start;
+  char *partial_cmd;
+  int word_len;
+  int matches = 0;
+  char first_match[256];
+  int common_len = 0;
+  
+  /* Find current word start position and length */
+  rtems_shell_find_word_bounds(line, col, &word_start, &word_len);
+  if (word_len == 0) {
+    return 0;
+  }
+  
+  /* Create partial command string */
+  partial_cmd = malloc(word_len + 1);
+  if (!partial_cmd) {
+    return 0;
+  }
+  strncpy(partial_cmd, word_start, word_len);
+  partial_cmd[word_len] = '\0';
+  
+  /* Search for matching commands */
+  cmd = rtems_shell_first_cmd;
+  while (cmd) {
+    if (strncmp(cmd->name, partial_cmd, word_len) == 0) {
+      if (matches == 0) {
+        /* First match - store it */
+        strncpy(first_match, cmd->name, sizeof(first_match) - 1);
+        first_match[sizeof(first_match) - 1] = '\0';
+        common_len = strlen(cmd->name);
+      } else if (matches == 1) {
+        /* Second match - display available options */
+        if (out) {
+          fprintf(out, "\n%s  %s", first_match, cmd->name);
+        }
+        /* Calculate common prefix */
+        common_len = rtems_shell_calculate_common_prefix(first_match, cmd->name, word_len, common_len);
+      } else {
+        /* Additional matches */
+        if (out) {
+          fprintf(out, "  %s", cmd->name);
+        }
+        /* Update common prefix */
+        common_len = rtems_shell_calculate_common_prefix(first_match, cmd->name, word_len, common_len);
+      }
+      matches++;
+    }
+    cmd = cmd->next;
+  }
+  
+  if (matches > 1 && out) {
+    fprintf(out, "\n");
+  }
+  
+  /* Complete as much as possible */
+  int chars_added = 0;
+  if (matches > 0) {
+    chars_added = insert_completion(line, col, size, out, first_match, word_len, 
+                                   common_len, matches, 1, ' ');
+  }
+  
+  free(partial_cmd);
+  return chars_added;
+}
+
+/* Filename completion function */
+static int rtems_shell_complete_filename(char *line, int col, int size, FILE *out)
+{
+  char *word_start;
+  char *partial_name;
+  char *dir_path;
+  char *filename;
+  int word_len;
+  DIR *dir;
+  struct dirent *entry;
+  int matches = 0;
+  char first_match[256];
+  int common_len = 0;
+  
+  /* Find current word start position and length */
+  rtems_shell_find_word_bounds(line, col, &word_start, &word_len);
+  
+  if (word_len == 0) {
+    partial_name = strdup(".");
+    filename = "";
+    dir_path = ".";
+  } else {
+    partial_name = malloc(word_len + 1);
+    if (!partial_name) {
+      return 0;
+    }
+    strncpy(partial_name, word_start, word_len);
+    partial_name[word_len] = '\0';
+    
+    /* Split into directory and filename parts */
+    char *last_slash = strrchr(partial_name, '/');
+    if (last_slash) {
+      *last_slash = '\0';
+      dir_path = partial_name;
+      filename = last_slash + 1;
+    } else {
+      dir_path = ".";
+      filename = partial_name;
+    }
+  }
+  
+  /* Open directory */
+  dir = opendir(dir_path);
+  if (!dir) {
+    free(partial_name);
+    return 0;
+  }
+  
+  int filename_len = strlen(filename);
+  
+  /* Search for matching files */
+  while ((entry = readdir(dir)) != NULL) {
+    /* Skip hidden files unless explicitly requested */
+    if (entry->d_name[0] == '.' && filename_len > 0 && filename[0] != '.') {
+      continue;
+    }
+    
+    if (strncmp(entry->d_name, filename, filename_len) == 0) {
+      if (matches == 0) {
+        /* First match */
+        strncpy(first_match, entry->d_name, sizeof(first_match) - 1);
+        first_match[sizeof(first_match) - 1] = '\0';
+        common_len = strlen(entry->d_name);
+      } else if (matches == 1) {
+        /* Second match - display options */
+        if (out) {
+          fprintf(out, "\n%s  %s", first_match, entry->d_name);
+        }
+        /* Calculate common prefix */
+        common_len = rtems_shell_calculate_common_prefix(first_match, entry->d_name, filename_len, common_len);
+      } else {
+        /* Additional matches */
+        if (out) {
+          fprintf(out, "  %s", entry->d_name);
+        }
+        /* Update common prefix */
+        common_len = rtems_shell_calculate_common_prefix(first_match, entry->d_name, filename_len, common_len);
+      }
+      matches++;
+    }
+  }
+  
+  closedir(dir);
+  
+  if (matches > 1 && out) {
+    fprintf(out, "\n");
+  }
+  
+  /* Complete as much as possible */
+  int chars_added = 0;
+  if (matches > 0) {
+    /* Special handling for directories in filename completion */
+    int add_suffix = 1;
+    char suffix_char = ' ';
+    
+    if (matches == 1) {
+      struct stat st;
+
+      char full_path[512] = {0};// Using 512 instead of PATH_MAX as PATH_MAX is too large
+      if (strcmp(dir_path, ".") == 0) {
+        snprintf(full_path, sizeof(full_path), "%s", first_match);
+      } else {
+        snprintf(full_path, sizeof(full_path), "%s/%s", dir_path, first_match);
+      }
+      
+      if (stat(full_path, &st) == 0 && S_ISDIR(st.st_mode)) {
+        suffix_char = '/';
+      }
+    }
+    
+    chars_added = insert_completion(line, col, size, out, first_match, filename_len, 
+                                   common_len, matches, add_suffix, suffix_char);
+  }
+  
+  free(partial_name);
+  return chars_added;
+}
 /*
  *  Get a line of user input with modest features
  */
@@ -339,6 +616,7 @@ static int rtems_shell_line_editor(
   int          cmd = -1;
   int          inserting = 1;
   int          in_fileno = fileno(in);
+  int chars_added = 0;
 
   col = last_col = 0;
 
@@ -496,7 +774,42 @@ static int rtems_shell_line_editor(
           memset (line, '\0', strlen(line));
           col = 0;
           break;
-
+        case 9:                         /* Tab - completion */
+          
+          /* Determine if should complete command or filename */
+          char *line_start = line;
+          while (*line_start && isspace((unsigned char)*line_start)) {
+              line_start++;
+          }
+          
+          if (col == 0 || (col > 0 && isspace((unsigned char)line[col-1])))  {
+            chars_added = rtems_shell_complete_command(line, col, size, out);
+          } else {
+            /* Check if this looks like the first word (command) */
+            char *space_pos = strchr(line_start, ' ');
+            if (space_pos == NULL || (line + col) <= space_pos) {
+              /*still in the command part */
+              chars_added = rtems_shell_complete_command(line, col, size, out);
+            } else {
+              /*in arguments, try filename completion */
+              chars_added = rtems_shell_complete_filename(line, col, size, out);
+            }
+          }
+          
+          if (chars_added > 0) {
+            col += chars_added;
+          }
+          
+          /* Redraw prompt and line if showed completions */
+          if (out != NULL && chars_added >= 0) {
+            fprintf(out, "\r%s%s", prompt, line);
+            /* Position cursor correctly */
+            int back_chars = strlen(line) - col;
+            for (int i = 0; i < back_chars; i++) {
+              fputc('\b', out);
+            }
+          }
+          break;
         case 11:                        /*Control-k*/
           if (line[col]) {
             if (out != NULL) {
@@ -1059,11 +1372,6 @@ static bool rtems_shell_init_user_env(void)
 
   return chroot("/") == 0;
 }
-
-#define RTEMS_SHELL_MAXIMUM_ARGUMENTS (128)
-#define RTEMS_SHELL_CMD_SIZE          (128)
-#define RTEMS_SHELL_CMD_COUNT         (32)
-#define RTEMS_SHELL_PROMPT_SIZE       (128)
 
 static bool shell_main_loop(
   rtems_shell_env_t *shell_env,
