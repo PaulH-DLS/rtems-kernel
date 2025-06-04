@@ -136,6 +136,8 @@ rtems_libio_t *rtems_libio_allocate( void )
   if ( iop != NULL ) {
     void *next;
 
+    rtems_libio_iop_flags_clear( iop, LIBIO_FLAGS_FREE );
+
     next = iop->data1;
     rtems_libio_iop_free_head = next;
 
@@ -149,32 +151,35 @@ rtems_libio_t *rtems_libio_allocate( void )
   return iop;
 }
 
-void rtems_libio_free(
+void rtems_libio_free_iop(
   rtems_libio_t *iop
 )
 {
   size_t zero;
 
-  rtems_filesystem_location_free( &iop->pathinfo );
+  if ( !rtems_libio_iop_is_free( iop ) ) {
+    /*
+     * Clear the flags. All references should have been dropped. Free
+     * IOP have all reference count its set.
+     */
+    _Atomic_Store_uint( &iop->flags, LIBIO_FLAGS_FREE, ATOMIC_ORDER_RELAXED );
 
-  rtems_libio_lock();
+    rtems_filesystem_location_free( &iop->pathinfo );
 
-  /*
-   * Clear everything except the reference count part.  At this point in time
-   * there may be still some holders of this file descriptor.
-   */
-  rtems_libio_iop_flags_clear( iop, LIBIO_FLAGS_REFERENCE_INC - 1U );
-  zero = offsetof( rtems_libio_t, offset );
-  memset( (char *) iop + zero, 0, sizeof( *iop ) - zero );
+    rtems_libio_lock();
 
-  /*
-   * Append it to the free list.  This increases the likelihood that a use
-   * after close is detected.
-   */
-  *rtems_libio_iop_free_tail = iop;
-  rtems_libio_iop_free_tail = &iop->data1;
+    zero = offsetof( rtems_libio_t, offset );
+    memset( (char *) iop + zero, 0, sizeof( *iop ) - zero );
 
-  rtems_libio_unlock();
+    /*
+     * Append it to the free list. This increases the likelihood that
+     * a use after close is detected.
+     */
+    *rtems_libio_iop_free_tail = iop;
+    rtems_libio_iop_free_tail = &iop->data1;
+
+    rtems_libio_unlock();
+  }
 }
 
 int rtems_libio_count_open_iops(
