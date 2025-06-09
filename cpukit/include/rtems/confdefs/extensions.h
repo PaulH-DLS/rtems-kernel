@@ -221,6 +221,12 @@ extern "C" {
   #endif
 #endif
 
+#ifndef CONFIGURE_STACK_CHECKER_GUARD_VALUE
+  #define CONFIGURE_STACK_CHECKER_GUARD_VALUE 0xDEADBEEF
+#endif
+
+uintptr_t __stack_chk_guard = CONFIGURE_STACK_CHECKER_GUARD_VALUE;
+
 #ifdef __cplusplus
 }
 #endif

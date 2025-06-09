@@ -1,0 +1,18 @@
+SPDX-License-Identifier: CC-BY-SA-4.0 OR BSD-2-Clause
+actions:
+- get-string: null
+- split: null
+- env-assign: null
+build-type: option
+copyrights:
+- Copyright (C) 2024 Mohamed Hassan <muhammad.hamdy.hassan@gmail.com>
+default:
+- enabled-by: true
+  value:
+  - -fstack-protector-all
+description: |
+  Compiler flags required for enabling stack protection
+enabled-by: true
+links: []
+name: STACK_PROTECT_COMPILER_FLAGS
+type: build
