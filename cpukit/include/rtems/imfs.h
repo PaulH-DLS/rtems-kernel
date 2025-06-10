@@ -35,6 +35,7 @@
 #define _RTEMS_IMFS_H
 
 #include <sys/time.h>
+#include <sys/statvfs.h>
 #include <limits.h>
 
 #include <rtems/libio_.h>
@@ -963,6 +964,11 @@ extern int IMFS_symlink(
   size_t namelen,
   const char *target
 );
+extern int IMFS_statvfs(
+  const rtems_filesystem_location_info_t *loc,
+  struct statvfs *buf
+);
+
 
 /**
  * @brief Put IMFS symbolic link into buffer.

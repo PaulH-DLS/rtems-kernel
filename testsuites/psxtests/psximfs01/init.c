@@ -36,6 +36,7 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <sys/statvfs.h>
 #include <fcntl.h>
 #include <errno.h>
 #include <rtems/libcsupport.h>
@@ -238,6 +239,7 @@ rtems_task Init(
   off_t new_position;
   char buf [1];
   ssize_t n;
+  struct statvfs imfs_statvfs;
 
   TEST_BEGIN();
 
@@ -245,6 +247,10 @@ rtems_task Init(
     Buffer[i] = (uint8_t) i;
 
   open_it(false, true);
+
+  int success = statvfs(FILE_NAME, &imfs_statvfs);
+  printf("Success status: %d Block Size is: %ld \n",success, imfs_statvfs.f_bsize);
+
   write_helper();
   close_it();
 
@@ -292,7 +298,7 @@ rtems_task Init(
 #define CONFIGURE_APPLICATION_NEEDS_CLOCK_DRIVER
 
 #define CONFIGURE_MAXIMUM_TASKS             1
-#define CONFIGURE_IMFS_MEMFILE_BYTES_PER_BLOCK 16
+#define CONFIGURE_IMFS_MEMFILE_BYTES_PER_BLOCK 512
 #define CONFIGURE_MAXIMUM_FILE_DESCRIPTORS 4
 #define CONFIGURE_INITIAL_EXTENSIONS RTEMS_TEST_INITIAL_EXTENSION
 
