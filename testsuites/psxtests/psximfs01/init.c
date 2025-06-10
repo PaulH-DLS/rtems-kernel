@@ -249,6 +249,7 @@ rtems_task Init(
   off_t new_position;
   char buf [1];
   ssize_t n;
+  struct statvfs imfs_statvfs;
 
   TEST_BEGIN();
 
@@ -306,7 +307,7 @@ rtems_task Init(
 #define CONFIGURE_APPLICATION_NEEDS_CLOCK_DRIVER
 
 #define CONFIGURE_MAXIMUM_TASKS             1
-#define CONFIGURE_IMFS_MEMFILE_BYTES_PER_BLOCK 16
+#define CONFIGURE_IMFS_MEMFILE_BYTES_PER_BLOCK 512
 #define CONFIGURE_MAXIMUM_FILE_DESCRIPTORS 4
 #define CONFIGURE_INITIAL_EXTENSIONS RTEMS_TEST_INITIAL_EXTENSION
 
