@@ -3,14 +3,13 @@
 /**
  * @file
  *
- * @ingroup RTEMSBSPsAArch64Raspberrypi4
+ * @ingroup RTEMSBSPsAArch64RaspberryPi
  *
- * @brief Core BSP definitions
+ * @brief Reset Driver
  */
 
 /*
- * Copyright (C) 2022 Mohd Noor Aman
- *
+ * Copyright (C) 2025 Kinsey Moore <kinsey.moore@oarcorp.com>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -34,45 +33,17 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef LIBBSP_AARCH64_RASPBERRYPI_4_BSP_H
-#define LIBBSP_AARCH64_RASPBERRYPI_4_BSP_H
+#include <bsp/raspberrypi.h>
+#include <bsp/watchdog.h>
+#include <bsp/bootcard.h>
 
-/**
- * @addtogroup RTEMSBSPsAArch64
- *
- * @{
- */
+void bsp_reset( rtems_fatal_source source, rtems_fatal_code code )
+{
+  (void) source;
+  (void) code;
 
-#include <bspopts.h>
+  /* Restart with enough of a delay to finish printing the exit spill. */
+  raspberrypi_watchdog_start(20);
 
-#ifndef ASM
-
-#include <bsp/default-initial-extension.h>
-#include <bsp/start.h>
-
-#include <rtems.h>
-
-/*Raspberry pi MMU initialization */
-BSP_START_TEXT_SECTION void raspberrypi_4_setup_mmu_and_cache(void);
-BSP_START_TEXT_SECTION void rpi_setup_secondary_cpu_mmu_and_cache( void );
-
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
-
-#define BSP_FDT_IS_SUPPORTED
-extern const unsigned char bcm2711_rpi_4_b_dtb[];
-extern const size_t bcm2711_rpi_4_b_dtb_size;
-
-#define BSP_ARM_GIC_CPUIF_BASE 0xFF842000
-#define BSP_ARM_GIC_DIST_BASE 0xFF841000
-
-#ifdef __cplusplus
+  while (1) ;
 }
-#endif /* __cplusplus */
-
-#endif /* ASM */
-
-/** @} */
-
-#endif /* LIBBSP_AARCH64_RASPBERRYPI_4_BSP_H */
