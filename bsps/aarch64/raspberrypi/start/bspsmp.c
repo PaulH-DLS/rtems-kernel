@@ -3,13 +3,14 @@
 /**
  * @file
  *
- * @ingroup RTEMSScoreCPUARM
+ * @ingroup RTEMSBSPsAArch64Raspberrypi4
  *
- * @brief This source file contains the implementation of __tls_get_addr().
+ * @brief BSP SMP Support
  */
 
 /*
- * Copyright (C) 2014, 2015 embedded brains GmbH & Co. KG
+ * Copyright (C) 2023 Mohd Noor Aman
+ *
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -33,22 +34,23 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
+#include <rtems/score/smpimpl.h>
+#include <bsp/raspberrypi.h>
 
-#include <rtems/score/threadimpl.h>
-#include <rtems/score/tls.h>
+#include <bsp/irq.h>
 
-void *__tls_get_addr(const TLS_Index *ti);
-
-void *__tls_get_addr(const TLS_Index *ti)
+static uintptr_t *cpu_addr[] =
 {
-  const Thread_Control *executing = _Thread_Get_executing();
-  void *tls_data = (char *) executing->Registers.thread_id
-    + _TLS_Get_thread_control_block_area_size( &_TLS_Configuration );
+    [0] = (uintptr_t *)0xd8,
+    [1] = (uintptr_t *)0xe0,
+    [2] = (uintptr_t *)0xe8,
+    [3] = (uintptr_t *)0xf0
+};
 
-  _Assert(ti->module == 1);
-
-  return (char *) tls_data + ti->offset;
+bool _CPU_SMP_Start_processor( uint32_t cpu_index )
+{
+  BCM2711_REG(cpu_addr[cpu_index]) = (uintptr_t)_start;
+  _AARCH64_Send_event();
+  _AARCH64_Data_synchronization_barrier();
+  return true;
 }

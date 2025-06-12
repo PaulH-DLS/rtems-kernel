@@ -54,6 +54,7 @@
 
 /*Raspberry pi MMU initialization */
 BSP_START_TEXT_SECTION void raspberrypi_4_setup_mmu_and_cache(void);
+BSP_START_TEXT_SECTION void rpi_setup_secondary_cpu_mmu_and_cache( void );
 
 #ifdef __cplusplus
 extern "C" {

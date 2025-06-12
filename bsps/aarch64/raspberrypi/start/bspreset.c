@@ -3,13 +3,13 @@
 /**
  * @file
  *
- * @ingroup RTEMSScoreCPUARM
+ * @ingroup RTEMSBSPsAArch64RaspberryPi
  *
- * @brief This source file contains the implementation of __tls_get_addr().
+ * @brief Reset Driver
  */
 
 /*
- * Copyright (C) 2014, 2015 embedded brains GmbH & Co. KG
+ * Copyright (C) 2025 Kinsey Moore <kinsey.moore@oarcorp.com>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -33,22 +33,17 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
+#include <bsp/raspberrypi.h>
+#include <bsp/watchdog.h>
+#include <bsp/bootcard.h>
 
-#include <rtems/score/threadimpl.h>
-#include <rtems/score/tls.h>
-
-void *__tls_get_addr(const TLS_Index *ti);
-
-void *__tls_get_addr(const TLS_Index *ti)
+void bsp_reset( rtems_fatal_source source, rtems_fatal_code code )
 {
-  const Thread_Control *executing = _Thread_Get_executing();
-  void *tls_data = (char *) executing->Registers.thread_id
-    + _TLS_Get_thread_control_block_area_size( &_TLS_Configuration );
+  (void) source;
+  (void) code;
 
-  _Assert(ti->module == 1);
+  /* Restart with enough of a delay to finish printing the exit spill. */
+  raspberrypi_watchdog_start(20);
 
-  return (char *) tls_data + ti->offset;
+  while (1) ;
 }

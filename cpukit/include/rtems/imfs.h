@@ -426,7 +426,7 @@ extern void IMFS_fsunmount(
 
 /**
  * @brief RTEMS load tarfs.
- * 
+ *
  * This file implements the "mount" procedure for tar-based IMFS
  * extensions.  The TAR is not actually mounted under the IMFS.
  * Directories from the TAR file are created as usual in the IMFS.
@@ -440,7 +440,7 @@ extern void IMFS_fsunmount(
  *    needed.
  *  - For files, we make our own calls to IMFS eval_for_make and
  *    create_node.
- * 
+ *
  * TAR file format:
  *
  * @code
@@ -498,7 +498,7 @@ extern void IMFS_node_free( const rtems_filesystem_location_info_t *loc );
 
 /**
  * @brief Perform a status processing for the IMFS.
- * 
+ *
  * This routine provides a stat for the IMFS file system.
  */
 extern int IMFS_stat(
@@ -527,7 +527,7 @@ extern void IMFS_eval_path_devfs(
 
 /**
  * @brief Create a new IMFS link node.
- * 
+ *
  * The following rouine creates a new link node under parent with the
  * name given in name.  The link node is set to point to the node at
  * to_loc.
@@ -541,7 +541,7 @@ extern int IMFS_link(
 
 /**
  * @brief Change the owner of IMFS.
- * 
+ *
  * This routine is the implementation of the chown() system
  * call for the IMFS.
  */
@@ -553,7 +553,7 @@ extern int IMFS_chown(
 
 /**
  * @brief Create an IMFS node.
- * 
+ *
  * Routine to create a node in the IMFS file system.
  */
 extern int IMFS_mknod(
@@ -575,7 +575,7 @@ extern IMFS_jnode_t *IMFS_initialize_node(
 
 /**
  * @brief Create an IMFS node.
- * 
+ *
  * Create an IMFS filesystem node of an arbitrary type that is NOT
  * the root directory node.
  */
@@ -855,7 +855,8 @@ extern int IMFS_make_generic_node(
  * @brief Mount an IMFS.
  */
 extern int IMFS_mount(
-  rtems_filesystem_mount_table_entry_t *mt_entry  /* IN */
+  rtems_filesystem_mount_table_entry_t *mt_entry,  /* IN */
+  const void *data
 );
 
 /**
@@ -931,8 +932,8 @@ extern int device_ftruncate(
 
 /**
  * @brief Set IMFS file access and modification times.
- * 
- * 
+ *
+ *
  * This routine is the implementation of the utime() system
  * call for the IMFS.
  */
@@ -951,7 +952,7 @@ extern int IMFS_fchmod(
 
 /**
  * @brief Create a new IMFS symbolic link node.
- * 
+ *
  * The following rouine creates a new symbolic link node under parent
  * with the name given in name.  The node is set to point to the node at
  * to_loc.
@@ -965,10 +966,10 @@ extern int IMFS_symlink(
 
 /**
  * @brief Put IMFS symbolic link into buffer.
- * 
+ *
  * The following rouine puts the symbolic links destination name into
  * buff.
- * 
+ *
  */
 extern ssize_t IMFS_readlink(
   const rtems_filesystem_location_info_t *loc,
@@ -978,7 +979,7 @@ extern ssize_t IMFS_readlink(
 
 /**
  * @brief Rename the IMFS.
- * 
+ *
  * The following rouine creates a new link node under parent with the
  * name given in name and removes the old.
  */
@@ -991,7 +992,7 @@ extern int IMFS_rename(
 );
 /**
  * @brief IMFS node removal handler.
- * 
+ *
  * This file contains the handler used to remove a node when a file type
  * does not require special actions.
  */
