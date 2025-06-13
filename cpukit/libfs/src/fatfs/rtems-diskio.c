@@ -59,6 +59,31 @@ DSTATUS disk_status(BYTE pdrv)
 
 DRESULT disk_read(BYTE pdrv, BYTE *buff, LBA_t sector, UINT count)
 {
+    rtems_status_code sc;
+    rtems_bdbuf_buffer *bd;
+
+    sc = rtems_bdbuf_read(drives[pdrv].dd, sector, bd);
+
+    if (sc != RTEMS_SUCCESSFUL)
+    {
+        return RES_ERROR;
+    }
+    if (bd == NULL)
+    {
+        return RES_NOTRDY;
+    }
+
+    if (bd->state == RTEMS_BDBUF_STATE_ACCESS_MODIFIED)
+    {
+        // If the buffer is modified, we need to read it from the disk
+        sc = rtems_bdbuf_sync(bd);
+        if (sc != RTEMS_SUCCESSFUL)
+        {
+            return RES_ERROR;
+        }
+    }
+    memcpy(buff, bd->buffer, count * drives[pdrv].dd->block_size); // TODO: Is this a correct way to handle count?
+    return RES_OK;
 }
 
 DRESULT disk_write(BYTE pdrv, const BYTE *buff, LBA_t sector, UINT count)
