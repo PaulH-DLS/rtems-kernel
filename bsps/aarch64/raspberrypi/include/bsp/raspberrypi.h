@@ -61,7 +61,7 @@
 
 #define BCM2711_REG(x)           (*(volatile uintptr_t *)(x))
 #define BCM2711_BIT(n)           (1 << (n))
-#define BCM2835_REG(addr)        (*(volatile uint32_t*)(addr))
+#define BCM2835_REG(addr)        (*(volatile uint32_t *)(uintptr_t)(addr) )
 
 /** @} */
 
@@ -284,6 +284,21 @@
 #define BCM2711_SPI4_BASE           (RPI_PERIPHERAL_BASE + 0x204800)
 #define BCM2711_SPI5_BASE           (RPI_PERIPHERAL_BASE + 0x204A00)
 #define BCM2711_SPI6_BASE           (RPI_PERIPHERAL_BASE + 0x204C00)
+
+/** @} */
+
+/**
+ * @name I2C Registers
+ *
+ * @{
+ */
+
+#define BCM2711_I2C0_BASE ( RPI_PERIPHERAL_BASE + 0x00205000 )
+#define BCM2711_I2C1_BASE ( RPI_PERIPHERAL_BASE + 0x00804000 )
+#define BCM2711_I2C3_BASE ( RPI_PERIPHERAL_BASE + 0x00205600 )
+#define BCM2711_I2C4_BASE ( RPI_PERIPHERAL_BASE + 0x00205800 )
+#define BCM2711_I2C5_BASE ( RPI_PERIPHERAL_BASE + 0x00205a80 )
+#define BCM2711_I2C6_BASE ( RPI_PERIPHERAL_BASE + 0x00205c00 )
 
 /** @} */
 
