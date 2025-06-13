@@ -26,8 +26,8 @@ static bool diskio_initialized = false;
 
 DSTATUS disk_initialize(BYTE pdrv)
 {
-    DSTATUS status = STA_NOINIT;
     rtems_status_code sc;
+    // TODO: Is there a way to convert Physical drive number to device path??
 
     if (pdrv >= MAX_DRIVES)
     {
@@ -36,18 +36,12 @@ DSTATUS disk_initialize(BYTE pdrv)
 
     if (!diskio_initialized)
     {
-        memset(drives, 0, sizeof(drives));
         diskio_initialized = true;
         sc = rtems_disk_io_initialize();
         if (sc != RTEMS_SUCCESSFUL)
         {
-            return status;
+            return STA_NOINIT;
         }
-    }
-
-    if (drives[pdrv].initialized)
-    {
-        // TODO
     }
     // Map pdrv to a device instance
 
@@ -56,6 +50,7 @@ DSTATUS disk_initialize(BYTE pdrv)
     // Perform init step (sending CMD0/CMD1 for SD cards, etc.)
 
     // Return RES_OK on success, or appropriate error (STA_NOINIT, STA_NODISK)
+    return 0;
 }
 
 DSTATUS disk_status(BYTE pdrv)
