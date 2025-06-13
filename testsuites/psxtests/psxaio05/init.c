@@ -138,7 +138,7 @@ static void test_no_wait( struct aiocb** aiocbp )
   status = sigprocmask( SIG_BLOCK, &sig_set, NULL );
   rtems_test_assert( status == 0 );
 
-  status = lio_listio( LIO_NOWAIT, aiocbp, 4, &sigev);
+  status = lio_listio( LIO_NOWAIT, aiocbp, AIO_LISTIO_MAX, &sigev);
   rtems_test_assert( status == 0 );
 
   status = sigwait( &sig_set, &received_signal );
@@ -153,7 +153,7 @@ static void test_wait( struct aiocb** aiocbp )
 {
   int status;
 
-  status = lio_listio( LIO_WAIT, aiocbp, 4, NULL);
+  status = lio_listio( LIO_WAIT, aiocbp, AIO_LISTIO_MAX, NULL);
   rtems_test_assert( status == 0 );
 }
 
