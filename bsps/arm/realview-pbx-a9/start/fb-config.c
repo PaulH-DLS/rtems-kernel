@@ -26,12 +26,43 @@
  */
 
 #include <bsp/arm-pl111-fb.h>
-#include <bsp.h>
+#include <bsp/arm-pl111-regs.h>
 
-static void fb_set_up(const pl111_fb_config *cfg)
+#include <bsp.h>
+#include <rtems/bspIo.h>              
+
+void fb_set_up(const pl111_fb_config *cfg)
 {
-  /* TODO */
+  if (!cfg || !cfg->regs) {
+    return;
+  }
+
+  uintptr_t base = (uintptr_t)cfg->regs;
+
+  if (base ==0x70000000 || base < 0x10000000) {
+    printk("fb_set_up : Skiping MMIO write ");
+    return;
+  }
+
+  volatile uint32_t *regs = (volatile uint32_t *)base;
+
+  regs[0] = cfg->timing0;
+  regs[1] = cfg->timing1;
+  regs[2] = cfg->timing2;
+  regs[3] = cfg->timing3;
+  regs[4] = (uint32_t)cfg->framebuffer;
+  regs[6] = cfg->control;
+  regs[7] = 0;
+
+  printk("regs[4] (upbase) = 0x%08x\n", regs[4]);  
+  printk("PL111 LCD controller configured (safe mode)\n");
+
+
 }
+
+
+
+
 
 static void fb_pins_set_up(const pl111_fb_config *cfg)
 {
@@ -65,6 +96,8 @@ static const pl111_fb_config fb_config = {
     | PL111_LCD_CONTROL_LCD_BPP(PL111_LCD_CONTROL_LCD_BPP_16)
     | PL111_LCD_CONTROL_BGR,
   .power_delay_in_us = 100000,
+  .framebuffer = (void *)0x7FC00000, //QEMU-safe dummy RAM address
+  .regs = (pl111 *)0x70000000, //dummy MMIO base
   .set_up = fb_set_up,
   .pins_set_up = fb_pins_set_up,
   .pins_tear_down = fb_pins_tear_down,
