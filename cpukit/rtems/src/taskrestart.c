@@ -39,8 +39,8 @@
 #include "config.h"
 #endif
 
-#include <rtems/rtems/tasks.h>
 #include <rtems/rtems/statusimpl.h>
+#include <rtems/rtems/tasks.h>
 #include <rtems/score/threadimpl.h>
 
 rtems_status_code rtems_task_restart(
@@ -48,15 +48,15 @@ rtems_status_code rtems_task_restart(
   rtems_task_argument argument
 )
 {
-  Thread_Control           *the_thread;
-  ISR_lock_Context          lock_context;
-  Thread_Entry_information  entry;
-  Status_Control            status;
+  Thread_Control          *the_thread;
+  ISR_lock_Context         lock_context;
+  Thread_Entry_information entry;
+  Status_Control           status;
 
   the_thread = _Thread_Get( id, &lock_context );
 
   if ( the_thread == NULL ) {
-#if defined(RTEMS_MULTIPROCESSING)
+#if defined( RTEMS_MULTIPROCESSING )
     if ( _Thread_MP_Is_remote( id ) ) {
       return RTEMS_ILLEGAL_ON_REMOTE_OBJECT;
     }
@@ -65,7 +65,7 @@ rtems_status_code rtems_task_restart(
     return RTEMS_INVALID_ID;
   }
 
-  entry = the_thread->Start.Entry;
+  entry                        = the_thread->Start.Entry;
   entry.Kinds.Numeric.argument = argument;
   status = _Thread_Restart( the_thread, &entry, &lock_context );
 

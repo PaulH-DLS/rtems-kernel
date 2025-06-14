@@ -34,10 +34,10 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <rtems/rtems/statusimpl.h>
 #include <errno.h>
+#include <rtems/rtems/statusimpl.h>
 
-static const int status_code_to_errno [RTEMS_STATUS_CODES_LAST + 1] = {
+static const int status_code_to_errno[ RTEMS_STATUS_CODES_LAST + 1 ] = {
   [RTEMS_SUCCESSFUL]               = 0,
   [RTEMS_TASK_EXITTED]             = EIO,
   [RTEMS_MP_NOT_CONFIGURED]        = EIO,
@@ -70,15 +70,15 @@ static const int status_code_to_errno [RTEMS_STATUS_CODES_LAST + 1] = {
   [RTEMS_PROXY_BLOCKING]           = EIO
 };
 
-int rtems_status_code_to_errno(rtems_status_code sc)
+int rtems_status_code_to_errno( rtems_status_code sc )
 {
-  if (sc == RTEMS_SUCCESSFUL) {
+  if ( sc == RTEMS_SUCCESSFUL ) {
     return 0;
   } else {
     int eno = EINVAL;
 
-    if ((unsigned) sc <= RTEMS_STATUS_CODES_LAST) {
-      eno = status_code_to_errno [sc];
+    if ( (unsigned) sc <= RTEMS_STATUS_CODES_LAST ) {
+      eno = status_code_to_errno[ sc ];
     }
 
     errno = eno;

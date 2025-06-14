@@ -39,11 +39,11 @@
 #include "config.h"
 #endif
 
-#include <rtems/rtems/regionimpl.h>
 #include <rtems/rtems/optionsimpl.h>
+#include <rtems/rtems/regionimpl.h>
 #include <rtems/rtems/statusimpl.h>
-#include <rtems/score/threadqimpl.h>
 #include <rtems/score/statesimpl.h>
+#include <rtems/score/threadqimpl.h>
 
 static void _Region_Enqueue_callout(
   Thread_queue_Queue   *queue,
@@ -54,27 +54,22 @@ static void _Region_Enqueue_callout(
 {
   Region_Control *the_region;
 
-  _Thread_queue_Add_timeout_ticks(
-    queue,
-    the_thread,
-    cpu_self,
-    queue_context
-  );
+  _Thread_queue_Add_timeout_ticks( queue, the_thread, cpu_self, queue_context );
 
   the_region = REGION_OF_THREAD_QUEUE_QUEUE( queue );
   _Region_Unlock( the_region );
 }
 
 rtems_status_code rtems_region_get_segment(
-  rtems_id           id,
-  uintptr_t          size,
-  rtems_option       option_set,
-  rtems_interval     timeout,
-  void              **segment
+  rtems_id       id,
+  uintptr_t      size,
+  rtems_option   option_set,
+  rtems_interval timeout,
+  void         **segment
 )
 {
-  rtems_status_code  status;
-  Region_Control    *the_region;
+  rtems_status_code status;
+  Region_Control   *the_region;
 
   if ( segment == NULL ) {
     return RTEMS_INVALID_ADDRESS;
@@ -101,17 +96,17 @@ rtems_status_code rtems_region_get_segment(
 
     if ( the_segment != NULL ) {
       *segment = the_segment;
-      status = RTEMS_SUCCESSFUL;
+      status   = RTEMS_SUCCESSFUL;
     } else if ( _Options_Is_no_wait( option_set ) ) {
       status = RTEMS_UNSATISFIED;
     } else {
-      Thread_queue_Context  queue_context;
-      Thread_Control       *executing;
+      Thread_queue_Context queue_context;
+      Thread_Control      *executing;
 
       _Thread_queue_Context_initialize( &queue_context );
       _Thread_queue_Acquire( &the_region->Wait_queue, &queue_context );
 
-      executing  = _Thread_Executing;
+      executing                       = _Thread_Executing;
       executing->Wait.count           = size;
       executing->Wait.return_argument = segment;
 

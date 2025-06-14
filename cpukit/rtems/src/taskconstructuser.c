@@ -40,8 +40,8 @@
 
 #include <rtems/rtems/tasksimpl.h>
 #include <rtems/score/assert.h>
-#include <rtems/score/threadimpl.h>
 #include <rtems/score/interr.h>
+#include <rtems/score/threadimpl.h>
 
 void _RTEMS_tasks_Construct_user_task( void )
 {

@@ -39,13 +39,13 @@
 #include "config.h"
 #endif
 
-#include <rtems/rtems/semimpl.h>
 #include <rtems/rtems/objectimpl.h>
+#include <rtems/rtems/semimpl.h>
 
 rtems_status_code rtems_semaphore_ident(
-  rtems_name  name,
-  uint32_t    node,
-  rtems_id   *id
+  rtems_name name,
+  uint32_t   node,
+  rtems_id  *id
 )
 {
   return _RTEMS_Name_to_id( name, node, id, &_Semaphore_Information );

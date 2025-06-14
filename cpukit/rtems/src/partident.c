@@ -39,13 +39,13 @@
 #include "config.h"
 #endif
 
-#include <rtems/rtems/partimpl.h>
 #include <rtems/rtems/objectimpl.h>
+#include <rtems/rtems/partimpl.h>
 
 rtems_status_code rtems_partition_ident(
-  rtems_name  name,
-  uint32_t    node,
-  rtems_id   *id
+  rtems_name name,
+  uint32_t   node,
+  rtems_id  *id
 )
 {
   return _RTEMS_Name_to_id( name, node, id, &_Partition_Information );

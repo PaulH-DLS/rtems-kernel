@@ -55,12 +55,14 @@ rtems_status_code rtems_object_get_class_information(
   /*
    * Validate parameters and look up information structure.
    */
-  if ( !info )
+  if ( !info ) {
     return RTEMS_INVALID_ADDRESS;
+  }
 
   obj_info = _Objects_Get_information( the_api, the_class );
-  if ( !obj_info )
+  if ( !obj_info ) {
     return RTEMS_INVALID_NUMBER;
+  }
 
   /*
    * Return information about this object class to the user.
@@ -70,12 +72,13 @@ rtems_status_code rtems_object_get_class_information(
   info->auto_extend = _Objects_Is_auto_extend( obj_info );
   info->maximum     = _Objects_Get_maximum_index( obj_info );
 
-  for ( unallocated=0, i=1 ; i <= info->maximum ; i++ )
-    if ( !obj_info->local_table[i] )
+  for ( unallocated = 0, i = 1; i <= info->maximum; i++ ) {
+    if ( !obj_info->local_table[ i ] ) {
       unallocated++;
+    }
+  }
 
   info->unallocated = unallocated;
 
   return RTEMS_SUCCESSFUL;
 }
-

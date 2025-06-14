@@ -39,9 +39,9 @@
 #include "config.h"
 #endif
 
+#include <rtems/config.h>
 #include <rtems/rtems/clockimpl.h>
 #include <rtems/score/todimpl.h>
-#include <rtems/config.h>
 
 /*
  *  The following array contains the number of days in all months.
@@ -59,7 +59,7 @@ rtems_status_code _TOD_Validate(
   TOD_Ticks_validation     ticks_validation
 )
 {
-  size_t  leap_year_index;
+  size_t   leap_year_index;
   uint32_t days_in_month;
   uint32_t ticks_per_second;
   uint32_t ticks_mask;
@@ -69,7 +69,7 @@ rtems_status_code _TOD_Validate(
   }
 
   ticks_per_second = rtems_clock_get_ticks_per_second();
-  ticks_mask = (uint32_t) ticks_validation;
+  ticks_mask       = (uint32_t) ticks_validation;
 
   if ( ( the_tod->ticks & ticks_mask ) >= ticks_per_second ) {
     return RTEMS_INVALID_CLOCK;
@@ -100,7 +100,7 @@ rtems_status_code _TOD_Validate(
   }
 
   leap_year_index = _TOD_Get_leap_year_index( the_tod->year );
-  days_in_month = _TOD_Days_per_month[ leap_year_index ][ the_tod->month ];
+  days_in_month   = _TOD_Days_per_month[ leap_year_index ][ the_tod->month ];
 
   if ( the_tod->day > days_in_month ) {
     return RTEMS_INVALID_CLOCK;

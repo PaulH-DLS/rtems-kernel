@@ -47,18 +47,17 @@
 #include <rtems/score/watchdogimpl.h>
 #include <rtems/sysinit.h>
 
-rtems_status_code rtems_rate_monotonic_create(
-  rtems_name  name,
-  rtems_id   *id
-)
+rtems_status_code rtems_rate_monotonic_create( rtems_name name, rtems_id *id )
 {
   Rate_monotonic_Control *the_period;
 
-  if ( !rtems_is_name_valid( name ) )
+  if ( !rtems_is_name_valid( name ) ) {
     return RTEMS_INVALID_NAME;
+  }
 
-  if ( !id )
+  if ( !id ) {
     return RTEMS_INVALID_ADDRESS;
+  }
 
   the_period = _Rate_monotonic_Allocate();
 
@@ -71,8 +70,8 @@ rtems_status_code rtems_rate_monotonic_create(
   _Priority_Node_initialize( &the_period->Priority, 0 );
   _Priority_Node_set_inactive( &the_period->Priority );
 
-  the_period->owner = _Thread_Get_executing();
-  the_period->state = RATE_MONOTONIC_INACTIVE;
+  the_period->owner          = _Thread_Get_executing();
+  the_period->state          = RATE_MONOTONIC_INACTIVE;
   the_period->postponed_jobs = 0;
 
   _Watchdog_Preinitialize( &the_period->Timer, _Per_CPU_Get_by_index( 0 ) );
