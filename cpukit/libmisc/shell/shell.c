@@ -1228,7 +1228,7 @@ static bool shell_main_loop(
         fflush( stderr );
       }
       shell_std_debug("end: %d %d\n", result, shell_env->forever);
-    } while (result && shell_env->forever);
+    } while (result || shell_env->forever);
   }
 
   free(cmds[0]);
