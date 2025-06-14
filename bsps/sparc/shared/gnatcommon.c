@@ -87,31 +87,40 @@ void
 __gnat_install_handler_common (int t1, int t2)
 {
   uint32_t         trap;
-  rtems_isr_entry previous_isr;
+  rtems_isr_entry previous_isr_a;
+  rtems_isr_entry previous_isr_b;
 
   sigaction (SIGSEGV, &__gnat_error_vector, NULL);
   sigaction (SIGFPE, &__gnat_error_vector, NULL);
   sigaction (SIGILL, &__gnat_error_vector, NULL);
 
   for (trap = 0; trap < 256; trap++)
+  {
+    /*
+     *  Skip window overflow, underflow, and flush as well as software
+     *  trap 0 which we will use as a shutdown. Also avoid trap 0x70 - 0x7f
+     *  which cannot happen and where some of the space is used to pass
+     *  paramaters to the program.  0x80 for system traps and
+     *  0x81 - 0x83 by the remote debugging stub.
+     *  Avoid two bsp specific interrupts which normally are used
+     *  by the real-time clock and UART B.
+     */
+
+    if ((trap >= 0x11) && (trap <= 0x1f))
+	  {
+	    if ((trap != t1) && (trap != t2))
+      {
+        rtems_interrupt_catch (__gnat_interrupt_handler, trap, &previous_isr_a);
+      }
+	  } 
+    else if ((trap != 5 && trap != 6) && ((trap < 0x70) || (trap > 0x83))) 
     {
-
-      /*
-         *  Skip window overflow, underflow, and flush as well as software
-         *  trap 0 which we will use as a shutdown. Also avoid trap 0x70 - 0x7f
-         *  which cannot happen and where some of the space is used to pass
-         *  paramaters to the program.  0x80 for system traps and
-	 *  0x81 - 0x83 by the remote debugging stub.
-	 *  Avoid two bsp specific interrupts which normally are used
-	 *  by the real-time clock and UART B.
-       */
-
-      if ((trap >= 0x11) && (trap <= 0x1f))
-	{
-	  if ((trap != t1) && (trap != t2))
-	    rtems_interrupt_catch (__gnat_interrupt_handler, trap, &previous_isr);
-	}
-      else if ((trap != 5 && trap != 6) && ((trap < 0x70) || (trap > 0x83)))
-	set_vector (__gnat_exception_handler, SPARC_SYNCHRONOUS_TRAP (trap), 1);
+      rtems_interrupt_catch (__gnat_exception_handler, SPARC_SYNCHRONOUS_TRAP (trap), &previous_isr_b);
+      #ifdef LIBBSP_SPARC_ERC32_BSP_H
+        ERC32_Clear_and_unmask_interrupt(SPARC_SYNCHRONOUS_TRAP (trap));
+      #else
+        LEON_Clear_and_unmask_interrupt(SPARC_SYNCHRONOUS_TRAP (trap));
+      #endif
     }
+  }
 }

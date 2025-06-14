@@ -326,9 +326,54 @@ static void erc32_console_initialize(
   *  Initialize Hardware
   */
   #if (CONSOLE_USE_INTERRUPTS)
-    set_vector(erc32_console_isr_a, CONSOLE_UART_A_TRAP, 1);
-    set_vector(erc32_console_isr_b, CONSOLE_UART_B_TRAP, 1);
-    set_vector(erc32_console_isr_error, CONSOLE_UART_ERROR_TRAP, 1);
+    rtems_interrupt_entry erc32_UART_A;
+    rtems_interrupt_entry erc32_UART_B;
+    rtems_interrupt_entry erc32_UART_ERROR;
+
+    rtems_interrupt_entry_initialize(
+      &erc32_UART_A,
+      erc32_console_isr_a,
+      NULL,
+      "process UART A"
+    );
+
+    rtems_interrupt_entry_initialize(
+      &erc32_UART_B,
+      erc32_console_isr_b,
+      NULL,
+      "process UART B"
+    );
+
+    rtems_interrupt_entry_initialize(
+      &erc32_UART_ERROR,
+      erc32_console_isr_error,
+      NULL,
+      "process UART Error"
+    );
+
+    rtems_interrupt_entry_install(
+      CONSOLE_UART_A_TRAP,
+      RTEMS_INTERRUPT_UNIQUE,
+      &erc32_UART_A
+    );
+
+    ERC32_Clear_and_unmask_interrupt(CONSOLE_UART_A_TRAP);
+
+    rtems_interrupt_entry_install(
+      CONSOLE_UART_B_TRAP,
+      RTEMS_INTERRUPT_UNIQUE,
+      &erc32_UART_B
+    );
+
+    ERC32_Clear_and_unmask_interrupt(CONSOLE_UART_B_TRAP);
+
+    rtems_interrupt_entry_install(
+      CONSOLE_UART_ERROR_TRAP,
+      RTEMS_INTERRUPT_UNIQUE,
+      &erc32_UART_ERROR
+    );
+
+    ERC32_Clear_and_unmask_interrupt(CONSOLE_UART_ERROR_TRAP);
   #endif
 
    /* Clear any previous error flags */
