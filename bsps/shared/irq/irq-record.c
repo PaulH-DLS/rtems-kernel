@@ -49,12 +49,14 @@ _Record_Interrupt_dispatch_table[ BSP_INTERRUPT_DISPATCH_TABLE_SIZE ];
 static rtems_interrupt_entry
 _Record_Interrupt_entry_table[ BSP_INTERRUPT_DISPATCH_TABLE_SIZE ];
 
+#ifdef CONFIGURE_RECORD_INTERRUPTS_ENABLED
 rtems_interrupt_entry **bsp_interrupt_get_dispatch_table_slot(
   rtems_vector_number index
 )
 {
   return &_Record_Interrupt_dispatch_table[ index ];
 }
+#endif
 
 static void _Record_Interrupt_handler( void *arg )
 {
