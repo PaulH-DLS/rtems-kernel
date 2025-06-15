@@ -31,7 +31,7 @@ DSTATUS disk_initialize(BYTE pdrv)
 
     if (pdrv >= MAX_DRIVES)
     {
-        return status;
+        return STA_NOINIT; 
     }
 
     if (!diskio_initialized)
@@ -121,5 +121,6 @@ DRESULT disk_ioctl(BYTE pdrv, BYTE cmd, void *buff)
         return RES_ERROR;
     }
     // TODO: Handle specific commands if needed
+
     return RES_OK;
 }
