@@ -92,4 +92,34 @@ DRESULT disk_write(BYTE pdrv, const BYTE *buff, LBA_t sector, UINT count)
 
 DRESULT disk_ioctl(BYTE pdrv, BYTE cmd, void *buff)
 {
+    uint32_t req;
+    switch (cmd)
+    {
+    case CTRL_SYNC:
+        req = RTEMS_BLKIO_SYNCDEV;
+        break;
+    case GET_SECTOR_COUNT:
+        req = RTEMS_BLKIO_GETSIZE;
+        break;
+    case GET_SECTOR_SIZE:
+        req = RTEMS_BLKIO_GETMEDIABLKSIZE;
+        break;
+    case GET_BLOCK_SIZE:
+        req = RTEMS_BLKIO_GETBLKSIZE;
+        break;
+    case CTRL_TRIM:
+        // TODO: Handle trim operation if supported
+        return RES_OK;
+    default:
+        return RES_PARERR;
+    }
+
+    rtems_status_code sc;
+    sc = rtems_blkdev_ioctl(drives[pdrv].dd, req, buff); // TODO: Is the buffer pointer correct here?
+    if (sc != RTEMS_SUCCESSFUL)
+    {
+        return RES_ERROR;
+    }
+    // TODO: Handle specific commands if needed
+    return RES_OK;
 }
