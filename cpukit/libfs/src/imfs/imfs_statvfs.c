@@ -46,11 +46,10 @@ int IMFS_statvfs(
   buf->f_frsize = IMFS_MEMFILE_BYTES_PER_BLOCK;
   buf->f_blocks = UINT_MAX / IMFS_MEMFILE_BYTES_PER_BLOCK;
   buf->f_bfree = malloc_free_space() / IMFS_MEMFILE_BYTES_PER_BLOCK;
-  buf->f_bavail;
-  buf->f_ffree;
-  buf->f_favail;
-  buf->f_fsid;
-  buf->f_flag;
-  buf->f_namemax;
+  buf->f_bavail = malloc_free_space() / IMFS_MEMFILE_BYTES_PER_BLOCK;
+  buf->f_files = IMFS_jnode_count;
+  buf->f_fsid = 1;
+  buf->f_flag = loc->mt_entry->writeable;
+  buf->f_namemax = IMFS_NAME_MAX;
   return 0;
 }

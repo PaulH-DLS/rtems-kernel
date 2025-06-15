@@ -61,6 +61,7 @@ int IMFS_rmnod(
   } else {
     rv = -1;
   }
+  IMFS_jnode_count--;
 
   return rv;
 }

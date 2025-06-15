@@ -229,6 +229,16 @@ void unlink_it(void)
   rtems_test_assert( rc == 0 );
 }
 
+void statvfs_helper(void)
+{
+  struct statvfs imfs_statvfs;
+  puts( "statvfs(" FILE_NAME ") - OK " );
+  int rc = statvfs(FILE_NAME, &imfs_statvfs);
+  rtems_test_assert(rc == 0);
+  printf("Block Size: %ld\n", imfs_statvfs.f_bsize);
+  printf("Files: %ld\n", imfs_statvfs.f_files);
+}
+
 rtems_task Init(
   rtems_task_argument argument
 )
@@ -239,7 +249,6 @@ rtems_task Init(
   off_t new_position;
   char buf [1];
   ssize_t n;
-  struct statvfs imfs_statvfs;
 
   TEST_BEGIN();
 
@@ -248,8 +257,7 @@ rtems_task Init(
 
   open_it(false, true);
 
-  int success = statvfs(FILE_NAME, &imfs_statvfs);
-  printf("Success status: %d Block Size is: %ld \n",success, imfs_statvfs.f_bsize);
+  statvfs_helper();
 
   write_helper();
   close_it();
@@ -298,7 +306,7 @@ rtems_task Init(
 #define CONFIGURE_APPLICATION_NEEDS_CLOCK_DRIVER
 
 #define CONFIGURE_MAXIMUM_TASKS             1
-#define CONFIGURE_IMFS_MEMFILE_BYTES_PER_BLOCK 512
+#define CONFIGURE_IMFS_MEMFILE_BYTES_PER_BLOCK 16
 #define CONFIGURE_MAXIMUM_FILE_DESCRIPTORS 4
 #define CONFIGURE_INITIAL_EXTENSIONS RTEMS_TEST_INITIAL_EXTENSION
 

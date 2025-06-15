@@ -42,6 +42,7 @@
 #endif
 
 #include <rtems/imfsimpl.h>
+int IMFS_jnode_count = 0;
 
 static const IMFS_mknod_control *get_control(
   const IMFS_mknod_controls *controls,
@@ -90,6 +91,7 @@ int IMFS_mknod(
   } else {
     rv = -1;
   }
+  IMFS_jnode_count++;
 
   return rv;
 }

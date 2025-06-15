@@ -60,7 +60,7 @@ extern "C" {
 
 struct IMFS_jnode_tt;
 typedef struct IMFS_jnode_tt IMFS_jnode_t;
-
+extern int IMFS_jnode_count;
 /**
  *  IMFS "memfile" information
  *
@@ -529,7 +529,7 @@ extern void IMFS_eval_path_devfs(
 /**
  * @brief Create a new IMFS link node.
  *
- * The following rouine creates a new link node under parent with the
+ * The following routine creates a new link node under parent with the
  * name given in name.  The link node is set to point to the node at
  * to_loc.
  */
@@ -954,7 +954,7 @@ extern int IMFS_fchmod(
 /**
  * @brief Create a new IMFS symbolic link node.
  *
- * The following rouine creates a new symbolic link node under parent
+ * The following routine creates a new symbolic link node under parent
  * with the name given in name.  The node is set to point to the node at
  * to_loc.
  */
@@ -964,6 +964,26 @@ extern int IMFS_symlink(
   size_t namelen,
   const char *target
 );
+/**
+ * @brief Sets buf with the IMFS statistics.
+ *
+ * The following routine sets the buf which has attributes
+ * f_bsize - Filesystem block size
+ * f_frsize - Fragment size
+ * f_blocks - Size of fs in f_frsize units
+ * f_frsize - Fragment size:
+ * f_bfree - Number of free blocks
+ * f_files - Number of inodes
+ * f_ffree - Number of free inodes
+ * f_favail - Number of free inodes for unprivileged users
+ * f_fsid - Filesystem ID
+ * f_flag - Mount flags
+ * f_namemax - Maximum filename Length
+
+ * The following routine creates a new symbolic link node under parent
+ * with the name given in name.  The node is set to point to the node at
+ * to_loc.
+ */
 extern int IMFS_statvfs(
   const rtems_filesystem_location_info_t *loc,
   struct statvfs *buf
@@ -973,7 +993,7 @@ extern int IMFS_statvfs(
 /**
  * @brief Put IMFS symbolic link into buffer.
  *
- * The following rouine puts the symbolic links destination name into
+ * The following routine puts the symbolic links destination name into
  * buff.
  *
  */
@@ -986,7 +1006,7 @@ extern ssize_t IMFS_readlink(
 /**
  * @brief Rename the IMFS.
  *
- * The following rouine creates a new link node under parent with the
+ * The following routine creates a new link node under parent with the
  * name given in name and removes the old.
  */
 extern int IMFS_rename(
