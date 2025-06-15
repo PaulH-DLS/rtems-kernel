@@ -165,7 +165,7 @@
  *
  * @param name is the scheduler instantiation name.
  *
- * @param name is the scheduler object name.
+ * @param obj_name is the scheduler object name.
  */
 #define RTEMS_SCHEDULER_TABLE_CBS( name, obj_name ) \
   { \
@@ -210,6 +210,34 @@
 /**
  * @ingroup RTEMSApplConfigGeneralSchedulerConfiguration
  *
+ * @brief Defines an EDF Scheduler entry with a scheduler maximum priority
+ *   for the scheduler table.
+ *
+ * Use this macro to define an entry for the
+ * @ref CONFIGURE_SCHEDULER_TABLE_ENTRIES application configuration option.
+ *
+ * @param name is the scheduler instantiation name.
+ *
+ * @param obj_name is the scheduler object name.
+ *
+ * @param maximum_priority is the scheduler maximum priority.
+ */
+#define RTEMS_SCHEDULER_TABLE_EDF_WITH_MAXIMUM_PRIORITY( \
+    name, \
+    obj_name, \
+    maximum_priority \
+  ) \
+  { \
+    &SCHEDULER_EDF_CONTEXT_NAME( name ).Base, \
+    SCHEDULER_EDF_ENTRY_POINTS, \
+    ( maximum_priority ), \
+    ( obj_name ) \
+    SCHEDULER_CONTROL_IS_NON_PREEMPT_MODE_SUPPORTED( true ) \
+  }
+
+/**
+ * @ingroup RTEMSApplConfigGeneralSchedulerConfiguration
+ *
  * @brief Defines an EDF Scheduler entry for the scheduler table.
  *
  * Use this macro to define an entry for the
@@ -217,16 +245,14 @@
  *
  * @param name is the scheduler instantiation name.
  *
- * @param name is the scheduler object name.
+ * @param obj_name is the scheduler object name.
  */
 #define RTEMS_SCHEDULER_TABLE_EDF( name, obj_name ) \
-  { \
-    &SCHEDULER_EDF_CONTEXT_NAME( name ).Base, \
-    SCHEDULER_EDF_ENTRY_POINTS, \
-    SCHEDULER_EDF_MAXIMUM_PRIORITY, \
-    ( obj_name ) \
-    SCHEDULER_CONTROL_IS_NON_PREEMPT_MODE_SUPPORTED( true ) \
-  }
+   RTEMS_SCHEDULER_TABLE_EDF_WITH_MAXIMUM_PRIORITY( \
+     name, \
+     obj_name, \
+     SCHEDULER_EDF_MAXIMUM_PRIORITY \
+   )
 
 #ifdef CONFIGURE_SCHEDULER_EDF
   #include <rtems/score/scheduleredf.h>
@@ -265,6 +291,34 @@
 /**
  * @ingroup RTEMSApplConfigGeneralSchedulerConfiguration
  *
+ * @brief Defines an EDF SMP Scheduler entry with a scheduler maximum priority
+ *   for the scheduler table.
+ *
+ * Use this macro to define an entry for the
+ * @ref CONFIGURE_SCHEDULER_TABLE_ENTRIES application configuration option.
+ *
+ * @param name is the scheduler instantiation name.
+ *
+ * @param obj_name is the scheduler object name.
+ *
+ * @param maximum_priority is the scheduler maximum priority.
+ */
+#define RTEMS_SCHEDULER_TABLE_EDF_SMP_WITH_MAXIMUM_PRIORITY( \
+    name, \
+    obj_name, \
+    maximum_priority \
+  ) \
+  { \
+    &SCHEDULER_EDF_SMP_CONTEXT_NAME( name ).Base.Base.Base, \
+    SCHEDULER_EDF_SMP_ENTRY_POINTS, \
+    ( maximum_priority ), \
+    ( obj_name ) \
+    SCHEDULER_CONTROL_IS_NON_PREEMPT_MODE_SUPPORTED( false ) \
+  }
+
+/**
+ * @ingroup RTEMSApplConfigGeneralSchedulerConfiguration
+ *
  * @brief Defines an EDF SMP Scheduler entry for the scheduler table.
  *
  * Use this macro to define an entry for the
@@ -272,16 +326,14 @@
  *
  * @param name is the scheduler instantiation name.
  *
- * @param name is the scheduler object name.
+ * @param obj_name is the scheduler object name.
  */
 #define RTEMS_SCHEDULER_TABLE_EDF_SMP( name, obj_name ) \
-  { \
-    &SCHEDULER_EDF_SMP_CONTEXT_NAME( name ).Base.Base.Base, \
-    SCHEDULER_EDF_SMP_ENTRY_POINTS, \
-    SCHEDULER_EDF_MAXIMUM_PRIORITY, \
-    ( obj_name ) \
-    SCHEDULER_CONTROL_IS_NON_PREEMPT_MODE_SUPPORTED( false ) \
-  }
+  RTEMS_SCHEDULER_TABLE_EDF_SMP_WITH_MAXIMUM_PRIORITY( \
+    name, \
+    obj_name, \
+    SCHEDULER_EDF_MAXIMUM_PRIORITY \
+  )
 
 #ifdef CONFIGURE_SCHEDULER_EDF_SMP
   #ifndef RTEMS_SMP
@@ -338,7 +390,7 @@
  *
  * @param name is the scheduler instantiation name.
  *
- * @param name is the scheduler object name.
+ * @param obj_name is the scheduler object name.
  */
 #define RTEMS_SCHEDULER_TABLE_PRIORITY( name, obj_name ) \
   { \
@@ -399,7 +451,7 @@
  *
  * @param name is the scheduler instantiation name.
  *
- * @param name is the scheduler object name.
+ * @param obj_name is the scheduler object name.
  */
 #define RTEMS_SCHEDULER_TABLE_PRIORITY_AFFINITY_SMP( name, obj_name ) \
   { \
@@ -463,7 +515,7 @@
  *
  * @param name is the scheduler instantiation name.
  *
- * @param name is the scheduler object name.
+ * @param obj_name is the scheduler object name.
  */
 #define RTEMS_SCHEDULER_TABLE_PRIORITY_SMP( name, obj_name ) \
   { \
@@ -524,7 +576,7 @@
  *
  * @param name is the scheduler instantiation name.
  *
- * @param name is the scheduler object name.
+ * @param obj_name is the scheduler object name.
  */
 #define RTEMS_SCHEDULER_TABLE_STRONG_APA( name, obj_name ) \
   { \
@@ -585,7 +637,7 @@
  *
  * @param name is the scheduler instantiation name.
  *
- * @param name is the scheduler object name.
+ * @param obj_name is the scheduler object name.
  */
 #define RTEMS_SCHEDULER_TABLE_SIMPLE( name, obj_name ) \
   { \
@@ -638,7 +690,7 @@
  *
  * @param name is the scheduler instantiation name.
  *
- * @param name is the scheduler object name.
+ * @param obj_name is the scheduler object name.
  */
 #define RTEMS_SCHEDULER_TABLE_SIMPLE_SMP( name, obj_name ) \
   { \
