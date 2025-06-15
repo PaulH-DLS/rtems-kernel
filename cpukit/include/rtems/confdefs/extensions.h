@@ -195,6 +195,17 @@ extern "C" {
   );
 
   #ifdef CONFIGURE_RECORD_INTERRUPTS_ENABLED
+    /* The regular interrupt entries are registered in this table */
+    rtems_interrupt_entry *
+    _Record_Interrupt_dispatch_table[ BSP_INTERRUPT_DISPATCH_TABLE_SIZE ];
+
+    rtems_interrupt_entry **bsp_interrupt_get_dispatch_table_slot(
+      rtems_vector_number index
+    )
+    {
+      return &_Record_Interrupt_dispatch_table[ index ];
+    }
+
     RTEMS_SYSINIT_ITEM(
       _Record_Interrupt_initialize,
       RTEMS_SYSINIT_LAST,
