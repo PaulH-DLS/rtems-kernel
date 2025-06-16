@@ -16,7 +16,7 @@ Init: mq_unlink - A Queue not opened  (ENOENT)
 Init: mq_unlink (NULL) - EINVAL
 Init: mq_unlink ("") - ENOENT
 _______________mq_close errors
-Init: mq_close - unopened queue (EBADF)
+Init: mq_close - destroyed queue (EBADF)
 _______________mq_unlink functionality
 Init: Unlink and Open without closing SUCCESSFUL
 Task1:mq_setattr - unopened queue (EBADF)

@@ -45,6 +45,7 @@ void _POSIX_Message_queue_Delete(
 )
 {
   if ( !the_mq->linked && the_mq->open_count == 0 ) {
+    _Objects_Invalidate_Id( &_POSIX_Message_queue_Information, &the_mq->Object );
     _CORE_message_queue_Close( &the_mq->Message_queue, queue_context );
     _POSIX_Message_queue_Free( the_mq );
   } else {

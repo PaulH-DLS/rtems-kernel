@@ -200,6 +200,12 @@ void open_test_queues(void)
   fatal_posix_service_status( status, 0, "mq_close duplicate message queue");
   status = mq_close( Test_q[CLOSED].mq );
   fatal_posix_service_status( status, 0, "mq_close message queue");
+  /*
+   * EBADF - Close a queue that is already closed.
+   */
+  status = mq_close( Test_q[CLOSED].mq );
+  fatal_posix_service_status( status, -1, "mq_close error return status");
+  fatal_posix_service_status( errno, EBADF, "mq_close errno EBADF");
   status = mq_unlink( CLOSED_NAME );
   fatal_posix_service_status( status, 0, "mq_unlink message queue");
 }
@@ -413,10 +419,10 @@ void validate_mq_close_error_codes(void)
   Start_Test( "mq_close errors" );
 
   /*
-   * EBADF - Close a queue that is not open.
+   * EBADF - Close a queue that is already destroyed.
    */
 
-  puts( "Init: mq_close - unopened queue (EBADF)" );
+  puts( "Init: mq_close - destroyed queue (EBADF)" );
   status = mq_close( Test_q[CLOSED].mq );
   fatal_posix_service_status( status, -1, "mq_close error return status");
   fatal_posix_service_status( errno, EBADF, "mq_close errno EBADF");
