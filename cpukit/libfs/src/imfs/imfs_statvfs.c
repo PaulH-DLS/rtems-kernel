@@ -42,12 +42,13 @@ int IMFS_statvfs(
   struct statvfs *buf
 )
 {
+  IMFS_fs_info_t *fs_info = loc->mt_entry->fs_info;
   buf->f_bsize = IMFS_MEMFILE_BYTES_PER_BLOCK;
   buf->f_frsize = IMFS_MEMFILE_BYTES_PER_BLOCK;
   buf->f_blocks = UINT_MAX / IMFS_MEMFILE_BYTES_PER_BLOCK;
   buf->f_bfree = malloc_free_space() / IMFS_MEMFILE_BYTES_PER_BLOCK;
   buf->f_bavail = malloc_free_space() / IMFS_MEMFILE_BYTES_PER_BLOCK;
-  buf->f_files = IMFS_jnode_count;
+  buf->f_files = fs_info->jnode_count;
   buf->f_fsid = 1;
   buf->f_flag = loc->mt_entry->writeable;
   buf->f_namemax = IMFS_NAME_MAX;

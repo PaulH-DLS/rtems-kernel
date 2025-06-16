@@ -40,7 +40,7 @@
 #include <fcntl.h>
 #include <errno.h>
 #include <rtems/libcsupport.h>
-
+#define CONFIGURE_BLOCK_SIZE 16
 const char rtems_test_name[] = "PSXIMFS 1";
 
 /* forward declarations to avoid warnings */
@@ -235,8 +235,8 @@ void statvfs_helper(void)
   puts( "statvfs(" FILE_NAME ") - OK " );
   int rc = statvfs(FILE_NAME, &imfs_statvfs);
   rtems_test_assert(rc == 0);
-  printf("Block Size: %ld\n", imfs_statvfs.f_bsize);
-  printf("Files: %ld\n", imfs_statvfs.f_files);
+  rtems_test_assert(imfs_statvfs.f_bsize == CONFIGURE_BLOCK_SIZE);
+  rtems_test_assert(imfs_statvfs.f_files == 2);
 }
 
 rtems_task Init(
@@ -306,7 +306,7 @@ rtems_task Init(
 #define CONFIGURE_APPLICATION_NEEDS_CLOCK_DRIVER
 
 #define CONFIGURE_MAXIMUM_TASKS             1
-#define CONFIGURE_IMFS_MEMFILE_BYTES_PER_BLOCK 16
+#define CONFIGURE_IMFS_MEMFILE_BYTES_PER_BLOCK CONFIGURE_BLOCK_SIZE
 #define CONFIGURE_MAXIMUM_FILE_DESCRIPTORS 4
 #define CONFIGURE_INITIAL_EXTENSIONS RTEMS_TEST_INITIAL_EXTENSION
 

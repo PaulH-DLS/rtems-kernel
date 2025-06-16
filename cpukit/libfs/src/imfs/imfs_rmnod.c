@@ -61,7 +61,8 @@ int IMFS_rmnod(
   } else {
     rv = -1;
   }
-  IMFS_jnode_count--;
+  IMFS_fs_info_t *fs_info = loc->mt_entry->fs_info;
+  fs_info->jnode_count--;
 
   return rv;
 }

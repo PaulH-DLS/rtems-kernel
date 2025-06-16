@@ -42,7 +42,6 @@
 #endif
 
 #include <rtems/imfsimpl.h>
-int IMFS_jnode_count = 0;
 
 static const IMFS_mknod_control *get_control(
   const IMFS_mknod_controls *controls,
@@ -70,7 +69,7 @@ int IMFS_mknod(
 )
 {
   int rv = 0;
-  const IMFS_fs_info_t *fs_info = parentloc->mt_entry->fs_info;
+  IMFS_fs_info_t *fs_info = parentloc->mt_entry->fs_info;
   const IMFS_mknod_control *mknod_control =
     get_control( fs_info->mknod_controls, mode );
   IMFS_jnode_t *new_node;
@@ -91,7 +90,7 @@ int IMFS_mknod(
   } else {
     rv = -1;
   }
-  IMFS_jnode_count++;
+  fs_info->jnode_count++;
 
   return rv;
 }

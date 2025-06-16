@@ -60,7 +60,6 @@ extern "C" {
 
 struct IMFS_jnode_tt;
 typedef struct IMFS_jnode_tt IMFS_jnode_t;
-extern int IMFS_jnode_count;
 /**
  *  IMFS "memfile" information
  *
@@ -382,6 +381,7 @@ typedef struct {
 typedef struct {
   IMFS_directory_t Root_directory;
   const IMFS_mknod_controls *mknod_controls;
+  int jnode_count;
 } IMFS_fs_info_t;
 
 typedef struct {
@@ -530,8 +530,8 @@ extern void IMFS_eval_path_devfs(
  * @brief Create a new IMFS link node.
  *
  * The following routine creates a new link node under parent with the
- * name given in name.  The link node is set to point to the node at
- * to_loc.
+ * name given in @a name.  The link node is set to point to the node at
+ * @a targetloc.
  */
 extern int IMFS_link(
   const rtems_filesystem_location_info_t *parentloc,
@@ -955,7 +955,7 @@ extern int IMFS_fchmod(
  * @brief Create a new IMFS symbolic link node.
  *
  * The following routine creates a new symbolic link node under parent
- * with the name given in name.  The node is set to point to the node at
+ * with the name given in @a name.  The node is set to point to the node at
  * to_loc.
  */
 extern int IMFS_symlink(
@@ -965,24 +965,20 @@ extern int IMFS_symlink(
   const char *target
 );
 /**
- * @brief Sets buf with the IMFS statistics.
+ * @brief Sets @a buf with the IMFS statistics.
  *
- * The following routine sets the buf which has attributes
+ * The following routine sets the @a buf which has attributes
  * f_bsize - Filesystem block size
  * f_frsize - Fragment size
  * f_blocks - Size of fs in f_frsize units
  * f_frsize - Fragment size:
  * f_bfree - Number of free blocks
  * f_files - Number of inodes
- * f_ffree - Number of free inodes
- * f_favail - Number of free inodes for unprivileged users
  * f_fsid - Filesystem ID
  * f_flag - Mount flags
  * f_namemax - Maximum filename Length
-
- * The following routine creates a new symbolic link node under parent
- * with the name given in name.  The node is set to point to the node at
- * to_loc.
+ * @retval 0 Successful operation.
+ * @retval -1 An error occurred.  The @c errno indicates the error.
  */
 extern int IMFS_statvfs(
   const rtems_filesystem_location_info_t *loc,
@@ -994,7 +990,7 @@ extern int IMFS_statvfs(
  * @brief Put IMFS symbolic link into buffer.
  *
  * The following routine puts the symbolic links destination name into
- * buff.
+ * @a buf.
  *
  */
 extern ssize_t IMFS_readlink(
@@ -1007,7 +1003,7 @@ extern ssize_t IMFS_readlink(
  * @brief Rename the IMFS.
  *
  * The following routine creates a new link node under parent with the
- * name given in name and removes the old.
+ * name given in @a name and removes the old.
  */
 extern int IMFS_rename(
   const rtems_filesystem_location_info_t *oldparentloc,
