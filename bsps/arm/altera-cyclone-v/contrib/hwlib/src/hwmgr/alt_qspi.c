@@ -2415,6 +2415,8 @@ ALT_STATUS_CODE alt_qspi_device_bank_select(uint32_t bank)
 
 /////
 
+#ifndef __rtems__
+/* RTEMS: Unused */
 static bool alt_qspi_is_enabled(void)
 {
     uint32_t cfg = alt_read_word(ALT_QSPI_CFG_ADDR);
@@ -2428,7 +2430,10 @@ static bool alt_qspi_is_enabled(void)
         return false;
     }
 }
+#endif
 
+#ifndef __rtems__
+/* RTEMS: Needs a prototype if used */
 ALT_STATUS_CODE alt_qspi_ecc_start(void * block, size_t size)
 {
     if (size < (ALT_QSPI_PAGE_SIZE * 8))
@@ -2623,3 +2628,4 @@ ALT_STATUS_CODE alt_qspi_ecc_start(void * block, size_t size)
 
     return status;
 }
+#endif
