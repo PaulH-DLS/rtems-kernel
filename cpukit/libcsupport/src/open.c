@@ -168,10 +168,6 @@ static int do_open(
     }
   }
 
-  if ( rv < 0 ) {
-    rtems_libio_free( iop );
-  }
-
   return rv;
 }
 
@@ -192,6 +188,9 @@ int open( const char *path, int oflag, ... )
   iop = rtems_libio_allocate();
   if ( iop != NULL ) {
     rv = do_open( iop, path, oflag, mode );
+    if ( rv < 0 ) {
+      rtems_libio_free( iop );
+    }
   } else {
     errno = ENFILE;
     rv = -1;

@@ -226,7 +226,10 @@ static int vfcntl(
 
   if (ret >= 0) {
     int err = (*iop->pathinfo.handlers->fcntl_h)( iop, cmd );
-    if (err) {
+    if (err == 0 && !rtems_libio_iop_is_open( iop ) ) {
+      err = EBADF;
+    }
+    if (err != 0) {
       errno = err;
       ret = -1;
     }
