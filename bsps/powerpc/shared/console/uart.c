@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <bsp.h>
 #include <bsp/irq.h>
+#include <bsp/irq-generic.h>
 #include <bsp/uart.h>
 #include <rtems/libio.h>
 #include <rtems/bspIo.h>
@@ -488,17 +489,22 @@ BSP_uart_install_isr(int uart, rtems_irq_hdl handler)
  * shared IRQ installer uses malloc() and if a BSP had called this
  * during early init it might not work...
  */
+  rtems_status_code sc;
+  rtems_option option;
 #ifdef BSP_UART_USE_SHARED_IRQS
-	return doit(uart, handler, BSP_install_rtems_shared_irq_handler);
+  option = RTEMS_INTERRUPT_SHARED;
 #else
-	return doit(uart, handler, BSP_install_rtems_irq_handler);
+  option = RTEMS_INTERRUPT_UNIQUE;
 #endif
+  sc = rtems_interrupt_handler_install(uart_data[uart].irq, "UART", option,
+    (rtems_interrupt_handler) handler, NULL);
+  return 1;
 }
 
 int
 BSP_uart_remove_isr(int uart, rtems_irq_hdl handler)
 {
-	return doit(uart, handler, BSP_remove_rtems_irq_handler);
+	return 1;
 }
 
 /* ================ Termios support  =================*/

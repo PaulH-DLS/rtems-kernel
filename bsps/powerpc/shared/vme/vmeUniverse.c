@@ -54,6 +54,8 @@
 #endif
 #endif
 
+#include <bsp/irq.h>
+#include <bsp/irq-generic.h>
 #include <bsp/vmeUniverse.h>
 #include <bsp/vmeUniverseDMA.h>
 
@@ -2035,20 +2037,18 @@ rtems_irq_connect_data	aarrggh;
 	aarrggh.hdl    = isr;
 	aarrggh.handle = (rtems_irq_hdl_param)pic_pin;
 	aarrggh.name   = pic_line;
+	rtems_option option;
 
-	if ( shared ) {
 #if BSP_SHARED_HANDLER_SUPPORT > 0
-		if (!BSP_install_rtems_shared_irq_handler(&aarrggh))
-			rtems_panic("unable to install vmeUniverse shared irq handler");
+	if (shared)
+		option = RTEMS_INTERRUPT_SHARED;
+	else
+		option = RTEMS_INTERRUPT_UNIQUE;
 #else
-		uprintf(stderr,"vmeUniverse: WARNING: your BSP doesn't support sharing interrupts\n");
-		if (!BSP_install_rtems_irq_handler(&aarrggh))
-			rtems_panic("unable to install vmeUniverse irq handler");
+	option = RTEMS_INTERRUPT_UNIQUE;
 #endif
-	} else {
-		if (!BSP_install_rtems_irq_handler(&aarrggh))
-			rtems_panic("unable to install vmeUniverse irq handler");
-	}
+	rtems_interrupt_handler_install(pic_line, "UniverseII", option,
+          (rtems_interrupt_handler) isr, pic_line);
 }
 
 #ifndef BSP_EARLY_PROBE_VME

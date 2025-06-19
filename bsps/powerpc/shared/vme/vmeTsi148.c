@@ -50,6 +50,7 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include <bsp/irq.h>
+#include <bsp/irq-generic.h>
 #include <stdlib.h>
 #include <rtems/bspIo.h>	/* printk */
 #include <rtems/error.h>	/* printk */
@@ -1600,19 +1601,19 @@ rtems_irq_connect_data	xx;
 	xx.handle = (rtems_irq_hdl_param)slot;
 	xx.name   = pic_line;
 
-	if ( shared ) {
+      rtems_option option;
+
 #if BSP_SHARED_HANDLER_SUPPORT > 0
-		if (!BSP_install_rtems_shared_irq_handler(&xx))
-			rtems_panic("unable to install vmeTsi148 shared irq handler");
+	if (shared)
+		option = RTEMS_INTERRUPT_SHARED;
+	else
+		option = RTEMS_INTERRUPT_UNIQUE;
 #else
-        uprintf(stderr,"vmeTsi148: WARNING: your BSP doesn't support sharing interrupts\n");
-		if (!BSP_install_rtems_irq_handler(&xx))
-			rtems_panic("unable to install vmeTsi148 irq handler");
+	option = RTEMS_INTERRUPT_UNIQUE;
 #endif
-	} else {
-		if (!BSP_install_rtems_irq_handler(&xx))
-			rtems_panic("unable to install vmeTsi148 irq handler");
-	}
+
+	rtems_interrupt_handler_install(pic_line, "tsi148", option,
+          (rtems_interrupt_handler) isr, slot);
 }
 
 int

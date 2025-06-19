@@ -229,9 +229,7 @@ static void bsp_early( void )
   /*
    * Initialize RTEMS IRQ system
    */
-   BSP_rtems_irq_mng_init(0);
-
-  BSP_vpdRetrieveFields(vpdData);
+  bsp_interrupt_initialize();
 
   if ( !strncmp(BSP_productIdent,"MVME5500",8) )
 	board_type = MVME5500;
@@ -347,17 +345,21 @@ static void bsp_early( void )
   printk("Number of PCI buses found is : %d\n", pci_bus_count());
 #endif
 
-  /*
-   * Initialize hardware timer facility (not used by BSP itself)
-   * Needs PCI to identify discovery version...
-   */
-  BSP_timers_initialize();
-
 #ifdef SHOW_MORE_INIT_SETTINGS
   printk("MSR 0x%lx \n", _read_MSR());
   printk("Exit from bspstart\n");
 #endif
 }
+
+/*
+* Initialize hardware timer facility (not used by BSP itself)
+* Needs PCI to identify discovery version...
+*/
+RTEMS_SYSINIT_ITEM(
+  BSP_timers_initialize,
+  RTEMS_SYSINIT_BSP_PRE_DRIVERS,
+  RTEMS_SYSINIT_ORDER_MIDDLE
+);
 
 RTEMS_SYSINIT_ITEM(
   bsp_early,

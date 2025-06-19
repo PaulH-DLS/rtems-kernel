@@ -19,25 +19,30 @@
 #include <libcpu/c_clock.h>
 #include <libcpu/cpuIdent.h>
 
-static rtems_irq_connect_data clockIrqData;
-static rtems_irq_connect_data clockIrqData = {
-  BSP_DECREMENTER,
-  clockIsr,
-  NULL,
-  (rtems_irq_enable)clockOn,
-  (rtems_irq_disable)clockOff,
-  (rtems_irq_is_enabled) clockIsOn
-};
-
 int BSP_disconnect_clock_handler(void)
 {
-  return BSP_remove_rtems_irq_handler(&clockIrqData);
+  return 1;
 }
 
 int BSP_connect_clock_handler(void)
 {
+  rtems_status_code sc;
+  
   if ( ppc_cpu_is_bookE() )
-    clockIrqData.hdl = clockIsrBookE;
-
-  return BSP_install_rtems_irq_handler(&clockIrqData);
+      sc = rtems_interrupt_handler_install(
+        BSP_DECREMENTER,
+        "Clock",
+        RTEMS_INTERRUPT_UNIQUE,
+        (rtems_interrupt_handler) clockIsrBookE,
+        NULL
+      );
+  else
+      sc = rtems_interrupt_handler_install(
+        BSP_DECREMENTER,
+        "Clock",
+        RTEMS_INTERRUPT_UNIQUE,
+        (rtems_interrupt_handler) clockIsr,
+        NULL
+      );
+  return 1;
 }

@@ -22,10 +22,12 @@
 #ifndef LIBBSP_POWERPC_MOT_PPC_NEW_IRQ_IRQ_H
 #define LIBBSP_POWERPC_MOT_PPC_NEW_IRQ_IRQ_H
 
+#define BSP_POWERPC_IRQ_GENERIC_SUPPORT
+#define BSP_INTERRUPT_VECTOR_COUNT 256
+
 #define BSP_SHARED_HANDLER_SUPPORT      1
 #include <rtems/irq.h>
 #include <bsp/vectors.h>
-#include <bsp/irq-default.h>
 
 /* This BSP also passes a pointer to the interrupt frame to the handler.
  * The PPC ABI guarantees that this will not mess up handlers written
